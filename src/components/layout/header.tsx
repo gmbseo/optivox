@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Menu } from "lucide-react";
@@ -58,15 +59,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container-wide flex h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
-            O
-          </span>
-          <span className="text-lg font-semibold tracking-tight">{siteConfig.name}</span>
+      <div className="container-wide flex h-20 lg:h-24 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-3">
+          <Image src="/logo.png" alt="Logo" width={240} height={64} className="h-12 lg:h-16 w-auto object-contain" priority />
+          <span className="text-2xl font-bold tracking-tight">{siteConfig.name}</span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-2 lg:flex" aria-label="Main navigation">
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -146,6 +145,16 @@ export function Header() {
             className="bg-accent text-accent-foreground hover:bg-accent/90"
           >
             {primaryCta.label}
+          </ButtonLink>
+        </div>
+
+        <div className="flex items-center gap-3 lg:hidden">
+          <ButtonLink
+            href={primaryCta.href}
+            size="sm"
+            className="bg-accent text-accent-foreground hover:bg-accent/90 text-xs px-3 h-8"
+          >
+            Free Audit
           </ButtonLink>
         </div>
 

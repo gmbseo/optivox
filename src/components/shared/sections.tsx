@@ -17,9 +17,13 @@ export function CtaButtons({
 }: CtaButtonsProps) {
   return (
     <div className={cn("flex flex-col gap-3 sm:flex-row sm:items-center", className)}>
-      <ButtonLink href={primaryCta.href} size={size} className="bg-accent text-accent-foreground hover:bg-accent/90">
+      <ButtonLink 
+        href={primaryCta.href} 
+        size={size} 
+        className="group bg-accent text-accent-foreground transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--accent),0.3)] hover:bg-accent/90"
+      >
         {primaryCta.label}
-        <ArrowRight data-icon="inline-end" />
+        <ArrowRight data-icon="inline-end" className="transition-transform duration-300 group-hover:translate-x-1" />
       </ButtonLink>
       {!primaryOnly && (
         <ButtonLink href={secondaryCta.href} variant="outline" size={size}>

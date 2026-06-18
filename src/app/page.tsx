@@ -1,13 +1,10 @@
 import {
   AuditLeadMagnet,
-  BenefitsSection,
-  CaseStudiesPreview,
   FaqSection,
   FinalCta,
   HomeHero,
   HowItWorks,
   ProblemSection,
-  ResultsSection,
   ServicesOverview,
   TestimonialsSection,
 } from "@/components/home/sections";
@@ -22,10 +19,7 @@ export default function HomePage() {
       <ProblemSection />
       <ServicesOverview />
       <HowItWorks />
-      <BenefitsSection />
-      <ResultsSection />
       <TestimonialsSection />
-      <CaseStudiesPreview />
       <AuditLeadMagnet />
       <FaqSection />
       <FinalCta />

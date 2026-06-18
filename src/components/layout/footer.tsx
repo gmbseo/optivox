@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   industryLinks,
@@ -16,11 +17,9 @@ export function Footer() {
       <div className="container-wide section-padding !py-12">
         <div className="grid gap-10 lg:grid-cols-4">
           <div className="flex flex-col gap-4 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="flex size-8 items-center justify-center rounded-lg bg-accent text-sm font-bold text-accent-foreground">
-                O
-              </span>
-              <span className="text-lg font-semibold">{siteConfig.name}</span>
+            <Link href="/" className="flex items-center gap-3">
+              <Image src="/logo.png" alt="Logo" width={180} height={48} className="h-12 w-auto object-contain" />
+              <span className="text-2xl font-bold">{siteConfig.name}</span>
             </Link>
             <p className="text-sm text-primary-foreground/75 text-pretty">
               {siteConfig.description}

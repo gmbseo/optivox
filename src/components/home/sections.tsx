@@ -128,10 +128,25 @@ export function HomeHero() {
               searches into more calls, leads, and customers. No paid ads. No jargon. Just
               visibility that grows your business.
             </p>
-            <CtaButtons />
-            <p className="text-sm text-muted-foreground">
-              Free Google Visibility Audit · No obligation · Results-focused
-            </p>
+            <CtaButtons className="mt-2" />
+            <div className="flex flex-col gap-3">
+              <p className="text-sm text-muted-foreground">
+                Free Google Visibility Audit · No obligation · Results-focused
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="size-8 rounded-full border-2 border-background bg-accent/10 flex items-center justify-center">
+                      <Star className="size-4 text-accent fill-accent" />
+                    </div>
+                  ))}
+                </div>
+                <div className="text-sm font-medium">
+                  <span className="text-foreground">5.0 Rating</span>
+                  <span className="text-muted-foreground font-normal ml-1">from 100+ local businesses</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="relative rounded-2xl border border-border bg-card p-6 shadow-sm">
@@ -450,9 +465,14 @@ export function AuditLeadMagnet() {
           </div>
           <div className="flex flex-col gap-4">
             <CtaButtons />
-            <p className="text-sm text-muted-foreground">
-              Valuable whether you work with us or implement changes yourself. No obligation.
-            </p>
+            <div className="flex flex-col gap-2">
+              <p className="text-sm font-medium text-accent">
+                ⏳ Limited to 10 free audits per month to ensure quality.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Valuable whether you work with us or implement changes yourself. No obligation.
+              </p>
+            </div>
           </div>
         </div>
       </div>
