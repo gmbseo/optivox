@@ -18,7 +18,7 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-4">
           <div className="flex flex-col gap-4 lg:col-span-1">
             <Link href="/" className="flex items-center gap-3">
-              <Image src="/logo.png" alt="Logo" width={180} height={48} className="h-12 w-auto object-contain" />
+              <Image src="/menu_logo.webp" alt="Optivox logo" width={1280} height={472} className="h-12 w-auto object-contain" />
               <span className="text-2xl font-bold">{siteConfig.name}</span>
             </Link>
             <p className="text-sm text-primary-foreground/75 text-pretty">

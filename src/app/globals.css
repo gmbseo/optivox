@@ -39,6 +39,7 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-logo-background: var(--logo-background);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -49,6 +50,7 @@
 }
 
 :root {
+  --logo-background: #f6f2e7;
   --background: oklch(0.985 0.004 247);
   --foreground: oklch(0.2 0.03 260);
   --card: oklch(1 0 0);

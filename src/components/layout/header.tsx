@@ -58,11 +58,10 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-logo-background">
       <div className="container-wide flex h-20 lg:h-24 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3">
-          <Image src="/logo.png" alt="Logo" width={240} height={64} className="h-12 lg:h-16 w-auto object-contain" priority />
-          <span className="text-2xl font-bold tracking-tight">{siteConfig.name}</span>
+        <Link href="/" className="flex items-center">
+          <Image src="/menu_logo.webp" alt="Optivox logo" width={1280} height={472} className="h-12 lg:h-16 w-auto object-contain" priority />
         </Link>
 
         <nav className="hidden items-center gap-2 lg:flex" aria-label="Main navigation">
