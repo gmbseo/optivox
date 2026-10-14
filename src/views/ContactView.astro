@@ -1,5 +1,4 @@
 ---
-import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Icon from "@/components/Icon.astro";
 import Topo from "@/components/Topo.astro";
 import { site } from "@/config/site";
@@ -79,9 +78,8 @@ const input =
 <Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/contact/" jsonLd={[breadcrumbSchema(base, crumbs)]}>
   <section class="relative isolate overflow-hidden bg-paper">
     <Topo class="text-brand/[0.06]" />
-    <div class="container-site pt-10 pb-20 sm:pt-14 sm:pb-24">
-      <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
-      <div class="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-[1.4fr_1fr]">
+    <div class="container-site pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24">
+      <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
         <div>
           <h1 class="text-5xl leading-[1.05] sm:text-6xl">{copy.h1}</h1>
           <p class="lead mt-6 max-w-2xl">{copy.lead}</p>

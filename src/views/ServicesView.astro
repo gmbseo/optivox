@@ -1,5 +1,4 @@
 ---
-import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CtaBand from "@/components/CtaBand.astro";
 import Icon from "@/components/Icon.astro";
 import ServiceCard from "@/components/ServiceCard.astro";
@@ -46,9 +45,8 @@ const copy = {
 
 <Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/services/" jsonLd={[breadcrumbSchema(base, crumbs)]}>
   <section>
-    <div class="container-site pt-10 sm:pt-14">
-      <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
-      <div class="mx-auto mt-10 max-w-3xl text-center lg:mt-14">
+    <div class="container-site pt-16 sm:pt-20 lg:pt-24">
+      <div class="mx-auto max-w-3xl text-center">
         <h1 class="h-display">{copy.h1}</h1>
         <p class="lead mx-auto mt-6 max-w-2xl">{copy.lead}</p>
       </div>
