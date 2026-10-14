@@ -1,0 +1,43 @@
+---
+import { site } from "@/config/site";
+import { defaultLang, langMeta, localePath, locales, type Lang } from "@/i18n";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Locale-neutral path, e.g. "/services/seo/". */
+  path: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { lang, title, description, path, noindex = false, jsonLd = [] } = Astro.props;
+const base = Astro.site ?? Astro.url;
+const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
+const canonical = new URL(localePath(lang, path), base).toString();
+const ogImage = new URL(site.ogImage, base).toString();
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, follow" />}
+{
+  !noindex &&
+    locales.map((l) => (
+      <link rel="alternate" hreflang={langMeta[l].hreflang} href={new URL(localePath(l, path), base).toString()} />
+    ))
+}
+{!noindex && <link rel="alternate" hreflang="x-default" href={new URL(localePath(defaultLang, path), base).toString()} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={langMeta[lang].ogLocale} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+
+{jsonLd.map((data) => <script type="application/ld+json" is:inline set:html={JSON.stringify(data)} />)}

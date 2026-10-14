@@ -1,186 +1,88 @@
 # Optivox
 
-Production-ready marketing website for **Optivox** — a local SEO agency helping small and medium-sized businesses increase visibility on Google Search and Google Maps through organic promotion.
+Bilingual (Hebrew / English) marketing website for **Optivox**: website development, SEO, and AI search optimization (GEO) for small and mid-sized businesses.
 
-**Live stack:** Next.js 16 · TypeScript · Tailwind CSS v4 · shadcn/ui · React Hook Form · Zod
+**Stack:** Astro 7 (static output) · TypeScript · Tailwind CSS v4 · Netlify (hosting + Forms)
+
+The site ships no framework JavaScript. The only client script is the small inline one in `Header.astro` for the services dropdown and mobile menu.
 
 ---
 
 ## Quick start
 
-### Prerequisites
-
-- Node.js 20+
-- npm 10+
-
-### Installation
+Requires Node.js 22+.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/optivox.git
-cd optivox
 npm install
-cp .env.example .env.local
+npm run dev        # http://localhost:4321
 ```
-
-Set `NEXT_PUBLIC_SITE_URL` in `.env.local` to your production domain (e.g. `https://optivox.com`).
-
-### Development
 
 ```bash
-npm run dev
+npm run build      # astro check + astro build into dist/
+npm run preview    # serve dist/ locally
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-### Production build
-
-```bash
-npm run build
-npm start
-```
-
-### Lint
-
-```bash
-npm run lint
-```
+The `SITE_URL` environment variable (read at build time, e.g. set in Netlify) sets the origin used for canonical URLs, hreflang, the sitemap and JSON-LD. It defaults to `https://optivox.com`.
 
 ---
 
-## Site structure
+## Languages and routes
 
-| Route | Page |
-|-------|------|
-| `/` | Home |
-| `/services` | Services overview |
-| `/services/local-seo` | Local SEO |
-| `/services/google-business-profile-optimization` | Google Business Profile |
-| `/services/website-seo` | Website SEO |
-| `/services/seo-audit` | SEO Audit |
-| `/industries` | Industries overview |
-| `/industries/dentists` | SEO for Dentists |
-| `/industries/lawyers` | SEO for Lawyers |
-| `/industries/contractors` | SEO for Contractors |
-| `/industries/accountants` | SEO for Accountants |
-| `/industries/clinics` | SEO for Clinics |
-| `/industries/real-estate-agencies` | SEO for Real Estate |
-| `/case-studies` | Case Studies |
-| `/about` | About |
-| `/contact` | Contact + lead form |
+Hebrew is the default language and lives at the root (RTL). English lives under `/en/`. Every page exists in both languages and is linked with `hreflang` alternates (`x-default` points to Hebrew).
+
+| Hebrew | English | Page |
+|--------|---------|------|
+| `/` | `/en/` | Home |
+| `/services/` | `/en/services/` | Services overview |
+| `/services/website-development/` | `/en/services/website-development/` | Website development |
+| `/services/seo/` | `/en/services/seo/` | SEO |
+| `/services/ai-search-optimization/` | `/en/services/ai-search-optimization/` | AI search optimization |
+| `/about/` | `/en/about/` | About |
+| `/contact/` | `/en/contact/` | Contact + audit form |
+| `/accessibility/` | `/en/accessibility/` | Accessibility statement |
+
+Also generated: `/sitemap-index.xml`, `/robots.txt` (explicitly allows AI crawlers) and `/llms.txt`.
 
 ---
 
-## Project architecture
+## Project structure
 
 ```
 src/
-├── app/                    # Next.js App Router pages
-│   ├── layout.tsx          # Root layout, fonts, global schema
-│   ├── sitemap.ts          # Dynamic XML sitemap
-│   └── robots.ts           # Robots.txt
-├── components/
-│   ├── layout/             # Header, Footer
-│   ├── home/               # Homepage sections
-│   ├── forms/              # Contact form
-│   ├── templates/          # Service & industry page templates
-│   ├── shared/             # Hero, CTAs, section headers
-│   ├── seo/                # JSON-LD helpers
-│   └── ui/                 # shadcn/ui primitives
-├── content/                # Copy, case studies, FAQs (editable)
-└── lib/                    # Site config, metadata, validation
-docs/
-├── design-system.md
-├── seo-strategy.md
-└── conversion-strategy.md
+├── config/site.ts         # Name, email, phone, WhatsApp, logo
+├── content/services.ts    # All service copy, both languages
+├── i18n/                  # Locale helpers and UI strings
+├── lib/schema.ts          # JSON-LD builders
+├── layouts/Base.astro     # <html lang/dir>, SEO head, header, footer
+├── components/            # Header, Footer, Seo, Faq, CtaBand, Icon, ...
+├── views/                 # Page bodies, shared by both languages (take a `lang` prop)
+├── pages/                 # Thin route wrappers: Hebrew at root, English under en/
+└── styles/global.css      # Tailwind theme tokens and components
 ```
+
+### Common edits
+
+- **Contact details:** `src/config/site.ts`. Empty `phone` / `whatsapp` values are hidden automatically.
+- **Service copy:** `src/content/services.ts`
+- **Navigation and UI strings:** `src/i18n/ui.ts`
+- **Adding a service:** add an entry to `services` in `src/content/services.ts` and add its slug to `ServiceSlug`. Pages, navigation, sitemap and `llms.txt` pick it up automatically.
 
 ---
 
-## Deployment
+## Deployment (Netlify)
 
-### Vercel (recommended)
+`netlify.toml` builds with `npm run build` and publishes `dist/`.
 
-1. Push the repository to GitHub.
-2. Import the project in [Vercel](https://vercel.com).
-3. Set environment variable: `NEXT_PUBLIC_SITE_URL=https://your-domain.com`
-4. Deploy.
-
-Vercel auto-detects Next.js. No custom build settings required.
-
-### Other platforms
-
-Build with `npm run build` and serve the output. Ensure `NEXT_PUBLIC_SITE_URL` is set at build time for correct canonical URLs and sitemap.
+- The contact form uses **Netlify Forms** (`name="contact"`). Submissions appear in the Netlify dashboard once the site is deployed. Set up email notifications there.
+- `/_astro/*` assets get long-lived immutable cache headers.
+- Unknown `/en/*` URLs return the English 404 page.
 
 ### Post-deploy checklist
 
-- [ ] Verify `NEXT_PUBLIC_SITE_URL` matches production domain
-- [ ] Submit `https://your-domain.com/sitemap.xml` in Google Search Console
-- [ ] Connect contact form to CRM or email API (see below)
-- [ ] Add Google Analytics 4 or preferred analytics
-- [ ] Test all pages on mobile and run Lighthouse audit
-
----
-
-## Contact form integration
-
-The contact form (`src/components/forms/contact-form.tsx`) currently logs submissions and shows a success state. For production:
-
-1. Add a server action or API route (e.g. `/api/contact`)
-2. Connect to Resend, SendGrid, HubSpot, or Formspree
-3. Replace the `onSubmit` handler with your API call
-
-Example pattern:
-
-```typescript
-await fetch("/api/contact", {
-  method: "POST",
-  body: JSON.stringify(data),
-});
-```
-
----
-
-## Maintenance
-
-### Updating copy
-
-- **Global config:** `src/lib/site.ts` (name, CTAs, nav links)
-- **Services:** `src/content/services.ts`
-- **Industries:** `src/content/industries.ts`
-- **Case studies:** `src/content/case-studies.ts`
-- **Testimonials / FAQs:** `src/content/testimonials.ts`, `src/content/faqs.ts`
-
-### Adding a new service page
-
-1. Add an entry to `src/content/services.ts`
-2. Add a link in `src/lib/site.ts` → `serviceLinks`
-3. Rebuild — `generateStaticParams` auto-generates the route
-
-### Adding a new industry page
-
-1. Add an entry to `src/content/industries.ts`
-2. Add a link in `src/lib/site.ts` → `industryLinks`
-3. Rebuild
-
-### Design tokens
-
-Colors, typography, and spacing live in `src/app/globals.css`. See `docs/design-system.md` for the full design system.
-
-### SEO
-
-Metadata helper: `src/lib/metadata.ts`  
-Structured data: `src/components/seo/json-ld.tsx`  
-Strategy documentation: `docs/seo-strategy.md`
-
----
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [docs/design-system.md](docs/design-system.md) | Colors, typography, wireframe, components |
-| [docs/seo-strategy.md](docs/seo-strategy.md) | Keywords, schema, internal linking |
-| [docs/conversion-strategy.md](docs/conversion-strategy.md) | CTAs, lead magnet, trust signals |
+- [ ] Confirm `SITE_URL` matches the production domain
+- [ ] Submit `/sitemap-index.xml` in Google Search Console and Bing Webmaster Tools
+- [ ] Enable form notifications in Netlify
+- [ ] Add analytics (with a cookie consent banner)
 
 ---
 

@@ -1,0 +1,90 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import CtaBand from "@/components/CtaBand.astro";
+import Icon from "@/components/Icon.astro";
+import { services } from "@/content/services";
+import { localePath, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+import Base from "@/layouts/Base.astro";
+import { breadcrumbSchema } from "@/lib/schema";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const href = (path: string) => localePath(lang, path);
+const base = Astro.site ?? Astro.url;
+const crumbs = [
+  { name: ui.common.home, href: href("/") },
+  { name: ui.nav.services, href: href("/services/") },
+];
+
+const copy = {
+  he: {
+    metaTitle: "השירותים שלנו: בניית אתרים, קידום בגוגל וקידום במנועי AI",
+    metaDescription:
+      "בניית אתרים, קידום אורגני בגוגל ובגוגל מפות וקידום במנועי AI כמו ChatGPT ו-Gemini. שלושה שירותים שבנויים זה על זה כדי שלקוחות ימצאו אתכם.",
+    h1: "שירותים שעובדים יחד",
+    lead: "כל שירות עומד בפני עצמו, אבל הם בנויים זה על זה: האתר הוא הבסיס, הקידום בגוגל בונה עליו נראות, והמנועים של ה-AI נשענים על שניהם.",
+    ctaTitle: "לא בטוחים מאיפה להתחיל?",
+    ctaBody: "בבדיקת הנראות החינמית נבדוק את המצב הקיים ונמליץ על השירות שיביא הכי הרבה ערך עכשיו.",
+  },
+  en: {
+    metaTitle: "Our services: websites, SEO and AI search optimization",
+    metaDescription:
+      "Website development, organic SEO for Google Search and Maps, and AI search optimization for ChatGPT and Gemini. Three services that build on each other so customers can find you.",
+    h1: "Services that work together",
+    lead: "Each service stands on its own, but they build on each other: the website is the foundation, SEO builds visibility on top of it, and AI engines rely on both.",
+    ctaTitle: "Not sure where to start?",
+    ctaBody: "In the free visibility audit we'll review where you stand and recommend the service that will add the most value right now.",
+  },
+}[lang];
+---
+
+<Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/services/" jsonLd={[breadcrumbSchema(base, crumbs)]}>
+  <section class="border-b border-border/60 bg-paper">
+    <div class="container-site py-14 sm:py-20">
+      <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
+      <h1 class="mt-10 max-w-3xl text-4xl font-extrabold sm:text-5xl">{copy.h1}</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">{copy.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site flex flex-col gap-6">
+      {
+        services.map((s, i) => {
+          const c = s.content[lang];
+          return (
+            <article class="card grid gap-8 bg-white lg:grid-cols-[auto_1fr_1fr] lg:items-start">
+              <span class="flex size-14 items-center justify-center rounded-2xl bg-brand text-paper">
+                <Icon name={s.icon} class="size-7" strokeWidth={1.75} />
+              </span>
+              <div>
+                <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
+                <h2 class="mt-1 text-2xl font-bold sm:text-3xl">{c.name}</h2>
+                <p class="mt-3 text-lg leading-relaxed text-muted-foreground">{c.intro}</p>
+                <a href={href(`/services/${s.slug}/`)} class="mt-6 inline-flex items-center gap-2 font-semibold text-brand hover:text-accent">
+                  {ui.common.learnMore}
+                  <Icon name="arrow" class="size-4 flip-rtl" />
+                </a>
+              </div>
+              <ul class="flex flex-col gap-3 border-border lg:border-s lg:ps-8">
+                {c.included.slice(0, 4).map((item) => (
+                  <li class="flex gap-3">
+                    <Icon name="check" class="mt-1 size-4 shrink-0 text-accent" strokeWidth={2.5} />
+                    <span>{item.title}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <CtaBand lang={lang} title={copy.ctaTitle} body={copy.ctaBody} />
+</Base>

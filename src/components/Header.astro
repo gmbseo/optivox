@@ -1,0 +1,174 @@
+---
+import { site } from "@/config/site";
+import { services } from "@/content/services";
+import { localePath, otherLang, stripLang, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+import Icon from "./Icon.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const copy = t(lang);
+const href = (path: string) => localePath(lang, path);
+const switchHref = localePath(otherLang(lang), stripLang(Astro.url.pathname));
+const links = [
+  { label: copy.nav.about, path: "/about/" },
+  { label: copy.nav.contact, path: "/contact/" },
+];
+const navLink = "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground";
+const mobileLinkBase = "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-muted";
+const mobileLink = `${mobileLinkBase} text-foreground`;
+---
+
+<header class="sticky top-0 z-50 border-b border-border/60 bg-paper">
+  <div class="container-site flex h-20 items-center justify-between gap-4 lg:h-24">
+    <a href={href("/")} class="flex shrink-0 items-center">
+      <img src={site.logo} alt={`${site.name} logo`} width="1280" height="472" class="h-12 w-auto lg:h-16" fetchpriority="high" />
+    </a>
+
+    <nav class="hidden items-center gap-1 lg:flex" aria-label={copy.nav.main}>
+      <div class="relative" data-dropdown>
+        <button
+          type="button"
+          class="inline-flex h-9 items-center gap-1 rounded-lg px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted data-[open]:bg-muted"
+          aria-expanded="false"
+          aria-controls="services-menu"
+          data-dropdown-trigger
+        >
+          {copy.nav.services}
+          <Icon name="chevron-down" class="size-3.5 transition-transform duration-200 [[aria-expanded=true]>&]:rotate-180" />
+        </button>
+        <div
+          id="services-menu"
+          class="absolute start-0 top-full hidden pt-2 data-[open]:block"
+          data-dropdown-panel
+        >
+          <ul class="grid w-[400px] gap-1 rounded-xl border border-border bg-white p-4 shadow-lg shadow-ink/5">
+            {
+              services.map((s) => (
+                <li>
+                  <a href={href(`/services/${s.slug}/`)} class="block rounded-lg p-3 transition-colors hover:bg-muted">
+                    <span class="font-medium text-foreground">{s.content[lang].name}</span>
+                    <span class="mt-1 block text-sm text-muted-foreground">{s.content[lang].short}</span>
+                  </a>
+                </li>
+              ))
+            }
+            <li class="border-t border-border pt-2">
+              <a href={href("/services/")} class="flex items-center gap-1 rounded-lg p-3 text-sm font-medium text-accent hover:bg-muted">
+                {copy.nav.allServices}
+                <Icon name="arrow" class="size-4 flip-rtl" />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {links.map((l) => <a href={href(l.path)} class:list={[navLink, "px-4 py-2"]}>{l.label}</a>)}
+    </nav>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <a href={switchHref} class:list={[navLink, "px-2 py-2"]} hreflang={otherLang(lang)} lang={otherLang(lang)} aria-label={copy.nav.switchLangLabel}>
+        {copy.nav.switchLang}
+      </a>
+      <a href={href("/contact/")} class="inline-flex h-8 items-center rounded-lg bg-accent px-3 text-[0.8rem] font-medium text-accent-foreground transition-colors hover:bg-accent/90">
+        {copy.cta.audit}
+      </a>
+    </div>
+
+    <div class="flex items-center gap-3 lg:hidden">
+      <a href={href("/contact/")} class="inline-flex h-8 items-center rounded-lg bg-accent px-3 text-xs font-medium text-accent-foreground transition-colors hover:bg-accent/90">
+        {copy.cta.auditShort}
+      </a>
+      <button
+        type="button"
+        class="inline-flex size-8 items-center justify-center rounded-lg border border-border bg-background text-foreground transition-colors hover:bg-muted"
+        aria-label={copy.nav.openMenu}
+        aria-haspopup="dialog"
+        data-menu-open
+      >
+        <Icon name="menu" class="size-4" />
+      </button>
+    </div>
+  </div>
+
+  <dialog
+    class="fixed inset-y-0 end-0 start-auto m-0 h-dvh max-h-none w-[86%] max-w-sm border-0 border-s border-border bg-background p-0 text-foreground shadow-2xl backdrop:bg-ink/50"
+    aria-label={copy.nav.mobile}
+    data-menu
+  >
+    <div class="flex h-20 items-center justify-between border-b border-border bg-paper px-4">
+      <img src={site.logo} alt={`${site.name} logo`} width="1280" height="472" class="h-10 w-auto" />
+      <button
+        type="button"
+        class="inline-flex size-10 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground"
+        aria-label={copy.nav.closeMenu}
+        data-menu-close
+      >
+        <Icon name="x" class="size-5" />
+      </button>
+    </div>
+    <nav class="flex flex-col gap-6 px-4 py-6" aria-label={copy.nav.mobile}>
+      <div class="flex flex-col">
+        <p class="px-3 pb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">{copy.nav.services}</p>
+        {services.map((s) => <a href={href(`/services/${s.slug}/`)} class={mobileLink}>{s.content[lang].name}</a>)}
+        <a href={href("/services/")} class:list={[mobileLinkBase, "text-accent"]}>{copy.nav.allServices}</a>
+      </div>
+      <div class="flex flex-col border-t border-border pt-4">
+        {links.map((l) => <a href={href(l.path)} class={mobileLink}>{l.label}</a>)}
+        <a href={switchHref} class={mobileLink} hreflang={otherLang(lang)} lang={otherLang(lang)}>{copy.nav.switchLang}</a>
+      </div>
+      <a href={href("/contact/")} class="inline-flex h-12 items-center justify-center rounded-lg bg-accent px-4 text-base font-medium text-accent-foreground hover:bg-accent/90">
+        {copy.cta.audit}
+      </a>
+    </nav>
+  </dialog>
+</header>
+
+<script>
+  const dropdown = document.querySelector<HTMLElement>("[data-dropdown]");
+  const trigger = dropdown?.querySelector<HTMLButtonElement>("[data-dropdown-trigger]");
+  const panel = dropdown?.querySelector<HTMLElement>("[data-dropdown-panel]");
+
+  if (dropdown && trigger && panel) {
+    let closeTimer: number | undefined;
+    const setOpen = (open: boolean) => {
+      trigger.setAttribute("aria-expanded", String(open));
+      trigger.toggleAttribute("data-open", open);
+      panel.toggleAttribute("data-open", open);
+    };
+    const isOpen = () => trigger.getAttribute("aria-expanded") === "true";
+
+    trigger.addEventListener("click", () => setOpen(!isOpen()));
+    dropdown.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return;
+      clearTimeout(closeTimer);
+      setOpen(true);
+    });
+    dropdown.addEventListener("pointerleave", (e) => {
+      if (e.pointerType !== "mouse") return;
+      closeTimer = window.setTimeout(() => setOpen(false), 120);
+    });
+    dropdown.addEventListener("focusout", (e) => {
+      if (!dropdown.contains(e.relatedTarget as Node | null)) setOpen(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOpen()) {
+        setOpen(false);
+        trigger.focus();
+      }
+    });
+    document.addEventListener("click", (e) => {
+      if (!dropdown.contains(e.target as Node)) setOpen(false);
+    });
+  }
+
+  const menu = document.querySelector<HTMLDialogElement>("[data-menu]");
+  document.querySelector("[data-menu-open]")?.addEventListener("click", () => menu?.showModal());
+  menu?.querySelector("[data-menu-close]")?.addEventListener("click", () => menu.close());
+  menu?.addEventListener("click", (e) => {
+    if (e.target === menu) menu.close();
+  });
+</script>

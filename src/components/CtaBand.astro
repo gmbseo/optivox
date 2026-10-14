@@ -1,0 +1,27 @@
+---
+import { localePath, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+import Icon from "./Icon.astro";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  body: string;
+}
+
+const { lang, title, body } = Astro.props;
+const copy = t(lang);
+---
+
+<section class="section bg-brand text-paper">
+  <div class="container-site flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+    <div class="max-w-2xl">
+      <h2 class="text-3xl font-bold text-paper sm:text-4xl">{title}</h2>
+      <p class="mt-4 text-lg text-paper/80 text-pretty">{body}</p>
+    </div>
+    <a href={localePath(lang, "/contact/")} class="btn-primary shrink-0">
+      {copy.cta.audit}
+      <Icon name="arrow" class="size-4 flip-rtl" />
+    </a>
+  </div>
+</section>

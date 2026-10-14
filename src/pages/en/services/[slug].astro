@@ -1,0 +1,11 @@
+---
+import type { GetStaticPaths } from "astro";
+import { services, type ServiceSlug } from "@/content/services";
+import ServiceView from "@/views/ServiceView.astro";
+
+export const getStaticPaths = (() => services.map((s) => ({ params: { slug: s.slug } }))) satisfies GetStaticPaths;
+
+const slug = Astro.params.slug as ServiceSlug;
+---
+
+<ServiceView lang="en" slug={slug} />

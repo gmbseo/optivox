@@ -1,0 +1,104 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import CtaBand from "@/components/CtaBand.astro";
+import { localePath, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+import Base from "@/layouts/Base.astro";
+import { breadcrumbSchema } from "@/lib/schema";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const href = (path: string) => localePath(lang, path);
+const base = Astro.site ?? Astro.url;
+const crumbs = [
+  { name: ui.common.home, href: href("/") },
+  { name: ui.nav.about, href: href("/about/") },
+];
+
+const copy = {
+  he: {
+    metaTitle: "אודות Optivox",
+    metaDescription:
+      "Optivox היא סוכנות לבניית אתרים, קידום בגוגל וקידום במנועי AI לעסקים קטנים ובינוניים. מכירים את הדרך שבה אנחנו עובדים.",
+    h1: "אנחנו עוזרים לעסקים טובים להימצא",
+    lead: "Optivox נוסדה מתוך הבנה פשוטה: הרבה עסקים מצוינים מפסידים לקוחות רק כי קשה למצוא אותם ברשת. המטרה שלנו היא לתקן את זה.",
+    storyTitle: "למה אנחנו עושים את זה",
+    story: [
+      "הדרך שבה לקוחות בוחרים עסק השתנתה. פעם הספיק להופיע בגוגל. היום הם מחפשים בגוגל, משווים ביקורות במפות ושואלים את ChatGPT מה הוא ממליץ.",
+      "עסקים קטנים ובינוניים לא צריכים להבין את כל זה לעומק. הם צריכים שותף שמבין, שמסביר בשפה פשוטה, ושמודד את מה שבאמת חשוב: כמה לקוחות חדשים הגיעו.",
+    ],
+    valuesTitle: "איך אנחנו עובדים",
+    values: [
+      { title: "מתחילים מהנתונים", body: "כל עבודה מתחילה בבדיקה של המצב הקיים, לא בהנחות." },
+      { title: "שקיפות מלאה", body: "תמיד תדעו מה נעשה, למה, ומה זה נתן. בלי קופסה שחורה." },
+      { title: "יושר לפני מכירה", body: "אם שירות מסוים לא יעזור לכם עכשיו, נגיד את זה." },
+      { title: "חושבים לטווח ארוך", body: "בונים נכסים שממשיכים לעבוד: אתר חזק, מוניטין וסמכות." },
+    ],
+    ctaTitle: "בואו נכיר",
+    ctaBody: "ספרו לנו על העסק שלכם, ונחזור אליכם עם בדיקת נראות אישית.",
+  },
+  en: {
+    metaTitle: "About Optivox",
+    metaDescription:
+      "Optivox is an agency for websites, SEO and AI search optimization for small and mid-sized businesses. Learn how we work.",
+    h1: "We help good businesses get found",
+    lead: "Optivox started from a simple observation: plenty of excellent businesses lose customers just because they're hard to find online. Our goal is to fix that.",
+    storyTitle: "Why we do this",
+    story: [
+      "The way customers choose a business has changed. It used to be enough to show up on Google. Now they search on Google, compare reviews on Maps and ask ChatGPT what it recommends.",
+      "Small and mid-sized businesses don't need to master all of this. They need a partner who does, who explains it in plain language, and who measures what actually matters: how many new customers came in.",
+    ],
+    valuesTitle: "How we work",
+    values: [
+      { title: "Start from data", body: "Every engagement starts with a review of where you stand, not with assumptions." },
+      { title: "Full transparency", body: "You'll always know what was done, why, and what it achieved. No black box." },
+      { title: "Honesty before sales", body: "If a service won't help you right now, we'll tell you." },
+      { title: "Think long term", body: "We build assets that keep working: a strong site, reputation and authority." },
+    ],
+    ctaTitle: "Let's get to know each other",
+    ctaBody: "Tell us about your business and we'll come back with a personal visibility audit.",
+  },
+}[lang];
+---
+
+<Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/about/" jsonLd={[breadcrumbSchema(base, crumbs)]}>
+  <section class="border-b border-border/60 bg-paper">
+    <div class="container-site py-14 sm:py-20">
+      <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
+      <h1 class="mt-10 max-w-3xl text-4xl font-extrabold sm:text-5xl">{copy.h1}</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">{copy.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site grid gap-8 lg:grid-cols-[1fr_2fr]">
+      <h2 class="text-3xl font-bold sm:text-4xl">{copy.storyTitle}</h2>
+      <div class="prose-body max-w-3xl text-lg leading-relaxed text-muted-foreground">
+        {copy.story.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-t border-border/60 bg-paper">
+    <div class="container-site">
+      <h2 class="text-3xl font-bold sm:text-4xl">{copy.valuesTitle}</h2>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2">
+        {
+          copy.values.map((v, i) => (
+            <div class="card bg-white">
+              <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
+              <h3 class="mt-2 text-xl font-semibold">{v.title}</h3>
+              <p class="mt-2 leading-relaxed text-muted-foreground">{v.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand lang={lang} title={copy.ctaTitle} body={copy.ctaBody} />
+</Base>

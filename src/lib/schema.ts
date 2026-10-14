@@ -1,0 +1,85 @@
+import { site } from "@/config/site";
+import { langMeta, localePath, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+
+type Json = Record<string, unknown>;
+
+export function absolute(path: string, base: URL | string): string {
+  return new URL(path, base).toString();
+}
+
+export function organizationSchema(lang: Lang, base: URL | string): Json {
+  const url = absolute(localePath(lang, "/"), base);
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": absolute("/#organization", base),
+    name: site.name,
+    url,
+    logo: absolute(site.logo, base),
+    image: absolute(site.ogImage, base),
+    description: t(lang).footer.tagline,
+    email: site.email,
+    ...(site.phone ? { telephone: site.phone } : {}),
+    areaServed: { "@type": "Country", name: lang === "he" ? "ישראל" : "Israel" },
+    knowsLanguage: ["he", "en"],
+  };
+}
+
+export function websiteSchema(lang: Lang, base: URL | string): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": absolute(`${localePath(lang, "/")}#website`, base),
+    name: site.name,
+    url: absolute(localePath(lang, "/"), base),
+    inLanguage: langMeta[lang].hreflang,
+    publisher: { "@id": absolute("/#organization", base) },
+  };
+}
+
+export function serviceSchema(
+  lang: Lang,
+  base: URL | string,
+  service: { name: string; description: string; path: string },
+): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name,
+    description: service.description,
+    url: absolute(localePath(lang, service.path), base),
+    serviceType: service.name,
+    provider: { "@id": absolute("/#organization", base) },
+    areaServed: { "@type": "Country", name: lang === "he" ? "ישראל" : "Israel" },
+    inLanguage: langMeta[lang].hreflang,
+  };
+}
+
+export function faqSchema(faqs: readonly { q: string; a: string }[]): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
+
+export function breadcrumbSchema(
+  base: URL | string,
+  items: readonly { name: string; href: string }[],
+): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: absolute(item.href, base),
+    })),
+  };
+}

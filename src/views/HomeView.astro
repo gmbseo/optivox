@@ -1,0 +1,339 @@
+---
+import CtaBand from "@/components/CtaBand.astro";
+import Faq from "@/components/Faq.astro";
+import Icon from "@/components/Icon.astro";
+import { services } from "@/content/services";
+import { localePath, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+import Base from "@/layouts/Base.astro";
+import { faqSchema } from "@/lib/schema";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const href = (path: string) => localePath(lang, path);
+
+const copy = {
+  he: {
+    metaTitle: "Optivox | בניית אתרים, קידום בגוגל וקידום במנועי AI",
+    metaDescription:
+      "Optivox עוזרת לעסקים קטנים ובינוניים להימצא: אתרים מהירים, קידום אורגני בגוגל ובגוגל מפות, וקידום בתשובות של ChatGPT, Gemini ו-Google AI Overviews.",
+    eyebrow: "בניית אתרים · קידום בגוגל · קידום במנועי AI",
+    h1: "שהלקוחות ימצאו אתכם: בגוגל, במפות ובצ'אט",
+    lead: "לקוחות מחפשים היום בגוגל, משווים במפות ושואלים את ChatGPT. אנחנו בונים לעסק שלכם אתר שגוגל ומנועי ה-AI מבינים, ודואגים שתופיעו בכל המקומות שבהם בוחרים.",
+    reassurance: "בדיקה אישית, לא דוח אוטומטי. בלי התחייבות.",
+    mock: {
+      query: "רואה חשבון לעסק קטן ברמת גן",
+      sponsored: "מפת עסקים",
+      you: "העסק שלכם",
+      other1: "משרד כהן ושות'",
+      other2: "לוי חשבונאות",
+      ask: "איזה רואה חשבון מומלץ לעסק קטן ברמת גן?",
+      answer: "הנה כמה משרדים עם ביקורות טובות ושירות לעסקים קטנים:",
+      source: "מקור: האתר שלכם",
+    },
+    shiftTitle: "הלקוחות שלכם מחפשים בשלושה מקומות",
+    shift: [
+      { icon: "search", title: "חיפוש בגוגל", body: "כשמחפשים שירות, בוחרים מבין התוצאות הראשונות." },
+      { icon: "pin", title: "גוגל מפות", body: "בחיפושים מקומיים, מפת העסקים מופיעה לפני כל השאר." },
+      { icon: "ai", title: "תשובות AI", body: "ChatGPT, Gemini ו-AI Overviews ממליצים על שניים או שלושה עסקים בלבד." },
+    ],
+    servicesEyebrow: "השירותים שלנו",
+    servicesTitle: "שלושה שירותים, מטרה אחת: יותר לקוחות שמוצאים אתכם",
+    connectTitle: "בסיס אחד, שלוש דרכים להימצא",
+    connectBody:
+      "השירותים בנויים זה על זה. אתר מהיר ומסודר הוא הבסיס. קידום בגוגל בונה עליו נראות וסמכות. ומנועי ה-AI נשענים בדיוק על המידע הזה כשהם בוחרים על מי להמליץ.",
+    connect: ["אתר שבנוי נכון", "נראות בגוגל ובמפות", "המלצות במנועי AI"],
+    processEyebrow: "איך אנחנו עובדים",
+    processTitle: "מתחילים בבדיקה, ממשיכים במדידה",
+    process: [
+      { title: "בדיקת נראות חינם", body: "בודקים איך אתם נראים היום בגוגל, במפות ובצ'אטים, לעומת המתחרים." },
+      { title: "תוכנית ממוקדת", body: "מציגים מה מעכב אתכם ומה יביא הכי הרבה פניות, לפי סדר עדיפויות." },
+      { title: "ביצוע", body: "בונים, מתקנים וכותבים. אתם מקבלים עדכון על כל שלב." },
+      { title: "מדידה חודשית", body: "דוח פשוט: מה השתנה בדירוגים, באזכורים ובפניות, ומה הצעד הבא." },
+    ],
+    principlesTitle: "מה חשוב לנו",
+    principles: [
+      { title: "מודדים פניות, לא רק תנועה", body: "ביקורים זה נחמד. שיחות, טפסים והודעות זה מה שמגדיל עסק." },
+      { title: "בלי הבטחות שאי אפשר לקיים", body: "אף אחד לא יכול להבטיח מקום ראשון בגוגל או המלצה בצ'אט. אנחנו מבטיחים עבודה שקופה ומדידה." },
+      { title: "שפה פשוטה", body: "בלי ז'רגון. תמיד תדעו מה עשינו, למה, ומה זה נתן." },
+      { title: "האתר הזה הוא ההוכחה", body: "מהיר, נגיש, דו-לשוני, עם נתונים מובנים וקובץ llms.txt. בדיוק מה שאנחנו בונים ללקוחות." },
+    ],
+    faqs: [
+      {
+        q: "מה ההבדל בין קידום בגוגל לקידום במנועי AI?",
+        a: "קידום בגוגל (SEO) נועד להופיע גבוה ברשימת התוצאות ובמפות. קידום במנועי AI (GEO) נועד שהעסק יוזכר בתוך התשובות של ChatGPT, Gemini ו-Google AI Overviews. שני התחומים נשענים על אותו בסיס: אתר טוב, מידע עקבי על העסק ואזכורים ממקורות אמינים.",
+      },
+      {
+        q: "מה כוללת בדיקת הנראות החינמית?",
+        a: "אנחנו בודקים איך העסק שלכם מופיע בגוגל, בגוגל מפות ובמנועי ה-AI עבור החיפושים החשובים בתחום שלכם, משווים למתחרים, ומסבירים בשפה פשוטה מה כדאי לתקן קודם.",
+      },
+      {
+        q: "חייבים אתר חדש כדי להתחיל?",
+        a: "לא בהכרח. אם האתר הקיים סביר, מתחילים בשיפור שלו ובקידום. אם הוא ישן, איטי או בנוי כך שקשה לקדם אותו, נמליץ לבנות חדש.",
+      },
+      {
+        q: "עם אילו עסקים אתם עובדים?",
+        a: "עם עסקים קטנים ובינוניים שהלקוחות שלהם מחפשים אותם ברשת: נותני שירותים, משרדים מקצועיים, מרפאות, קבלנים ועסקים מקומיים.",
+      },
+      {
+        q: "אתם עובדים גם באנגלית?",
+        a: "כן. אנחנו בונים ומקדמים אתרים בעברית, באנגלית ובשתי השפות יחד.",
+      },
+    ],
+    ctaTitle: "רוצים לדעת איפה אתם עומדים?",
+    ctaBody: "נבדוק איך העסק שלכם מופיע בגוגל, במפות ובצ'אטים, ונראה לכם מה הצעד הראשון שהכי שווה לעשות.",
+  },
+  en: {
+    metaTitle: "Optivox | Websites, SEO and AI search optimization",
+    metaDescription:
+      "Optivox helps small and mid-sized businesses get found: fast websites, organic SEO for Google Search and Maps, and visibility in ChatGPT, Gemini and Google AI Overviews.",
+    eyebrow: "Websites · SEO · AI search optimization",
+    h1: "Get found by customers on Google, on Maps and in AI answers",
+    lead: "Customers search on Google, compare on Maps and ask ChatGPT. We build your business a website that Google and AI engines understand, and make sure you show up everywhere people decide.",
+    reassurance: "A personal review, not an automated report. No commitment.",
+    mock: {
+      query: "small business accountant tel aviv",
+      sponsored: "Map results",
+      you: "Your business",
+      other1: "Cohen & Co.",
+      other2: "Levi Accounting",
+      ask: "Which accountant do you recommend for a small business in Tel Aviv?",
+      answer: "Here are a few firms with strong reviews and small-business experience:",
+      source: "Source: your website",
+    },
+    shiftTitle: "Your customers search in three places",
+    shift: [
+      { icon: "search", title: "Google Search", body: "When people look for a service, they choose from the top results." },
+      { icon: "pin", title: "Google Maps", body: "For local searches, the map pack shows up before everything else." },
+      { icon: "ai", title: "AI answers", body: "ChatGPT, Gemini and AI Overviews recommend just two or three businesses." },
+    ],
+    servicesEyebrow: "Our services",
+    servicesTitle: "Three services, one goal: more customers who find you",
+    connectTitle: "One foundation, three ways to be found",
+    connectBody:
+      "Our services build on each other. A fast, well-structured website is the foundation. SEO builds visibility and authority on top of it. And AI engines rely on exactly that information when they choose who to recommend.",
+    connect: ["A website built right", "Visibility on Google and Maps", "Recommendations in AI engines"],
+    processEyebrow: "How we work",
+    processTitle: "We start with an audit and keep measuring",
+    process: [
+      { title: "Free visibility audit", body: "We check how you appear today on Google, Maps and chatbots, compared to competitors." },
+      { title: "A focused plan", body: "We show what's holding you back and what will bring the most enquiries, in priority order." },
+      { title: "Execution", body: "We build, fix and write, and keep you updated at every step." },
+      { title: "Monthly measurement", body: "A simple report: what changed in rankings, mentions and enquiries, and what's next." },
+    ],
+    principlesTitle: "What we care about",
+    principles: [
+      { title: "Enquiries, not just traffic", body: "Visits are nice. Calls, forms and messages are what grow a business." },
+      { title: "No promises we can't keep", body: "Nobody can guarantee #1 on Google or a chatbot recommendation. We promise transparent, measured work." },
+      { title: "Plain language", body: "No jargon. You'll always know what we did, why, and what it achieved." },
+      { title: "This site is our proof", body: "Fast, accessible, bilingual, with structured data and an llms.txt file. Exactly what we build for clients." },
+    ],
+    faqs: [
+      {
+        q: "What's the difference between SEO and AI search optimization?",
+        a: "SEO aims to rank you high in Google's results and on Maps. AI search optimization (GEO) aims to get your business mentioned inside the answers of ChatGPT, Gemini and Google AI Overviews. Both rest on the same foundation: a good website, consistent business information and mentions from trusted sources.",
+      },
+      {
+        q: "What's included in the free visibility audit?",
+        a: "We check how your business appears on Google, Google Maps and AI engines for the searches that matter in your field, compare you to competitors, and explain in plain language what to fix first.",
+      },
+      {
+        q: "Do I need a new website to get started?",
+        a: "Not necessarily. If your current site is reasonable, we start by improving and promoting it. If it's old, slow or hard to optimize, we'll recommend building a new one.",
+      },
+      {
+        q: "What kind of businesses do you work with?",
+        a: "Small and mid-sized businesses whose customers look for them online: service providers, professional firms, clinics, contractors and local businesses.",
+      },
+      {
+        q: "Do you work in English as well as Hebrew?",
+        a: "Yes. We build and optimize websites in Hebrew, in English, and in both together.",
+      },
+    ],
+    ctaTitle: "Want to know where you stand?",
+    ctaBody: "We'll check how your business shows up on Google, Maps and chatbots, and show you the first step that's most worth taking.",
+  },
+}[lang];
+---
+
+<Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/" jsonLd={[faqSchema(copy.faqs)]}>
+  <section class="relative overflow-hidden border-b border-border/60 bg-paper">
+    <div class="container-site grid items-center gap-14 py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:py-24">
+      <div>
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h1 class="mt-5 text-4xl leading-[1.1] font-extrabold sm:text-5xl lg:text-6xl">{copy.h1}</h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">{copy.lead}</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={href("/contact/")} class="btn-primary">
+            {ui.cta.audit}
+            <Icon name="arrow" class="size-4 flip-rtl" />
+          </a>
+          <a href={href("/services/")} class="btn-secondary">{ui.cta.services}</a>
+        </div>
+        <p class="mt-5 text-sm text-muted-foreground">{copy.reassurance}</p>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-md lg:max-w-none" aria-hidden="true">
+        <div class="absolute -inset-6 -z-0 rounded-[2rem] bg-brand/5"></div>
+        <div class="relative flex flex-col gap-4">
+          <div class="rounded-2xl border border-border bg-white p-5 shadow-sm">
+            <div class="flex items-center gap-3 rounded-full border border-border px-4 py-2.5 text-sm text-foreground">
+              <Icon name="search" class="size-4 text-muted-foreground" />
+              <span class="truncate">{copy.mock.query}</span>
+            </div>
+            <p class="mt-4 text-xs font-medium text-muted-foreground">{copy.mock.sponsored}</p>
+            <ul class="mt-2 flex flex-col gap-2 text-sm">
+              <li class="flex items-center gap-3 rounded-xl bg-accent/10 px-3 py-2.5 font-semibold text-brand ring-1 ring-accent/30">
+                <Icon name="pin" class="size-4 text-accent" />
+                {copy.mock.you}
+              </li>
+              <li class="flex items-center gap-3 px-3 py-1.5 text-muted-foreground">
+                <Icon name="pin" class="size-4" />
+                {copy.mock.other1}
+              </li>
+              <li class="flex items-center gap-3 px-3 py-1.5 text-muted-foreground">
+                <Icon name="pin" class="size-4" />
+                {copy.mock.other2}
+              </li>
+            </ul>
+          </div>
+
+          <div class="rounded-2xl border border-border bg-white p-5 shadow-sm lg:ms-10">
+            <p class="ms-auto w-fit max-w-[85%] rounded-2xl rounded-ee-sm bg-muted px-4 py-2.5 text-sm text-foreground">{copy.mock.ask}</p>
+            <div class="mt-4 flex gap-3">
+              <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand text-paper">
+                <Icon name="ai" class="size-3.5" />
+              </span>
+              <div class="text-sm text-foreground">
+                <p>{copy.mock.answer}</p>
+                <ol class="mt-2 flex flex-col gap-1.5">
+                  <li class="font-semibold text-brand">1. {copy.mock.you}</li>
+                  <li class="text-muted-foreground">2. {copy.mock.other1}</li>
+                </ol>
+                <p class="mt-3 inline-flex rounded-full bg-accent/10 px-2.5 py-1 text-xs font-medium text-brand">{copy.mock.source}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="shift-title">
+    <div class="container-site">
+      <h2 id="shift-title" class="max-w-2xl text-3xl font-bold sm:text-4xl">{copy.shiftTitle}</h2>
+      <div class="mt-10 grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-border bg-border sm:grid-cols-3">
+        {
+          copy.shift.map((s) => (
+            <div class="bg-background p-7">
+              <span class="flex size-11 items-center justify-center rounded-xl bg-brand text-paper">
+                <Icon name={s.icon as "search" | "pin" | "ai"} class="size-5" />
+              </span>
+              <h3 class="mt-5 text-xl font-semibold">{s.title}</h3>
+              <p class="mt-2 leading-relaxed text-muted-foreground">{s.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-paper" aria-labelledby="services-title">
+    <div class="container-site">
+      <p class="eyebrow">{copy.servicesEyebrow}</p>
+      <h2 id="services-title" class="mt-3 max-w-3xl text-3xl font-bold sm:text-4xl">{copy.servicesTitle}</h2>
+      <ol class="mt-12 border-t border-ink/15">
+        {
+          services.map((s, i) => (
+            <li class="border-b border-ink/15">
+              <a
+                href={href(`/services/${s.slug}/`)}
+                class="group grid items-start gap-4 py-8 sm:grid-cols-[4rem_1fr_auto] sm:items-center sm:gap-8"
+              >
+                <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
+                <div>
+                  <h3 class="text-2xl font-bold transition-colors group-hover:text-brand sm:text-3xl">{s.content[lang].name}</h3>
+                  <p class="mt-2 max-w-2xl text-lg text-muted-foreground">{s.content[lang].short}</p>
+                </div>
+                <span class="inline-flex items-center gap-2 text-sm font-semibold text-brand">
+                  {ui.common.learnMore}
+                  <Icon name="arrow" class="size-4 flip-rtl transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="connect-title">
+    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
+      <div>
+        <h2 id="connect-title" class="text-3xl font-bold sm:text-4xl">{copy.connectTitle}</h2>
+        <p class="mt-5 text-lg leading-relaxed text-muted-foreground text-pretty">{copy.connectBody}</p>
+      </div>
+      <ol class="flex flex-col gap-3">
+        {
+          copy.connect.map((step, i) => (
+            <li
+              class:list={[
+                "flex items-center gap-4 rounded-2xl border p-5 text-lg font-semibold",
+                i === 0 && "border-brand bg-brand text-paper",
+                i === 1 && "border-border bg-white text-ink sm:ms-8",
+                i === 2 && "border-accent/40 bg-accent/10 text-brand sm:ms-16",
+              ]}
+            >
+              <span class:list={["flex size-9 shrink-0 items-center justify-center rounded-full text-sm", i === 0 ? "bg-paper text-brand" : "bg-brand text-paper"]}>
+                {i + 1}
+              </span>
+              {step}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section border-y border-border/60 bg-paper" aria-labelledby="process-title">
+    <div class="container-site">
+      <p class="eyebrow">{copy.processEyebrow}</p>
+      <h2 id="process-title" class="mt-3 max-w-2xl text-3xl font-bold sm:text-4xl">{copy.processTitle}</h2>
+      <ol class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          copy.process.map((step, i) => (
+            <li class="border-t-2 border-brand pt-5">
+              <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
+              <h3 class="mt-2 text-xl font-semibold">{step.title}</h3>
+              <p class="mt-2 leading-relaxed text-muted-foreground">{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="principles-title">
+    <div class="container-site">
+      <h2 id="principles-title" class="text-3xl font-bold sm:text-4xl">{copy.principlesTitle}</h2>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2">
+        {
+          copy.principles.map((p) => (
+            <div class="card">
+              <h3 class="text-xl font-semibold">{p.title}</h3>
+              <p class="mt-2 leading-relaxed text-muted-foreground">{p.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Faq title={ui.common.faqTitle} faqs={copy.faqs} />
+
+  <CtaBand lang={lang} title={copy.ctaTitle} body={copy.ctaBody} />
+</Base>

@@ -1,0 +1,86 @@
+@import "tailwindcss";
+@import "@fontsource-variable/heebo";
+
+@theme {
+  --font-sans: "Heebo Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #f6f2e7;
+  --color-paper-deep: #ece5d3;
+  --color-ink: #0f2427;
+  --color-brand: #0d4a4d;
+  --color-brand-deep: #08363a;
+  --color-background: #fbfaf6;
+  --color-foreground: #14262a;
+  --color-muted: #f1eee5;
+  --color-muted-foreground: #5b6b6d;
+  --color-border: #e2ddcf;
+  --color-accent: oklch(0.55 0.14 165);
+  --color-accent-foreground: oklch(0.98 0.005 165);
+
+  --radius-card: 1.25rem;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth bg-background font-sans text-foreground antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight text-balance text-ink;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  ::selection {
+    @apply bg-brand text-paper;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section {
+    @apply py-16 sm:py-20 lg:py-28;
+  }
+
+  .eyebrow {
+    @apply text-sm font-semibold tracking-wide text-accent;
+  }
+
+  .btn-primary {
+    @apply btn bg-accent text-accent-foreground hover:bg-accent/90;
+  }
+
+  .btn-secondary {
+    @apply btn border border-brand/25 bg-transparent text-brand hover:bg-brand/5;
+  }
+
+  .btn-on-dark {
+    @apply btn border border-paper/30 text-paper hover:bg-paper/10;
+  }
+
+  .card {
+    @apply rounded-[var(--radius-card)] border border-border bg-white/70 p-6 sm:p-8;
+  }
+
+  .prose-body p + p {
+    @apply mt-4;
+  }
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-base font-semibold transition-colors;
+}
+
+@utility flip-rtl {
+  &:where([dir="rtl"], [dir="rtl"] *) {
+    scale: -1 1;
+  }
+}

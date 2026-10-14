@@ -1,0 +1,50 @@
+---
+import { site } from "@/config/site";
+import { services } from "@/content/services";
+import { localePath, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const copy = t(lang);
+const href = (path: string) => localePath(lang, path);
+const year = new Date().getFullYear();
+const heading = "text-sm font-semibold text-ink";
+const link = "text-sm text-muted-foreground transition-colors hover:text-foreground";
+---
+
+<footer class="border-t border-border bg-paper">
+  <div class="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="flex flex-col gap-4">
+      <a href={href("/")} class="w-fit">
+        <img src={site.logo} alt={`${site.name} logo`} width="1280" height="472" class="h-11 w-auto" loading="lazy" />
+      </a>
+      <p class="max-w-xs text-sm text-muted-foreground text-pretty">{copy.footer.tagline}</p>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <p class={heading}>{copy.footer.services}</p>
+      {services.map((s) => <a href={href(`/services/${s.slug}/`)} class={link}>{s.content[lang].name}</a>)}
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <p class={heading}>{copy.footer.company}</p>
+      <a href={href("/about/")} class={link}>{copy.nav.about}</a>
+      <a href={href("/contact/")} class={link}>{copy.nav.contact}</a>
+      <a href={href("/accessibility/")} class={link}>{copy.footer.accessibility}</a>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <p class={heading}>{copy.footer.contact}</p>
+      <a href={`mailto:${site.email}`} class={link} dir="ltr">{site.email}</a>
+      {site.phone && <a href={`tel:${site.phone.replace(/[^\d+]/g, "")}`} class={link} dir="ltr">{site.phone}</a>}
+      {site.whatsapp && <a href={`https://wa.me/${site.whatsapp}`} class={link} rel="noopener">WhatsApp</a>}
+    </div>
+  </div>
+  <div class="border-t border-border">
+    <p class="container-site py-5 text-xs text-muted-foreground">© {year} {site.name}. {copy.footer.rights}</p>
+  </div>
+</footer>

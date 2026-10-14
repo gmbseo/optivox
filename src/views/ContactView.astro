@@ -1,0 +1,199 @@
+---
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import Icon from "@/components/Icon.astro";
+import { site } from "@/config/site";
+import { services } from "@/content/services";
+import { localePath, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+import Base from "@/layouts/Base.astro";
+import { breadcrumbSchema } from "@/lib/schema";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const href = (path: string) => localePath(lang, path);
+const base = Astro.site ?? Astro.url;
+const crumbs = [
+  { name: ui.common.home, href: href("/") },
+  { name: ui.nav.contact, href: href("/contact/") },
+];
+
+const copy = {
+  he: {
+    metaTitle: "צור קשר ובדיקת נראות חינם",
+    metaDescription:
+      "השאירו פרטים לבדיקת נראות חינם: נבדוק איך העסק שלכם מופיע בגוגל, בגוגל מפות ובמנועי AI, ונמליץ על הצעד הראשון.",
+    h1: "בדיקת נראות חינם",
+    lead: "ספרו לנו בקצרה על העסק. נבדוק איך אתם מופיעים בגוגל, במפות ובצ'אטים, ונחזור אליכם עם ממצאים והמלצה.",
+    form: {
+      name: "שם מלא",
+      business: "שם העסק",
+      email: "אימייל",
+      phone: "טלפון",
+      website: "כתובת האתר (אם יש)",
+      service: "במה תרצו שנעזור?",
+      notSure: "עוד לא בטוח/ה",
+      message: "משהו נוסף שכדאי שנדע?",
+      submit: "שליחה",
+      required: "שדה חובה",
+      privacy: "הפרטים משמשים רק כדי לחזור אליכם בנוגע לפנייה.",
+    },
+    nextTitle: "מה קורה אחרי השליחה",
+    next: ["אנחנו עוברים על הפרטים ובודקים את הנראות של העסק", "חוזרים אליכם עם ממצאים והמלצה ברורה", "אם זה מתאים לשני הצדדים, נבנה יחד תוכנית עבודה"],
+    directTitle: "אפשר גם ישירות",
+  },
+  en: {
+    metaTitle: "Contact us and get a free visibility audit",
+    metaDescription:
+      "Request a free visibility audit: we'll check how your business appears on Google, Google Maps and AI engines, and recommend the first step.",
+    h1: "Free visibility audit",
+    lead: "Tell us a little about your business. We'll check how you appear on Google, Maps and chatbots, and come back with findings and a recommendation.",
+    form: {
+      name: "Full name",
+      business: "Business name",
+      email: "Email",
+      phone: "Phone",
+      website: "Website (if you have one)",
+      service: "What can we help with?",
+      notSure: "Not sure yet",
+      message: "Anything else we should know?",
+      submit: "Send",
+      required: "Required",
+      privacy: "We only use your details to get back to you about this request.",
+    },
+    nextTitle: "What happens next",
+    next: ["We review your details and check your business's visibility", "We come back with findings and a clear recommendation", "If it's a good fit for both sides, we build a plan together"],
+    directTitle: "Or reach us directly",
+  },
+}[lang];
+
+const label = "block text-sm font-medium text-ink";
+const input =
+  "mt-2 block w-full rounded-xl border border-border bg-white px-4 py-3 text-base text-foreground shadow-xs transition-colors placeholder:text-muted-foreground/70 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30";
+---
+
+<Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/contact/" jsonLd={[breadcrumbSchema(base, crumbs)]}>
+  <section class="bg-paper">
+    <div class="container-site py-14 sm:py-20">
+      <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
+      <div class="mt-10 grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+        <div>
+          <h1 class="text-4xl font-extrabold sm:text-5xl">{copy.h1}</h1>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty">{copy.lead}</p>
+
+          <form
+            name="contact"
+            method="POST"
+            action={href("/contact/thanks/")}
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            class="card mt-10 grid gap-6 bg-white sm:grid-cols-2"
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="hidden" name="language" value={lang} />
+            <p class="hidden">
+              <label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+            </p>
+
+            <div>
+              <label for="name" class={label}>{copy.form.name} <span class="text-accent" aria-hidden="true">*</span></label>
+              <input id="name" name="name" type="text" required autocomplete="name" class={input} />
+            </div>
+            <div>
+              <label for="business" class={label}>{copy.form.business}</label>
+              <input id="business" name="business" type="text" autocomplete="organization" class={input} />
+            </div>
+            <div>
+              <label for="email" class={label}>{copy.form.email} <span class="text-accent" aria-hidden="true">*</span></label>
+              <input id="email" name="email" type="email" required autocomplete="email" dir="ltr" class={input} />
+            </div>
+            <div>
+              <label for="phone" class={label}>{copy.form.phone}</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" dir="ltr" class={input} />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="website" class={label}>{copy.form.website}</label>
+              <input id="website" name="website" type="text" inputmode="url" autocomplete="url" dir="ltr" placeholder="example.co.il" class={input} />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="service" class={label}>{copy.form.service}</label>
+              <select id="service" name="service" class={input}>
+                {services.map((s) => <option value={s.slug}>{s.content[lang].name}</option>)}
+                <option value="not-sure" selected>{copy.form.notSure}</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="message" class={label}>{copy.form.message}</label>
+              <textarea id="message" name="message" rows="4" dir="auto" class={input}></textarea>
+            </div>
+            <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-sm text-muted-foreground">{copy.form.privacy}</p>
+              <button type="submit" class="btn-primary shrink-0">
+                {copy.form.submit}
+                <Icon name="arrow" class="size-4 flip-rtl" />
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="flex flex-col gap-6 lg:pt-28">
+          <div class="card bg-white">
+            <h2 class="text-xl font-bold">{copy.nextTitle}</h2>
+            <ol class="mt-5 flex flex-col gap-4">
+              {
+                copy.next.map((step, i) => (
+                  <li class="flex gap-4">
+                    <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand text-sm font-semibold text-paper">{i + 1}</span>
+                    <span class="leading-relaxed text-muted-foreground">{step}</span>
+                  </li>
+                ))
+              }
+            </ol>
+          </div>
+          <div class="card bg-white">
+            <h2 class="text-xl font-bold">{copy.directTitle}</h2>
+            <ul class="mt-5 flex flex-col gap-3">
+              <li>
+                <a href={`mailto:${site.email}`} class="inline-flex items-center gap-3 text-foreground hover:text-brand">
+                  <Icon name="mail" class="size-4 text-accent" />
+                  <span dir="ltr">{site.email}</span>
+                </a>
+              </li>
+              {
+                site.phone && (
+                  <li>
+                    <a href={`tel:${site.phone.replace(/[^\d+]/g, "")}`} class="inline-flex items-center gap-3 text-foreground hover:text-brand">
+                      <Icon name="phone" class="size-4 text-accent" />
+                      <span dir="ltr">{site.phone}</span>
+                    </a>
+                  </li>
+                )
+              }
+              {
+                site.whatsapp && (
+                  <li>
+                    <a href={`https://wa.me/${site.whatsapp}`} rel="noopener" class="inline-flex items-center gap-3 text-foreground hover:text-brand">
+                      <Icon name="chat" class="size-4 text-accent" />
+                      WhatsApp
+                    </a>
+                  </li>
+                )
+              }
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const requested = new URLSearchParams(window.location.search).get("service");
+  const select = document.querySelector<HTMLSelectElement>("#service");
+  if (requested && select && [...select.options].some((o) => o.value === requested)) {
+    select.value = requested;
+  }
+</script>

@@ -1,0 +1,37 @@
+---
+import { localePath, type Lang } from "@/i18n";
+import { t } from "@/i18n/ui";
+import Base from "@/layouts/Base.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const copy = {
+  he: {
+    title: "תודה, קיבלנו את הפרטים",
+    body: "נעבור על הפנייה ונחזור אליכם עם ממצאים והמלצה. בינתיים, אפשר להכיר את השירותים שלנו.",
+    back: "חזרה לדף הבית",
+  },
+  en: {
+    title: "Thanks, we've got your details",
+    body: "We'll review your request and get back to you with findings and a recommendation. In the meantime, have a look at our services.",
+    back: "Back to the home page",
+  },
+}[lang];
+---
+
+<Base lang={lang} title={copy.title} description={copy.body} path="/contact/thanks/" noindex>
+  <section class="section bg-paper">
+    <div class="container-site max-w-2xl text-center">
+      <h1 class="text-4xl font-extrabold sm:text-5xl">{copy.title}</h1>
+      <p class="mt-5 text-lg leading-relaxed text-muted-foreground">{copy.body}</p>
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        <a href={localePath(lang, "/services/")} class="btn-primary">{ui.cta.services}</a>
+        <a href={localePath(lang, "/")} class="btn-secondary">{copy.back}</a>
+      </div>
+    </div>
+  </section>
+</Base>

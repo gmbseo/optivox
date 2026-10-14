@@ -1,371 +1,575 @@
-export type ServiceDetail = {
-  slug: string;
-  title: string;
-  shortTitle: string;
-  description: string;
-  heroSubtitle: string;
-  keywords: string[];
-  features: Array<{ title: string; description: string }>;
-  benefits: string[];
-  process: Array<{ step: string; title: string; description: string }>;
-  faqs: Array<{ question: string; answer: string }>;
+import type { Lang } from "@/i18n";
+
+export type ServiceSlug = "website-development" | "seo" | "ai-search-optimization";
+
+type Item = { title: string; body: string };
+type Faq = { q: string; a: string };
+
+export type ServiceContent = {
+  name: string;
+  short: string;
+  metaTitle: string;
+  metaDescription: string;
+  eyebrow: string;
+  h1: string;
+  intro: string;
+  problem: Item;
+  included: Item[];
+  process: Item[];
+  fit: string[];
+  notFit: string[];
+  faqs: Faq[];
 };
 
-export const services: Record<string, ServiceDetail> = {
-  "local-seo": {
-    slug: "local-seo",
-    title: "Local SEO Services",
-    shortTitle: "Local SEO",
-    description:
-      "Rank higher in Google Maps and local search when customers in your area look for your services. Optivox builds local authority, relevance, and visibility that drives calls and visits.",
-    heroSubtitle:
-      "Dominate local search results and Google Maps so nearby customers find you first—not your competitors.",
-    keywords: [
-      "local SEO services",
-      "local search optimization",
-      "Google Maps ranking",
-      "local SEO agency",
-    ],
-    features: [
-      {
-        title: "Local Rankings",
-        description:
-          "Improve positions in the local pack and organic results for geo-targeted keywords that drive real business.",
-      },
-      {
-        title: "Location Relevance",
-        description:
-          "Align your website, Google Business Profile, and citations so Google clearly understands where you serve.",
-      },
-      {
-        title: "Local Citations",
-        description:
-          "Build consistent business listings across trusted directories to strengthen local authority signals.",
-      },
-      {
-        title: "Google Maps Visibility",
-        description:
-          "Optimize for map pack rankings—the highest-converting placement for local service businesses.",
-      },
-      {
-        title: "Local Authority Building",
-        description:
-          "Earn relevance through reviews, content, links, and engagement that signal trust to Google and customers.",
-      },
-    ],
-    benefits: [
-      "More calls and direction requests from Google Maps",
-      "Stronger visibility against larger competitors",
-      "Consistent local lead flow without ad dependency",
-      "Clear reporting tied to rankings and business outcomes",
-    ],
-    process: [
-      {
-        step: "01",
-        title: "Local visibility audit",
-        description:
-          "We map your current rankings, GBP health, citations, and competitor landscape.",
-      },
-      {
-        step: "02",
-        title: "Priority roadmap",
-        description:
-          "You get a focused plan targeting the local keywords and areas that matter most.",
-      },
-      {
-        step: "03",
-        title: "Execute & optimize",
-        description:
-          "We implement on-site, off-site, and GBP improvements with ongoing refinement.",
-      },
-      {
-        step: "04",
-        title: "Measure growth",
-        description:
-          "Track rankings, calls, leads, and visibility shifts—with transparent reporting.",
-      },
-    ],
-    faqs: [
-      {
-        question: "How is local SEO different from regular SEO?",
-        answer:
-          "Local SEO targets customers searching in a specific geographic area—especially Google Maps and \"near me\" queries. It emphasizes Google Business Profile, citations, reviews, and location relevance.",
-      },
-      {
-        question: "Can local SEO help multi-location businesses?",
-        answer:
-          "Yes. We create location-specific strategies for each service area, including dedicated pages, GBP management, and localized content.",
-      },
-    ],
-  },
-  "google-business-profile-optimization": {
-    slug: "google-business-profile-optimization",
-    title: "Google Business Profile Optimization",
-    shortTitle: "Google Business Profile",
-    description:
-      "Turn your Google Business Profile into a lead-generating asset. Optivox optimizes categories, content, reviews, photos, and posts to improve map visibility and customer actions.",
-    heroSubtitle:
-      "Your Google Business Profile is often the first impression customers have. Make it convert.",
-    keywords: [
-      "Google Business Profile optimization",
-      "Google Business Profile management",
-      "GBP optimization",
-      "Google Maps visibility",
-    ],
-    features: [
-      {
-        title: "Profile Optimization",
-        description:
-          "Complete and accurate business information, services, attributes, and descriptions aligned with search intent.",
-      },
-      {
-        title: "Categories & Services",
-        description:
-          "Strategic category selection and service listings that match how customers search for your business.",
-      },
-      {
-        title: "Reviews & Reputation",
-        description:
-          "Systems to earn more reviews, respond professionally, and build trust that influences rankings and conversions.",
-      },
-      {
-        title: "Posts & Updates",
-        description:
-          "Regular GBP posts that highlight offers, news, and expertise—keeping your profile active and relevant.",
-      },
-      {
-        title: "Photos & Media",
-        description:
-          "High-quality visuals that showcase your team, work, and location to increase engagement and clicks.",
-      },
-      {
-        title: "Map Visibility",
-        description:
-          "Ongoing optimization to improve local pack rankings and maximize calls, messages, and direction requests.",
-      },
-    ],
-    benefits: [
-      "Higher map pack rankings for priority searches",
-      "More profile views, calls, and website clicks",
-      "Stronger reputation through review growth",
-      "A profile that reflects your brand quality",
-    ],
-    process: [
-      {
-        step: "01",
-        title: "GBP audit",
-        description:
-          "We assess completeness, accuracy, category fit, reviews, and competitor profiles.",
-      },
-      {
-        step: "02",
-        title: "Optimization sprint",
-        description:
-          "We fix gaps, refine categories, enhance media, and align services with search demand.",
-      },
-      {
-        step: "03",
-        title: "Engagement cadence",
-        description:
-          "Posts, review responses, and updates that signal an active, trustworthy business.",
-      },
-      {
-        step: "04",
-        title: "Rank & refine",
-        description:
-          "Monitor map rankings and profile actions; adjust based on performance data.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Why does Google Business Profile matter so much?",
-        answer:
-          "For local businesses, GBP often appears above organic results and drives direct actions—calls, directions, and website visits. It's essential for Google Maps rankings.",
-      },
-      {
-        question: "Can you help us get more Google reviews?",
-        answer:
-          "Yes. We implement ethical review request workflows and response strategies that improve volume and quality without violating Google's policies.",
-      },
-    ],
-  },
-  "website-seo": {
-    slug: "website-seo",
-    title: "Website SEO for Small Businesses",
-    shortTitle: "Website SEO",
-    description:
-      "Build a website that ranks and converts. Optivox improves technical health, on-page optimization, content, speed, and user experience to capture organic search traffic.",
-    heroSubtitle:
-      "Your website should work for you 24/7—ranking for the searches that bring qualified customers.",
-    keywords: [
-      "website SEO",
-      "small business SEO",
-      "SEO for small businesses",
-      "on-page SEO",
-    ],
-    features: [
-      {
-        title: "Technical SEO",
-        description:
-          "Fix crawl issues, indexing problems, site structure, and technical barriers that limit visibility.",
-      },
-      {
-        title: "On-Page SEO",
-        description:
-          "Optimize titles, headings, metadata, and content for keywords your customers actually search.",
-      },
-      {
-        title: "Content Optimization",
-        description:
-          "Develop and refine pages that answer customer questions and demonstrate expertise.",
-      },
-      {
-        title: "Site Speed",
-        description:
-          "Improve Core Web Vitals and load times—critical for rankings and mobile user experience.",
-      },
-      {
-        title: "Internal Linking",
-        description:
-          "Structure links so Google and users discover your most important service and location pages.",
-      },
-      {
-        title: "User Experience",
-        description:
-          "Clear navigation, mobile-first design, and conversion paths that turn visitors into leads.",
-      },
-    ],
-    benefits: [
-      "Higher organic rankings for service and location keywords",
-      "Faster, more trustworthy website experience",
-      "More form submissions and phone calls from search",
-      "A scalable content foundation for long-term growth",
-    ],
-    process: [
-      {
-        step: "01",
-        title: "Technical review",
-        description:
-          "Audit crawlability, speed, mobile experience, and indexation.",
-      },
-      {
-        step: "02",
-        title: "On-page priorities",
-        description:
-          "Optimize high-impact pages first—services, locations, and conversion pages.",
-      },
-      {
-        step: "03",
-        title: "Content expansion",
-        description:
-          "Add or improve content that targets gaps in your search visibility.",
-      },
-      {
-        step: "04",
-        title: "Iterate on data",
-        description:
-          "Use ranking and analytics data to refine pages and internal linking.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Do I need a new website for SEO?",
-        answer:
-          "Not always. Many businesses see significant gains from optimization alone. We recommend redesigns only when technical or UX limitations block growth.",
-      },
-      {
-        question: "How does website SEO connect to local SEO?",
-        answer:
-          "Website authority and relevance reinforce Google Business Profile rankings. Local landing pages, NAP consistency, and service content strengthen both.",
-      },
-    ],
-  },
-  "seo-audit": {
-    slug: "seo-audit",
-    title: "SEO Audit & Google Visibility Review",
-    shortTitle: "SEO Audit",
-    description:
-      "Get a clear picture of your Google visibility with a comprehensive SEO audit. We review your website, Google Business Profile, competitors, and growth opportunities—then deliver an actionable plan.",
-    heroSubtitle:
-      "Know exactly where you're losing visibility—and what to fix first.",
-    keywords: [
-      "SEO audit",
-      "Google visibility audit",
-      "local SEO audit",
-      "free SEO audit",
-    ],
-    features: [
-      {
-        title: "Website Audit",
-        description:
-          "Technical health, on-page factors, content gaps, speed, and conversion paths reviewed in detail.",
-      },
-      {
-        title: "GBP Audit",
-        description:
-          "Profile completeness, category fit, reviews, photos, and comparison against local competitors.",
-      },
-      {
-        title: "Competitor Analysis",
-        description:
-          "See who outranks you, why they win, and where you can realistically gain ground.",
-      },
-      {
-        title: "Growth Opportunities",
-        description:
-          "Prioritized list of keywords, pages, and local tactics with the highest impact potential.",
-      },
-      {
-        title: "Action Plan",
-        description:
-          "A practical roadmap you can execute internally or with Optivox—no fluff, no jargon.",
-      },
-    ],
-    benefits: [
-      "Clarity on what's holding back your visibility",
-      "Prioritized recommendations—not a generic checklist",
-      "Competitive context for your market",
-      "Free Google Visibility Audit available for qualified businesses",
-    ],
-    process: [
-      {
-        step: "01",
-        title: "Submit your details",
-        description:
-          "Tell us about your business, website, and goals via our contact form.",
-      },
-      {
-        step: "02",
-        title: "We analyze",
-        description:
-          "Our team reviews website, GBP, rankings, and competitors—typically within 3–5 business days.",
-      },
-      {
-        step: "03",
-        title: "Receive your audit",
-        description:
-          "You get findings, opportunities, and a prioritized action plan.",
-      },
-      {
-        step: "04",
-        title: "Choose your path",
-        description:
-          "Implement on your own or partner with us for execution and ongoing growth.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Is the Google Visibility Audit really free?",
-        answer:
-          "Yes, for qualifying local businesses. There's no obligation. We use it to demonstrate our approach and identify whether we're a good fit to help you grow.",
-      },
-      {
-        question: "What do I receive after the audit?",
-        answer:
-          "A summary of key findings, competitive context, and prioritized recommendations for website, GBP, and local SEO—focused on business outcomes.",
-      },
-    ],
-  },
+export type Service = {
+  slug: ServiceSlug;
+  icon: "web" | "search" | "ai";
+  related: ServiceSlug[];
+  content: Record<Lang, ServiceContent>;
 };
 
-export const serviceList = Object.values(services);
+export const services: Service[] = [
+  {
+    slug: "website-development",
+    icon: "web",
+    related: ["seo", "ai-search-optimization"],
+    content: {
+      he: {
+        name: "בניית אתרים",
+        short: "אתר מהיר וברור, שבנוי להימצא בגוגל ולהביא פניות.",
+        metaTitle: "בניית אתרים לעסקים שבנויים להימצא בגוגל",
+        metaDescription:
+          "בניית אתרים לעסקים קטנים ובינוניים: מהירים, מותאמים לנייד, בנויים לקידום בגוגל ובמנועי AI, ועם מסלול ברור ליצירת קשר.",
+        eyebrow: "בניית אתרים",
+        h1: "אתר שעושה את העבודה: נטען מהר, מסביר ברור ומביא פניות",
+        intro:
+          "אנחנו בונים אתרים לעסקים קטנים ובינוניים, עם מבנה שגוגל ומנועי ה-AI מבינים, טקסטים שמדברים בשפה של הלקוחות שלכם ודרך פשוטה ליצור קשר מכל מסך.",
+        problem: {
+          title: "אתר יפה זה לא מספיק",
+          body: "הרבה אתרים נראים טוב, אבל נטענים לאט בנייד, לא מסבירים תוך שתי שניות מה העסק עושה, ובנויים כך שגוגל מתקשה להבין אותם. התוצאה: מבקרים שעוזבים ופניות שהולכות למתחרים.",
+        },
+        included: [
+          {
+            title: "מבנה עמודים לפי חיפושים",
+            body: "כל שירות מקבל עמוד משלו, עם כותרות ותוכן שעונים על מה שהלקוחות באמת מחפשים.",
+          },
+          {
+            title: "מהירות ונייד קודם",
+            body: "קוד נקי ותמונות מותאמות, כדי שהאתר ייטען מהר גם בטלפון ובחיבור חלש.",
+          },
+          {
+            title: "תשתית SEO מובנית",
+            body: "כותרות, תיאורים, מפת אתר, נתונים מובנים (Schema) וכתובות ברורות, כבר מהיום הראשון.",
+          },
+          {
+            title: "מוכן למנועי AI",
+            body: "תוכן בפורמט של שאלה ותשובה ומידע עקבי על העסק, כך שמנועים כמו ChatGPT יוכלו לצטט אתכם.",
+          },
+          {
+            title: "מסלול פנייה ברור",
+            body: "טופס קצר, כפתורי חיוג ו-WhatsApp וקריאה לפעולה בכל עמוד.",
+          },
+          {
+            title: "נגישות ושתי שפות",
+            body: "התאמה לתקן הנגישות הישראלי, ותמיכה מלאה בעברית ובאנגלית כשצריך.",
+          },
+        ],
+        process: [
+          {
+            title: "היכרות ואפיון",
+            body: "מבינים את העסק, את הלקוחות ואת המתחרים, ומגדירים מה האתר צריך להשיג.",
+          },
+          {
+            title: "מבנה ותוכן",
+            body: "בונים מפת עמודים לפי מחקר מילות מפתח, וכותבים או משכתבים את הטקסטים.",
+          },
+          {
+            title: "עיצוב ופיתוח",
+            body: "מעצבים לפי המותג שלכם ומפתחים אתר מהיר, נגיש ומותאם לנייד.",
+          },
+          {
+            title: "השקה ומדידה",
+            body: "מחברים ל-Google Search Console ולכלי מדידה, ובודקים שהכל עובד לפני העלייה לאוויר ואחריה.",
+          },
+        ],
+        fit: [
+          "אין לכם אתר, או שהאתר הנוכחי ישן ואיטי",
+          "אתם רוצים שהאתר יהיה הבסיס לקידום בגוגל וב-AI",
+          "חשוב לכם שלקוחות יפנו אליכם ישירות מהאתר",
+        ],
+        notFit: [
+          "אתם מחפשים רק עיצוב, בלי קשר לתוצאות",
+          "אתם צריכים מערכת מורכבת, כמו חנות עם אלפי מוצרים או אפליקציה",
+        ],
+        faqs: [
+          {
+            q: "כמה זמן לוקח לבנות אתר?",
+            a: "אתר לעסק קטן לוקח בדרך כלל כמה שבועות, תלוי בכמות העמודים ובזמינות התוכן. בפגישת ההיכרות נגדיר לוח זמנים מדויק.",
+          },
+          {
+            q: "האתר מגיע מוכן לקידום בגוגל?",
+            a: "כן. התשתית הטכנית לקידום, כמו מהירות, מבנה כותרות, מפת אתר ונתונים מובנים, נבנית כחלק מהאתר. קידום שוטף, כמו תוכן חדש וחיזוק סמכות, הוא שירות נפרד.",
+          },
+          {
+            q: "אפשר לשפר את האתר הקיים במקום לבנות חדש?",
+            a: "לפעמים כן. אנחנו מתחילים בבדיקה של האתר הקיים, ואם התשתית סבירה נמליץ לשפר אותה במקום להתחיל מאפס.",
+          },
+          {
+            q: "האתר יכול להיות בעברית ובאנגלית?",
+            a: "כן. אפשר לבנות אתר דו-לשוני, כולל התאמה מלאה לכתיבה מימין לשמאל ותגיות שמסבירות לגוגל איזו גרסה להציג לכל משתמש.",
+          },
+        ],
+      },
+      en: {
+        name: "Website development",
+        short: "Fast, clear websites built to be found and to bring in enquiries.",
+        metaTitle: "Website development for businesses that need to be found",
+        metaDescription:
+          "Websites for small and mid-sized businesses: fast, mobile-first, built for Google and AI search from day one, with a clear path to getting in touch.",
+        eyebrow: "Website development",
+        h1: "A website that does its job: loads fast, explains clearly, brings in enquiries",
+        intro:
+          "We build websites for small and mid-sized businesses, with a structure Google and AI engines understand, copy written in your customers' language, and an easy way to reach you from every screen.",
+        problem: {
+          title: "Looking good isn't enough",
+          body: "Plenty of websites look great but load slowly on mobile, take too long to say what the business does, and are built in a way Google struggles to read. Visitors leave, and the enquiries go to competitors.",
+        },
+        included: [
+          {
+            title: "Page structure built around searches",
+            body: "Every service gets its own page, with headings and copy that answer what customers actually search for.",
+          },
+          {
+            title: "Speed and mobile first",
+            body: "Clean code and optimized images, so pages load fast even on a phone with a weak connection.",
+          },
+          {
+            title: "SEO foundations built in",
+            body: "Titles, descriptions, sitemap, structured data (schema) and clean URLs from day one.",
+          },
+          {
+            title: "Ready for AI engines",
+            body: "Question-and-answer content and consistent business details, so engines like ChatGPT can cite you.",
+          },
+          {
+            title: "A clear path to contact",
+            body: "A short form, call and WhatsApp buttons, and a call to action on every page.",
+          },
+          {
+            title: "Accessible and bilingual",
+            body: "Built to accessibility standards, with full Hebrew and English support when you need it.",
+          },
+        ],
+        process: [
+          {
+            title: "Discovery",
+            body: "We learn your business, customers and competitors, and define what the site needs to achieve.",
+          },
+          {
+            title: "Structure and content",
+            body: "We map pages from keyword research, then write or rewrite the copy.",
+          },
+          {
+            title: "Design and build",
+            body: "We design around your brand and build a fast, accessible, mobile-first site.",
+          },
+          {
+            title: "Launch and measurement",
+            body: "We connect Google Search Console and analytics, and check everything works before and after launch.",
+          },
+        ],
+        fit: [
+          "You don't have a website, or yours is old and slow",
+          "You want the site to be the foundation for Google and AI visibility",
+          "You want customers to contact you directly from the site",
+        ],
+        notFit: [
+          "You only want a visual redesign, regardless of results",
+          "You need a complex system, like a store with thousands of products or an app",
+        ],
+        faqs: [
+          {
+            q: "How long does it take to build a website?",
+            a: "A small-business website usually takes a few weeks, depending on the number of pages and how quickly content is ready. We set an exact timeline in our first meeting.",
+          },
+          {
+            q: "Is the site ready for SEO when it launches?",
+            a: "Yes. Technical SEO foundations like speed, heading structure, sitemap and structured data are part of the build. Ongoing SEO, like new content and building authority, is a separate service.",
+          },
+          {
+            q: "Can you improve my existing site instead of building a new one?",
+            a: "Sometimes, yes. We start by reviewing your current site, and if the foundation is reasonable we'll recommend improving it rather than starting over.",
+          },
+          {
+            q: "Can the site be in both Hebrew and English?",
+            a: "Yes. We build bilingual sites with full right-to-left support for Hebrew, plus the tags that tell Google which version to show each visitor.",
+          },
+        ],
+      },
+    },
+  },
+  {
+    slug: "seo",
+    icon: "search",
+    related: ["ai-search-optimization", "website-development"],
+    content: {
+      he: {
+        name: "קידום אתרים בגוגל",
+        short: "להופיע גבוה בחיפוש ובגוגל מפות, כשמחפשים בדיוק את מה שאתם עושים.",
+        metaTitle: "קידום אתרים אורגני בגוגל ובגוגל מפות לעסקים",
+        metaDescription:
+          "קידום אורגני לעסקים קטנים ובינוניים: מחקר מילות מפתח, SEO טכני, תוכן, קידום מקומי ופרופיל עסק בגוגל, עם דוח חודשי בשפה פשוטה.",
+        eyebrow: "קידום בגוגל (SEO)",
+        h1: "להופיע בגוגל בדיוק כשלקוחות מחפשים את מה שאתם עושים",
+        intro:
+          "קידום אורגני בחיפוש ובגוגל מפות, שמתמקד בחיפושים שמביאים פניות ולא רק תנועה: מחקר, תיקונים טכניים, תוכן ופרופיל העסק בגוגל.",
+        problem: {
+          title: "רוב הלקוחות לא מגיעים לעמוד השני",
+          body: "כשמישהו מחפש \"רואה חשבון ברמת גן\" או \"שיפוצים בחיפה\", הוא בוחר מבין התוצאות הראשונות ומפת העסקים. אם אתם לא שם, הפנייה הולכת למתחרה, גם אם השירות שלכם טוב יותר.",
+        },
+        included: [
+          {
+            title: "מחקר מילות מפתח עם כוונת קנייה",
+            body: "מאתרים את החיפושים שאנשים עושים רגע לפני שהם פונים לעסק כמו שלכם.",
+          },
+          {
+            title: "SEO טכני",
+            body: "מהירות, סריקה ואינדוקס, מבנה כתובות, נתונים מובנים ותיקון שגיאות שמעכבות את האתר.",
+          },
+          {
+            title: "עמודים ותוכן",
+            body: "שיפור עמודים קיימים ויצירת עמודי שירות ואזורי שירות שעונים על השאלות של הלקוחות.",
+          },
+          {
+            title: "קידום מקומי וגוגל מפות",
+            body: "אופטימיזציה של פרופיל העסק בגוגל: קטגוריות, תמונות, פוסטים ופרטי עסק עקביים ברחבי הרשת.",
+          },
+          {
+            title: "חיזוק סמכות",
+            body: "אזכורים וקישורים מאתרים רלוונטיים ואמינים, בלי קיצורי דרך מסוכנים.",
+          },
+          {
+            title: "דוח חודשי ברור",
+            body: "מה עשינו, מה השתנה בדירוגים ובפניות ומה הצעד הבא, בשפה פשוטה.",
+          },
+        ],
+        process: [
+          {
+            title: "בדיקת נראות",
+            body: "בודקים איפה אתם מופיעים היום, מה מעכב את האתר ואיפה המתחרים מקדימים אתכם.",
+          },
+          {
+            title: "תוכנית עבודה",
+            body: "מתעדפים לפי ההשפעה הצפויה: קודם מה שיביא פניות הכי מהר.",
+          },
+          {
+            title: "ביצוע שוטף",
+            body: "תיקונים טכניים, תוכן, פרופיל העסק וחיזוק סמכות, באופן קבוע.",
+          },
+          {
+            title: "מדידה ושיפור",
+            body: "עוקבים אחרי דירוגים, תנועה ופניות, ומעדכנים את התוכנית כל חודש.",
+          },
+        ],
+        fit: [
+          "יש לכם לקוחות שמחפשים את השירות שלכם בגוגל",
+          "אתם מוכנים להשקיע כמה חודשים כדי לבנות תוצאות יציבות",
+          "אתם רוצים להפחית את התלות בפרסום ממומן",
+        ],
+        notFit: [
+          "אתם צריכים פניות כבר מחר בבוקר. לזה פרסום ממומן מתאים יותר",
+          "אתם מחפשים הבטחה למקום ראשון. אף אחד לא יכול להבטיח את זה ביושר",
+        ],
+        faqs: [
+          {
+            q: "תוך כמה זמן רואים תוצאות?",
+            a: "שיפורים טכניים ושיפורים בפרופיל העסק יכולים להשפיע תוך שבועות. דירוגים יציבים בביטויים תחרותיים לוקחים בדרך כלל כמה חודשים. כבר בבדיקה הראשונית נציג לכם מה מציאותי בתחום שלכם.",
+          },
+          {
+            q: "אתם מבטיחים מקום ראשון בגוגל?",
+            a: "לא. אף אחד לא יכול להבטיח מיקום בגוגל, ומי שמבטיח עלול להשתמש בשיטות שמסכנות את האתר. אנחנו מתחייבים לעבודה שקופה ולמדידה של מה שבאמת חשוב: פניות.",
+          },
+          {
+            q: "מה ההבדל בין קידום אורגני לפרסום ממומן?",
+            a: "בפרסום ממומן משלמים על כל קליק, והתנועה נעצרת כשמפסיקים לשלם. קידום אורגני בונה נכס: ככל שהאתר מתחזק, הוא ממשיך להביא תנועה בלי תשלום על כל ביקור.",
+          },
+          {
+            q: "הקידום כולל את פרופיל העסק בגוגל?",
+            a: "כן. לעסקים מקומיים, פרופיל העסק בגוגל ומפות הם לרוב המקור הגדול ביותר לשיחות ולפניות, ולכן הוא חלק מרכזי בעבודה.",
+          },
+        ],
+      },
+      en: {
+        name: "SEO",
+        short: "Rank on Google Search and Maps when people look for exactly what you do.",
+        metaTitle: "Organic SEO for Google Search and Google Maps",
+        metaDescription:
+          "Organic SEO for small and mid-sized businesses: keyword research, technical SEO, content, local SEO and Google Business Profile, with a plain-language monthly report.",
+        eyebrow: "Search engine optimization",
+        h1: "Show up on Google exactly when customers search for what you do",
+        intro:
+          "Organic SEO for Search and Google Maps, focused on the searches that bring enquiries, not just traffic: research, technical fixes, content and your Google Business Profile.",
+        problem: {
+          title: "Most customers never reach page two",
+          body: "When someone searches \"accountant in Tel Aviv\" or \"kitchen renovation Haifa\", they choose from the top results and the map pack. If you're not there, the enquiry goes to a competitor, even if your service is better.",
+        },
+        included: [
+          {
+            title: "Keyword research with buying intent",
+            body: "We find the searches people make right before they contact a business like yours.",
+          },
+          {
+            title: "Technical SEO",
+            body: "Speed, crawling and indexing, URL structure, structured data, and fixing errors that hold the site back.",
+          },
+          {
+            title: "Pages and content",
+            body: "We improve existing pages and create service and location pages that answer customers' questions.",
+          },
+          {
+            title: "Local SEO and Google Maps",
+            body: "Google Business Profile optimization: categories, photos, posts and consistent business details across the web.",
+          },
+          {
+            title: "Building authority",
+            body: "Mentions and links from relevant, trustworthy sites, with no risky shortcuts.",
+          },
+          {
+            title: "A clear monthly report",
+            body: "What we did, what changed in rankings and enquiries, and what's next, in plain language.",
+          },
+        ],
+        process: [
+          {
+            title: "Visibility audit",
+            body: "We check where you show up today, what's holding the site back and where competitors are ahead.",
+          },
+          {
+            title: "Action plan",
+            body: "We prioritize by expected impact: whatever brings enquiries fastest comes first.",
+          },
+          {
+            title: "Ongoing execution",
+            body: "Technical fixes, content, your business profile and authority building, every month.",
+          },
+          {
+            title: "Measure and improve",
+            body: "We track rankings, traffic and enquiries, and update the plan every month.",
+          },
+        ],
+        fit: [
+          "Your customers search for your service on Google",
+          "You're willing to invest a few months to build lasting results",
+          "You want to depend less on paid ads",
+        ],
+        notFit: [
+          "You need leads tomorrow morning. Paid ads are a better fit for that",
+          "You want a guaranteed #1 ranking. Nobody can honestly promise that",
+        ],
+        faqs: [
+          {
+            q: "How long until I see results?",
+            a: "Technical and business-profile improvements can make a difference within weeks. Stable rankings for competitive terms usually take a few months. We'll show you what's realistic for your market in the initial audit.",
+          },
+          {
+            q: "Do you guarantee a #1 ranking on Google?",
+            a: "No. Nobody can guarantee a position on Google, and anyone who does may be using tactics that put your site at risk. We commit to transparent work and to measuring what matters: enquiries.",
+          },
+          {
+            q: "What's the difference between SEO and paid ads?",
+            a: "With paid ads you pay for every click, and traffic stops when you stop paying. SEO builds an asset: as the site grows stronger, it keeps bringing visitors without paying for each one.",
+          },
+          {
+            q: "Does SEO include my Google Business Profile?",
+            a: "Yes. For local businesses, the Google Business Profile and Maps are often the biggest source of calls and enquiries, so they're a core part of the work.",
+          },
+        ],
+      },
+    },
+  },
+  {
+    slug: "ai-search-optimization",
+    icon: "ai",
+    related: ["seo", "website-development"],
+    content: {
+      he: {
+        name: "קידום במנועי AI",
+        short: "שהעסק שלכם יומלץ בתשובות של ChatGPT, Gemini ו-Google AI Overviews.",
+        metaTitle: "קידום במנועי AI וב-ChatGPT (GEO) לעסקים",
+        metaDescription:
+          "קידום GEO לעסקים: בודקים מה ChatGPT, Gemini, Perplexity ו-Google AI Overviews עונים על התחום שלכם, ובונים את המידע והסמכות שיגרמו להם להמליץ עליכם.",
+        eyebrow: "קידום במנועי AI (GEO)",
+        h1: "כשלקוחות שואלים את ChatGPT, שהעסק שלכם יהיה בתשובה",
+        intro:
+          "יותר ויותר אנשים מבקשים המלצות מצ'אטים ומתשובות ה-AI של גוגל, במקום לעבור על רשימת תוצאות. אנחנו עוזרים למנועים האלה להכיר את העסק שלכם, לסמוך עליו ולהזכיר אותו.",
+        problem: {
+          title: "בתשובה של AI יש מקום רק לכמה שמות",
+          body: "כשמישהו שואל \"איזה רואה חשבון מומלץ לעסק קטן במרכז?\", הצ'אט עונה עם שניים או שלושה שמות. המנועים בוחרים עסקים שהמידע עליהם ברור, עקבי ונתמך במקורות אמינים. אם המידע עליכם חסר או סותר, הם ימליצו על מישהו אחר.",
+        },
+        included: [
+          {
+            title: "בדיקת נראות ב-AI",
+            body: "שואלים את ChatGPT, Gemini, Perplexity ו-Google AI Overviews את השאלות שהלקוחות שלכם שואלים, ומתעדים מי מוזכר, אילו מקורות מצוטטים ואיפה אתם חסרים.",
+          },
+          {
+            title: "זהות עסק ברורה ועקבית",
+            body: "שם, תחום, אזור שירות ופרטי קשר זהים באתר, בפרופיל העסק בגוגל ובאתרים חיצוניים, עם נתונים מובנים (Schema).",
+          },
+          {
+            title: "תוכן שקל לצטט",
+            body: "עמודים שעונים ישירות על שאלות, עם עובדות והסברים ברורים, בפורמט שקל לחלץ ממנו תשובה.",
+          },
+          {
+            title: "סמכות ממקורות חיצוניים",
+            body: "אזכורים בכתבות, באינדקסים, בביקורות ובאתרי תוכן שהמנועים נשענים עליהם.",
+          },
+          {
+            title: "תשתית טכנית",
+            body: "גישה של סורקי AI לאתר, קובץ llms.txt, מפת אתר ועמודים מהירים שקל לקרוא.",
+          },
+          {
+            title: "מעקב חודשי",
+            body: "בודקים כל חודש את אותן שאלות, ומדווחים על אזכורים, ציטוטים ותנועה שמגיעה מצ'אטים.",
+          },
+        ],
+        process: [
+          {
+            title: "מיפוי השאלות",
+            body: "מגדירים את השאלות שלקוחות שואלים לפני שהם בוחרים עסק בתחום שלכם.",
+          },
+          {
+            title: "בדיקת מצב קיים",
+            body: "מריצים את השאלות במנועים השונים ומזהים את הפערים מול המתחרים.",
+          },
+          {
+            title: "סגירת פערים",
+            body: "מתקנים את המידע על העסק, מוסיפים תוכן חסר ומחזקים אזכורים חיצוניים.",
+          },
+          {
+            title: "מעקב ושיפור",
+            body: "מודדים כל חודש ומתעדפים מחדש לפי מה שמשתנה.",
+          },
+        ],
+        fit: [
+          "לקוחות בתחום שלכם משווים ובודקים לפני שהם בוחרים",
+          "כבר יש לכם אתר ופרופיל עסק, ואתם רוצים להקדים את המתחרים",
+          "חשוב לכם להופיע גם בגוגל וגם בצ'אטים",
+        ],
+        notFit: [
+          "אתם מחפשים הבטחה שהצ'אט ימליץ עליכם. אי אפשר להבטיח את זה ביושר",
+          "עדיין אין לכם אתר. במקרה כזה מתחילים מבניית אתר",
+        ],
+        faqs: [
+          {
+            q: "מה זה GEO?",
+            a: "GEO (Generative Engine Optimization) הוא קידום שמטרתו להופיע בתשובות שמנועי AI מייצרים, כמו ChatGPT, Gemini, Perplexity ו-Google AI Overviews. בקידום רגיל המטרה היא מקום ברשימת התוצאות. ב-GEO המטרה היא שהעסק יוזכר או יצוטט בתוך התשובה עצמה.",
+          },
+          {
+            q: "זה מחליף קידום בגוגל?",
+            a: "לא, זה משלים אותו. מנועי AI נשענים במידה רבה על אותו מידע שגוגל מדרג: האתר שלכם, פרופיל העסק, ביקורות ואזכורים. בסיס SEO חזק מקל מאוד על קידום ב-AI.",
+          },
+          {
+            q: "אתם יכולים להבטיח שהצ'אט ימליץ עליי?",
+            a: "לא, ואף אחד לא יכול להבטיח את זה ביושר. מה שאפשר לעשות זה לסגור כל פער שבשליטתנו, ולמדוד כל חודש אם האזכורים שלכם עולים.",
+          },
+          {
+            q: "איך מודדים תוצאות?",
+            a: "בודקים קבוצה קבועה של שאלות בכל מנוע, ועוקבים אחרי כמה פעמים אתם מוזכרים, אילו עמודים שלכם מצוטטים וכמה ביקורים מגיעים לאתר מצ'אטים.",
+          },
+        ],
+      },
+      en: {
+        name: "AI search optimization",
+        short: "Get recommended in ChatGPT, Gemini, Perplexity and Google AI Overviews.",
+        metaTitle: "AI search optimization (GEO) for ChatGPT, Gemini and AI Overviews",
+        metaDescription:
+          "Generative engine optimization for businesses: we check what ChatGPT, Gemini, Perplexity and Google AI Overviews say about your market, then build the information and authority that gets you recommended.",
+        eyebrow: "AI search optimization (GEO)",
+        h1: "When customers ask ChatGPT, make sure your business is in the answer",
+        intro:
+          "More and more people ask chatbots and Google's AI answers for recommendations instead of scanning a list of results. We help those engines know your business, trust it and mention it.",
+        problem: {
+          title: "An AI answer only has room for a few names",
+          body: "When someone asks \"which accountant do you recommend for a small business in Tel Aviv?\", the chatbot replies with two or three names. Engines pick businesses whose information is clear, consistent and backed by trusted sources. If yours is missing or contradictory, they'll recommend someone else.",
+        },
+        included: [
+          {
+            title: "AI visibility audit",
+            body: "We ask ChatGPT, Gemini, Perplexity and Google AI Overviews the questions your customers ask, and log who gets mentioned, which sources are cited and where you're missing.",
+          },
+          {
+            title: "A clear, consistent business identity",
+            body: "The same name, category, service area and contact details on your site, your Google Business Profile and other sites, backed by structured data.",
+          },
+          {
+            title: "Content that's easy to cite",
+            body: "Pages that answer questions directly, with clear facts and explanations, in a format engines can lift an answer from.",
+          },
+          {
+            title: "Authority from outside sources",
+            body: "Mentions in articles, directories, reviews and the content sites AI engines rely on.",
+          },
+          {
+            title: "Technical groundwork",
+            body: "Access for AI crawlers, an llms.txt file, a sitemap and fast pages that are easy to read.",
+          },
+          {
+            title: "Monthly tracking",
+            body: "We re-run the same questions every month and report on mentions, citations and traffic coming from chatbots.",
+          },
+        ],
+        process: [
+          {
+            title: "Map the questions",
+            body: "We define the questions customers ask before they choose a business in your field.",
+          },
+          {
+            title: "Check where you stand",
+            body: "We run those questions across the engines and identify the gaps versus competitors.",
+          },
+          {
+            title: "Close the gaps",
+            body: "We fix your business information, add missing content and strengthen outside mentions.",
+          },
+          {
+            title: "Track and improve",
+            body: "We measure every month and re-prioritize based on what moves.",
+          },
+        ],
+        fit: [
+          "Customers in your field compare options before they choose",
+          "You already have a website and business profile, and want to get ahead of competitors",
+          "You want to show up on Google and in chatbots",
+        ],
+        notFit: [
+          "You want a guarantee that chatbots will recommend you. Nobody can honestly promise that",
+          "You don't have a website yet. In that case, start with website development",
+        ],
+        faqs: [
+          {
+            q: "What is GEO?",
+            a: "GEO (generative engine optimization) is the practice of getting your business into the answers AI engines generate, such as ChatGPT, Gemini, Perplexity and Google AI Overviews. Traditional SEO aims for a position in a list of results. GEO aims for your business to be mentioned or cited inside the answer itself.",
+          },
+          {
+            q: "Does it replace SEO?",
+            a: "No, it complements it. AI engines rely heavily on the same information Google ranks: your website, your business profile, reviews and mentions. A strong SEO foundation makes AI visibility much easier.",
+          },
+          {
+            q: "Can you guarantee that chatbots will recommend me?",
+            a: "No, and nobody can honestly guarantee it. What we can do is close every gap within our control and measure every month whether your mentions are growing.",
+          },
+          {
+            q: "How do you measure results?",
+            a: "We test a fixed set of questions in each engine and track how often you're mentioned, which of your pages are cited, and how many visits reach your site from chatbots.",
+          },
+        ],
+      },
+    },
+  },
+];
+
+export function getService(slug: ServiceSlug): Service {
+  const service = services.find((s) => s.slug === slug);
+  if (!service) throw new Error(`Unknown service: ${slug}`);
+  return service;
+}

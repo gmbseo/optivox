@@ -1,0 +1,108 @@
+---
+import { site } from "@/config/site";
+import { type Lang } from "@/i18n";
+import Base from "@/layouts/Base.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const updated = "2026-10-14";
+
+const copy = {
+  he: {
+    title: "הצהרת נגישות",
+    description: "הצהרת הנגישות של אתר Optivox: ההתאמות שבוצעו באתר ודרכים ליצירת קשר בנושא נגישות.",
+    sections: [
+      {
+        h: "המחויבות שלנו",
+        p: "אנחנו רואים חשיבות רבה בכך שהאתר יהיה נגיש לכל המשתמשים, כולל אנשים עם מוגבלות. האתר נבנה במטרה לעמוד בדרישות התקן הישראלי ת\"י 5568 ובהנחיות WCAG 2.1 ברמה AA.",
+      },
+      {
+        h: "התאמות שבוצעו באתר",
+        list: [
+          "מבנה כותרות היררכי וסימון סמנטי של אזורי העמוד",
+          "ניווט מלא באמצעות המקלדת, כולל קישור לדילוג לתוכן הראשי",
+          "סימון ברור של הרכיב שבפוקוס",
+          "ניגודיות צבעים מספקת וטקסט שניתן להגדלה",
+          "טקסט חלופי לתמונות ותוויות לשדות בטפסים",
+          "התאמה לקוראי מסך, לתצוגה בנייד ולכתיבה מימין לשמאל",
+        ],
+      },
+      {
+        h: "מגבלות ידועות",
+        p: "אנחנו ממשיכים לבדוק ולשפר את האתר. אם נתקלתם ברכיב שאינו נגיש, נשמח שתעדכנו אותנו ונפעל לתקן אותו בהקדם.",
+      },
+      {
+        h: "יצירת קשר בנושא נגישות",
+        p: "לפניות בנושא נגישות אפשר לכתוב לנו לכתובת:",
+      },
+    ],
+    updatedLabel: "ההצהרה עודכנה לאחרונה בתאריך",
+  },
+  en: {
+    title: "Accessibility statement",
+    description: "The Optivox accessibility statement: the adjustments made on this site and how to contact us about accessibility.",
+    sections: [
+      {
+        h: "Our commitment",
+        p: "We want this site to be accessible to everyone, including people with disabilities. It was built to meet Israeli Standard 5568 and WCAG 2.1 level AA.",
+      },
+      {
+        h: "What we've done",
+        list: [
+          "A clear heading hierarchy and semantic page regions",
+          "Full keyboard navigation, including a skip-to-content link",
+          "A clearly visible focus indicator",
+          "Sufficient color contrast and resizable text",
+          "Alternative text for images and labels for form fields",
+          "Support for screen readers, mobile devices and right-to-left text",
+        ],
+      },
+      {
+        h: "Known limitations",
+        p: "We keep testing and improving the site. If you come across something that isn't accessible, please let us know and we'll fix it as soon as we can.",
+      },
+      {
+        h: "Contact us about accessibility",
+        p: "For accessibility questions or feedback, email us at:",
+      },
+    ],
+    updatedLabel: "Last updated",
+  },
+}[lang];
+---
+
+<Base lang={lang} title={copy.title} description={copy.description} path="/accessibility/">
+  <section class="border-b border-border/60 bg-paper">
+    <div class="container-site py-14 sm:py-20">
+      <h1 class="text-4xl font-extrabold sm:text-5xl">{copy.title}</h1>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container-site flex max-w-3xl flex-col gap-10">
+      {
+        copy.sections.map((s, i) => (
+          <div>
+            <h2 class="text-2xl font-bold">{s.h}</h2>
+            {"p" in s && <p class="mt-3 text-lg leading-relaxed text-muted-foreground">{s.p}</p>}
+            {"list" in s && s.list && (
+              <ul class="mt-4 list-disc space-y-2 ps-6 text-lg leading-relaxed text-muted-foreground marker:text-accent">
+                {s.list.map((item) => <li>{item}</li>)}
+              </ul>
+            )}
+            {i === copy.sections.length - 1 && (
+              <a href={`mailto:${site.email}`} class="mt-2 inline-block text-lg font-semibold text-brand hover:text-accent" dir="ltr">
+                {site.email}
+              </a>
+            )}
+          </div>
+        ))
+      }
+      <p class="text-sm text-muted-foreground">
+        {copy.updatedLabel}: <time datetime={updated}>{new Date(updated).toLocaleDateString(lang === "he" ? "he-IL" : "en-GB")}</time>
+      </p>
+    </div>
+  </section>
+</Base>
