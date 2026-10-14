@@ -16,11 +16,11 @@ const heading = "mb-1 text-sm font-semibold text-ink";
 const link = "text-sm text-muted-foreground transition-colors hover:text-foreground";
 ---
 
-<footer class="border-t border-border bg-paper">
+<footer class="border-t border-[#e2ddcf]/60 bg-nav">
   <div class="container-site grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] lg:py-20">
     <div class="flex flex-col items-start gap-5">
       <a href={href("/")} class="w-fit">
-        <img src="/logo_white.jpeg" alt={`${site.name} logo`} width="1280" height="470" class="h-12 w-auto" loading="lazy" />
+        <img src={site.logo} alt={`${site.name} logo`} width="1280" height="472" class="h-12 w-auto" loading="lazy" />
       </a>
       <p class="max-w-xs font-display text-xl leading-snug text-ink text-pretty">{copy.footer.tagline}</p>
       <a href={href("/contact/")} class="btn-primary px-5 py-2.5 text-sm">{copy.cta.audit}</a>
@@ -45,7 +45,7 @@ const link = "text-sm text-muted-foreground transition-colors hover:text-foregro
       {site.whatsapp && <a href={`https://wa.me/${site.whatsapp}`} class={link} rel="noopener">WhatsApp</a>}
     </div>
   </div>
-  <div class="border-t border-border">
+  <div class="border-t border-[#e2ddcf]">
     <p class="container-site py-5 text-xs text-muted-foreground">© {year} {site.name}. {copy.footer.rights}</p>
   </div>
 </footer>
