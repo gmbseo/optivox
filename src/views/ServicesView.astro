@@ -2,6 +2,7 @@
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CtaBand from "@/components/CtaBand.astro";
 import Icon from "@/components/Icon.astro";
+import ServiceCard from "@/components/ServiceCard.astro";
 import { services } from "@/content/services";
 import { localePath, type Lang } from "@/i18n";
 import { t } from "@/i18n/ui";
@@ -44,38 +45,42 @@ const copy = {
 ---
 
 <Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/services/" jsonLd={[breadcrumbSchema(base, crumbs)]}>
-  <section class="border-b border-border/60 bg-paper">
-    <div class="container-site py-14 sm:py-20">
+  <section class="bg-[linear-gradient(to_bottom,var(--color-paper)_55%,var(--color-background)_55%)]">
+    <div class="container-site pt-10 sm:pt-14">
       <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
-      <h1 class="mt-10 max-w-3xl text-4xl font-extrabold sm:text-5xl">{copy.h1}</h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">{copy.lead}</p>
+      <div class="mx-auto mt-10 max-w-3xl text-center lg:mt-14">
+        <h1 class="h-display">{copy.h1}</h1>
+        <p class="lead mx-auto mt-6 max-w-2xl">{copy.lead}</p>
+      </div>
+      <div class="mt-14 grid gap-5 lg:grid-cols-3">
+        {services.map((s, i) => <ServiceCard service={s} lang={lang} index={i} headingLevel="h2" />)}
+      </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container-site flex flex-col gap-6">
+    <div class="container-site flex flex-col gap-5">
       {
         services.map((s, i) => {
           const c = s.content[lang];
           return (
-            <article class="card grid gap-8 bg-white lg:grid-cols-[auto_1fr_1fr] lg:items-start">
-              <span class="flex size-14 items-center justify-center rounded-2xl bg-brand text-paper">
-                <Icon name={s.icon} class="size-7" strokeWidth={1.75} />
-              </span>
+            <article class="grid gap-10 rounded-[var(--radius-panel)] border-t-4 border-sun bg-white p-8 shadow-xl shadow-ink/5 sm:p-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16 lg:p-14">
               <div>
-                <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
-                <h2 class="mt-1 text-2xl font-bold sm:text-3xl">{c.name}</h2>
-                <p class="mt-3 text-lg leading-relaxed text-muted-foreground">{c.intro}</p>
-                <a href={href(`/services/${s.slug}/`)} class="mt-6 inline-flex items-center gap-2 font-semibold text-brand hover:text-accent">
+                <span class="font-display text-5xl text-brand/15 tabular-nums">0{i + 1}</span>
+                <h3 class="mt-3 font-display text-3xl font-medium">{c.name}</h3>
+                <p class="mt-4 text-lg leading-relaxed text-muted-foreground">{c.intro}</p>
+                <a href={href(`/services/${s.slug}/`)} class="btn-secondary mt-8">
                   {ui.common.learnMore}
                   <Icon name="arrow" class="size-4 flip-rtl" />
                 </a>
               </div>
-              <ul class="flex flex-col gap-3 border-border lg:border-s lg:ps-8">
-                {c.included.slice(0, 4).map((item) => (
+              <ul class="grid content-start gap-x-8 gap-y-5 sm:grid-cols-2">
+                {c.included.map((item) => (
                   <li class="flex gap-3">
-                    <Icon name="check" class="mt-1 size-4 shrink-0 text-accent" strokeWidth={2.5} />
-                    <span>{item.title}</span>
+                    <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+                      <Icon name="check" class="size-3.5" strokeWidth={3} />
+                    </span>
+                    <span class="font-medium text-ink">{item.title}</span>
                   </li>
                 ))}
               </ul>

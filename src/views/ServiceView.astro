@@ -3,6 +3,10 @@ import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CtaBand from "@/components/CtaBand.astro";
 import Faq from "@/components/Faq.astro";
 import Icon from "@/components/Icon.astro";
+import ServiceCard from "@/components/ServiceCard.astro";
+import ServiceVisual from "@/components/ServiceVisual.astro";
+import Steps from "@/components/Steps.astro";
+import Topo from "@/components/Topo.astro";
 import { getService, type ServiceSlug } from "@/content/services";
 import { localePath, type Lang } from "@/i18n";
 import { t } from "@/i18n/ui";
@@ -26,14 +30,18 @@ const crumbs = [
   { name: ui.nav.services, href: href("/services/") },
   { name: c.name, href: href(path) },
 ];
-const ctaCopy = {
+const local = {
   he: {
-    title: "נתחיל בבדיקה חינם",
-    body: "נבדוק איפה אתם עומדים היום ונראה לכם בדיוק מה הצעד הראשון, בלי התחייבות.",
+    challenge: "האתגר",
+    process: "התהליך",
+    ctaTitle: "נתחיל בבדיקה חינם",
+    ctaBody: "נבדוק איפה אתם עומדים היום ונראה לכם בדיוק מה הצעד הראשון, בלי התחייבות.",
   },
   en: {
-    title: "Start with a free audit",
-    body: "We'll check where you stand today and show you exactly what the first step should be. No commitment.",
+    challenge: "The challenge",
+    process: "The process",
+    ctaTitle: "Start with a free audit",
+    ctaBody: "We'll check where you stand today and show you exactly what the first step should be. No commitment.",
   },
 }[lang];
 ---
@@ -49,46 +57,51 @@ const ctaCopy = {
     breadcrumbSchema(base, crumbs),
   ]}
 >
-  <section class="border-b border-border/60 bg-paper">
-    <div class="container-site py-14 sm:py-20 lg:py-24">
+  <section class="bg-paper">
+    <div class="container-site pt-10 pb-16 sm:pt-14 sm:pb-20 lg:pb-24">
       <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
-      <div class="mt-10 grid items-end gap-10 lg:grid-cols-[1.6fr_1fr]">
+      <div class="mt-10 grid items-center gap-12 lg:mt-14 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
         <div>
           <p class="eyebrow">{c.eyebrow}</p>
-          <h1 class="mt-4 text-4xl leading-[1.12] font-extrabold sm:text-5xl">{c.h1}</h1>
-          <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">{c.intro}</p>
-          <div class="mt-8 flex flex-wrap gap-3">
+          <h1 class="mt-5 text-[2.6rem] leading-[1.06] sm:text-5xl lg:text-6xl">{c.h1}</h1>
+          <p class="lead mt-6 max-w-xl">{c.intro}</p>
+          <div class="mt-9 flex flex-wrap gap-3">
             <a href={`${href("/contact/")}?service=${slug}`} class="btn-primary">
               {ui.cta.audit}
               <Icon name="arrow" class="size-4 flip-rtl" />
             </a>
+            <a href="#included-title" class="btn-secondary">{ui.common.whatsIncluded}</a>
           </div>
         </div>
-        <span class="hidden size-28 items-center justify-center justify-self-end rounded-[2rem] bg-brand text-paper lg:flex" aria-hidden="true">
-          <Icon name={service.icon} class="size-12" strokeWidth={1.5} />
-        </span>
+        <div class="panel-dark flex min-h-[26rem] items-center px-8 pt-10 pb-16 sm:px-14">
+          <Topo class="text-paper/[0.08]" />
+          <ServiceVisual kind={service.icon} lang={lang} />
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container-site grid gap-6 lg:grid-cols-[1fr_2fr]">
-      <h2 class="text-3xl font-bold sm:text-4xl">{c.problem.title}</h2>
-      <p class="text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">{c.problem.body}</p>
+    <div class="container-site grid gap-8 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <p class="eyebrow">{local.challenge}</p>
+        <h2 class="h-section mt-4">{c.problem.title}</h2>
+      </div>
+      <p class="lead lg:pt-12">{c.problem.body}</p>
     </div>
   </section>
 
-  <section class="section border-y border-border/60 bg-paper" aria-labelledby="included-title">
+  <section class="pb-20 sm:pb-24 lg:pb-32" aria-labelledby="included-title">
     <div class="container-site">
-      <h2 id="included-title" class="text-3xl font-bold sm:text-4xl">{ui.common.whatsIncluded}</h2>
-      <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <h2 id="included-title" class="h-section scroll-mt-28">{ui.common.whatsIncluded}</h2>
+      <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {
           c.included.map((item) => (
-            <li class="card bg-white">
-              <span class="flex size-9 items-center justify-center rounded-lg bg-accent/15 text-brand">
-                <Icon name="check" class="size-4" strokeWidth={2.5} />
+            <li class="rounded-[var(--radius-card)] bg-muted p-7 sm:p-8">
+              <span class="flex size-10 items-center justify-center rounded-full bg-white text-accent shadow-sm">
+                <Icon name="check" class="size-4" strokeWidth={2.75} />
               </span>
-              <h3 class="mt-4 text-lg font-semibold">{item.title}</h3>
+              <h3 class="mt-6 text-lg">{item.title}</h3>
               <p class="mt-2 leading-relaxed text-muted-foreground">{item.body}</p>
             </li>
           ))
@@ -97,45 +110,35 @@ const ctaCopy = {
     </div>
   </section>
 
-  <section class="section" aria-labelledby="process-title">
-    <div class="container-site">
-      <h2 id="process-title" class="text-3xl font-bold sm:text-4xl">{ui.common.howItWorks}</h2>
-      <ol class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          c.process.map((step, i) => (
-            <li class="border-t-2 border-brand pt-5">
-              <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
-              <h3 class="mt-2 text-xl font-semibold">{step.title}</h3>
-              <p class="mt-2 leading-relaxed text-muted-foreground">{step.body}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
+  <Steps id="process-title" eyebrow={local.process} title={ui.common.howItWorks} steps={c.process} />
 
-  <section class="pb-16 sm:pb-20 lg:pb-28">
+  <section class="section">
     <div class="container-site grid gap-5 md:grid-cols-2">
-      <div class="card border-accent/30 bg-accent/5">
-        <h2 class="text-2xl font-bold">{ui.common.goodFit}</h2>
-        <ul class="mt-5 flex flex-col gap-3">
+      <div class="panel-dark p-8 sm:p-10">
+        <Topo class="text-paper/[0.07]" />
+        <h2 class="text-3xl text-paper">{ui.common.goodFit}</h2>
+        <ul class="mt-7 flex flex-col gap-4">
           {
             c.fit.map((line) => (
-              <li class="flex gap-3 leading-relaxed">
-                <Icon name="check" class="mt-1 size-4 shrink-0 text-accent" strokeWidth={2.5} />
+              <li class="flex gap-3 leading-relaxed text-paper/90">
+                <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-sun text-ink">
+                  <Icon name="check" class="size-3.5" strokeWidth={3} />
+                </span>
                 {line}
               </li>
             ))
           }
         </ul>
       </div>
-      <div class="card">
-        <h2 class="text-2xl font-bold">{ui.common.notFit}</h2>
-        <ul class="mt-5 flex flex-col gap-3">
+      <div class="rounded-[var(--radius-panel)] bg-muted p-8 sm:p-10">
+        <h2 class="text-3xl">{ui.common.notFit}</h2>
+        <ul class="mt-7 flex flex-col gap-4">
           {
             c.notFit.map((line) => (
               <li class="flex gap-3 leading-relaxed text-muted-foreground">
-                <Icon name="x" class="mt-1 size-4 shrink-0" strokeWidth={2.5} />
+                <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-muted-foreground">
+                  <Icon name="x" class="size-3.5" strokeWidth={3} />
+                </span>
                 {line}
               </li>
             ))
@@ -145,33 +148,16 @@ const ctaCopy = {
     </div>
   </section>
 
-  <div class="bg-paper">
-    <Faq title={ui.common.faqTitle} faqs={c.faqs} />
-  </div>
+  <Faq title={ui.common.faqTitle} faqs={c.faqs} />
 
-  <section class="section" aria-labelledby="related-title">
+  <section class="pb-4" aria-labelledby="related-title">
     <div class="container-site">
-      <h2 id="related-title" class="text-2xl font-bold sm:text-3xl">{ui.common.related}</h2>
-      <div class="mt-8 grid gap-5 md:grid-cols-2">
-        {
-          service.related.map((relatedSlug) => {
-            const related = getService(relatedSlug);
-            return (
-              <a href={href(`/services/${relatedSlug}/`)} class="card group flex items-start gap-5 transition-colors hover:border-brand/40">
-                <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand text-paper">
-                  <Icon name={related.icon} class="size-5" />
-                </span>
-                <span>
-                  <span class="block text-xl font-semibold text-ink group-hover:text-brand">{related.content[lang].name}</span>
-                  <span class="mt-1 block text-muted-foreground">{related.content[lang].short}</span>
-                </span>
-              </a>
-            );
-          })
-        }
+      <h2 id="related-title" class="h-section">{ui.common.related}</h2>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        {service.related.map((relatedSlug, i) => <ServiceCard service={getService(relatedSlug)} lang={lang} index={i + 1} />)}
       </div>
     </div>
   </section>
 
-  <CtaBand lang={lang} title={ctaCopy.title} body={ctaCopy.body} />
+  <CtaBand lang={lang} title={local.ctaTitle} body={local.ctaBody} />
 </Base>

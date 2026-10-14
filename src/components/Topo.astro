@@ -1,0 +1,34 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+const ringsA = Array.from({ length: 14 }, (_, i) => 0.6 + i * 0.75);
+const ringsB = Array.from({ length: 10 }, (_, i) => 0.5 + i * 0.7);
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1200 800"
+  preserveAspectRatio="xMidYMid slice"
+  fill="none"
+  stroke="currentColor"
+  class:list={["pointer-events-none absolute inset-0 -z-10 size-full", className]}
+  aria-hidden="true"
+>
+  <defs>
+    <path
+      id="topo-blob"
+      d="M50 0C52 26 33 51 3 49C-27 47-56 31-52 2C-48-27-28-50 4-49C33-48 48-27 50 0Z"
+      vector-effect="non-scaling-stroke"
+    />
+    <path
+      id="topo-blob-2"
+      d="M48 4C46 30 22 47-6 46C-34 45-50 24-47-3C-44-29-20-48 8-46C34-44 50-22 48 4Z"
+      vector-effect="non-scaling-stroke"
+    />
+  </defs>
+  {ringsA.map((k) => <use href="#topo-blob" transform={`translate(980 140) rotate(-12) scale(${k * 1.35} ${k})`} />)}
+  {ringsB.map((k) => <use href="#topo-blob-2" transform={`translate(160 720) rotate(18) scale(${k * 1.2} ${k})`} />)}
+</svg>

@@ -1,6 +1,7 @@
 ---
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Icon from "@/components/Icon.astro";
+import Topo from "@/components/Topo.astro";
 import { site } from "@/config/site";
 import { services } from "@/content/services";
 import { localePath, type Lang } from "@/i18n";
@@ -76,13 +77,14 @@ const input =
 ---
 
 <Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/contact/" jsonLd={[breadcrumbSchema(base, crumbs)]}>
-  <section class="bg-paper">
-    <div class="container-site py-14 sm:py-20">
+  <section class="relative isolate overflow-hidden bg-paper">
+    <Topo class="text-brand/[0.06]" />
+    <div class="container-site pt-10 pb-20 sm:pt-14 sm:pb-24">
       <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
-      <div class="mt-10 grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+      <div class="mt-10 grid gap-12 lg:mt-14 lg:grid-cols-[1.4fr_1fr]">
         <div>
-          <h1 class="text-4xl font-extrabold sm:text-5xl">{copy.h1}</h1>
-          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty">{copy.lead}</p>
+          <h1 class="text-5xl leading-[1.05] sm:text-6xl">{copy.h1}</h1>
+          <p class="lead mt-6 max-w-2xl">{copy.lead}</p>
 
           <form
             name="contact"
@@ -90,7 +92,7 @@ const input =
             action={href("/contact/thanks/")}
             data-netlify="true"
             netlify-honeypot="bot-field"
-            class="card mt-10 grid gap-6 bg-white sm:grid-cols-2"
+            class="card mt-10 grid gap-6 border-t-4 border-t-sun shadow-xl shadow-ink/5 sm:grid-cols-2"
           >
             <input type="hidden" name="form-name" value="contact" />
             <input type="hidden" name="language" value={lang} />
@@ -139,22 +141,23 @@ const input =
           </form>
         </div>
 
-        <aside class="flex flex-col gap-6 lg:pt-28">
-          <div class="card bg-white">
-            <h2 class="text-xl font-bold">{copy.nextTitle}</h2>
-            <ol class="mt-5 flex flex-col gap-4">
+        <aside class="flex flex-col gap-5 lg:pt-44">
+          <div class="panel-dark p-7 sm:p-9">
+            <Topo class="text-paper/[0.07]" />
+            <h2 class="text-2xl text-paper">{copy.nextTitle}</h2>
+            <ol class="mt-6 flex flex-col gap-5">
               {
                 copy.next.map((step, i) => (
                   <li class="flex gap-4">
-                    <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand text-sm font-semibold text-paper">{i + 1}</span>
-                    <span class="leading-relaxed text-muted-foreground">{step}</span>
+                    <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-sun text-sm font-semibold text-ink">{i + 1}</span>
+                    <span class="leading-relaxed text-paper/85">{step}</span>
                   </li>
                 ))
               }
             </ol>
           </div>
-          <div class="card bg-white">
-            <h2 class="text-xl font-bold">{copy.directTitle}</h2>
+          <div class="card">
+            <h2 class="text-2xl">{copy.directTitle}</h2>
             <ul class="mt-5 flex flex-col gap-3">
               <li>
                 <a href={`mailto:${site.email}`} class="inline-flex items-center gap-3 text-foreground hover:text-brand">

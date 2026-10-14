@@ -1,23 +1,28 @@
 @import "tailwindcss";
 @import "@fontsource-variable/heebo";
+@import "@fontsource-variable/frank-ruhl-libre";
 
 @theme {
   --font-sans: "Heebo Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Frank Ruhl Libre Variable", Georgia, "Times New Roman", serif;
 
   --color-paper: #f6f2e7;
   --color-paper-deep: #ece5d3;
   --color-ink: #0f2427;
   --color-brand: #0d4a4d;
   --color-brand-deep: #08363a;
-  --color-background: #fbfaf6;
+  --color-background: #fdfcf9;
   --color-foreground: #14262a;
-  --color-muted: #f1eee5;
-  --color-muted-foreground: #5b6b6d;
-  --color-border: #e2ddcf;
+  --color-muted: #f2efe7;
+  --color-muted-foreground: #56676a;
+  --color-border: #e4dfd2;
   --color-accent: oklch(0.55 0.14 165);
   --color-accent-foreground: oklch(0.98 0.005 165);
+  --color-sun: #f2b544;
+  --color-sun-soft: #fbe6b0;
 
-  --radius-card: 1.25rem;
+  --radius-card: 1.5rem;
+  --radius-panel: 2rem;
 }
 
 @layer base {
@@ -27,9 +32,12 @@
   }
 
   h1,
-  h2,
+  h2 {
+    @apply font-display font-medium tracking-tight text-balance text-ink;
+  }
+
   h3 {
-    @apply tracking-tight text-balance text-ink;
+    @apply font-semibold tracking-tight text-balance text-ink;
   }
 
   :focus-visible {
@@ -43,31 +51,69 @@
 
 @layer components {
   .container-site {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
   }
 
   .section {
-    @apply py-16 sm:py-20 lg:py-28;
+    @apply py-20 sm:py-24 lg:py-32;
   }
 
   .eyebrow {
-    @apply text-sm font-semibold tracking-wide text-accent;
+    @apply inline-flex items-center gap-3 text-sm font-semibold text-accent;
+  }
+
+  .eyebrow::before {
+    @apply block h-0.5 w-8 rounded-full bg-sun content-[''];
+  }
+
+  .eyebrow:lang(en) {
+    @apply text-xs tracking-[0.16em] uppercase;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-brand/15 bg-white/70 px-4 py-1.5 text-sm font-medium text-brand;
+  }
+
+  .h-display {
+    @apply text-[2.75rem] leading-[1.04] sm:text-6xl lg:text-[5.25rem];
+  }
+
+  .h-section {
+    @apply text-4xl leading-[1.1] sm:text-5xl;
+  }
+
+  .lead {
+    @apply text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl;
+  }
+
+  .mark-sun {
+    background-image: linear-gradient(transparent 64%, var(--color-sun-soft) 64%, var(--color-sun-soft) 92%, transparent 92%);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 
   .btn-primary {
-    @apply btn bg-accent text-accent-foreground hover:bg-accent/90;
+    @apply btn bg-accent text-accent-foreground shadow-sm shadow-accent/20 hover:bg-accent/90;
   }
 
   .btn-secondary {
-    @apply btn border border-brand/25 bg-transparent text-brand hover:bg-brand/5;
+    @apply btn bg-ink/[0.06] text-ink hover:bg-ink/10;
+  }
+
+  .btn-sun {
+    @apply btn bg-sun text-ink hover:bg-[#f5c360];
   }
 
   .btn-on-dark {
-    @apply btn border border-paper/30 text-paper hover:bg-paper/10;
+    @apply btn border border-paper/25 text-paper hover:bg-paper/10;
   }
 
   .card {
-    @apply rounded-[var(--radius-card)] border border-border bg-white/70 p-6 sm:p-8;
+    @apply rounded-[var(--radius-card)] border border-border/80 bg-white p-7 sm:p-9;
+  }
+
+  .panel-dark {
+    @apply relative isolate overflow-hidden rounded-[var(--radius-panel)] bg-brand text-paper;
   }
 
   .prose-body p + p {
@@ -76,7 +122,7 @@
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-base font-semibold transition-colors;
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-base font-semibold transition-colors;
 }
 
 @utility flip-rtl {

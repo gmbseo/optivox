@@ -2,6 +2,7 @@
 import { localePath, type Lang } from "@/i18n";
 import { t } from "@/i18n/ui";
 import Icon from "./Icon.astro";
+import Topo from "./Topo.astro";
 
 interface Props {
   lang: Lang;
@@ -13,15 +14,19 @@ const { lang, title, body } = Astro.props;
 const copy = t(lang);
 ---
 
-<section class="section bg-brand text-paper">
-  <div class="container-site flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
-    <div class="max-w-2xl">
-      <h2 class="text-3xl font-bold text-paper sm:text-4xl">{title}</h2>
-      <p class="mt-4 text-lg text-paper/80 text-pretty">{body}</p>
+<section class="py-16 sm:py-20 lg:py-24">
+  <div class="container-site">
+    <div class="panel-dark px-6 py-16 text-center sm:px-12 sm:py-20 lg:py-24">
+      <Topo class="text-paper/[0.08]" />
+      <h2 class="h-section mx-auto max-w-3xl text-paper">{title}</h2>
+      <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-paper/75 text-pretty">{body}</p>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a href={localePath(lang, "/contact/")} class="btn-sun">
+          {copy.cta.audit}
+          <Icon name="arrow" class="size-4 flip-rtl" />
+        </a>
+        <a href={localePath(lang, "/services/")} class="btn-on-dark">{copy.cta.services}</a>
+      </div>
     </div>
-    <a href={localePath(lang, "/contact/")} class="btn-primary shrink-0">
-      {copy.cta.audit}
-      <Icon name="arrow" class="size-4 flip-rtl" />
-    </a>
   </div>
 </section>

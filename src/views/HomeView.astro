@@ -1,7 +1,10 @@
 ---
 import CtaBand from "@/components/CtaBand.astro";
 import Faq from "@/components/Faq.astro";
-import Icon from "@/components/Icon.astro";
+import Icon, { type IconName } from "@/components/Icon.astro";
+import ServiceCard from "@/components/ServiceCard.astro";
+import Steps from "@/components/Steps.astro";
+import Topo from "@/components/Topo.astro";
 import { services } from "@/content/services";
 import { localePath, type Lang } from "@/i18n";
 import { t } from "@/i18n/ui";
@@ -21,32 +24,43 @@ const copy = {
     metaTitle: "Optivox | בניית אתרים, קידום בגוגל וקידום במנועי AI",
     metaDescription:
       "Optivox עוזרת לעסקים קטנים ובינוניים להימצא: אתרים מהירים, קידום אורגני בגוגל ובגוגל מפות, וקידום בתשובות של ChatGPT, Gemini ו-Google AI Overviews.",
-    eyebrow: "בניית אתרים · קידום בגוגל · קידום במנועי AI",
-    h1: "שהלקוחות ימצאו אתכם: בגוגל, במפות ובצ'אט",
+    pill: "בניית אתרים · קידום בגוגל · קידום במנועי AI",
+    h1Pre: "שהלקוחות ימצאו אתכם",
+    h1Mark: "בגוגל, במפות ובצ'אט",
     lead: "לקוחות מחפשים היום בגוגל, משווים במפות ושואלים את ChatGPT. אנחנו בונים לעסק שלכם אתר שגוגל ומנועי ה-AI מבינים, ודואגים שתופיעו בכל המקומות שבהם בוחרים.",
     reassurance: "בדיקה אישית, לא דוח אוטומטי. בלי התחייבות.",
     mock: {
       query: "רואה חשבון לעסק קטן ברמת גן",
-      sponsored: "מפת עסקים",
+      url: "yourbusiness.co.il",
       you: "העסק שלכם",
-      other1: "משרד כהן ושות'",
-      other2: "לוי חשבונאות",
       ask: "איזה רואה חשבון מומלץ לעסק קטן ברמת גן?",
-      answer: "הנה כמה משרדים עם ביקורות טובות ושירות לעסקים קטנים:",
+      answer: "הנה כמה משרדים עם ביקורות טובות:",
       source: "מקור: האתר שלכם",
     },
-    shiftTitle: "הלקוחות שלכם מחפשים בשלושה מקומות",
-    shift: [
+    places: [
       { icon: "search", title: "חיפוש בגוגל", body: "כשמחפשים שירות, בוחרים מבין התוצאות הראשונות." },
       { icon: "pin", title: "גוגל מפות", body: "בחיפושים מקומיים, מפת העסקים מופיעה לפני כל השאר." },
-      { icon: "ai", title: "תשובות AI", body: "ChatGPT, Gemini ו-AI Overviews ממליצים על שניים או שלושה עסקים בלבד." },
+      { icon: "ai", title: "תשובות AI", body: "ChatGPT ו-Gemini ממליצים על שניים או שלושה עסקים בלבד." },
+    ],
+    platformsLabel: "מקדמים אתכם בכל מקום שבו הלקוחות מחפשים",
+    approachEyebrow: "הגישה שלנו",
+    approachTitle: "בסיס אחד, שלוש דרכים להימצא",
+    approachBody:
+      "השירותים בנויים זה על זה. אתר מהיר ומסודר הוא הבסיס. קידום בגוגל בונה עליו נראות וסמכות. ומנועי ה-AI נשענים בדיוק על המידע הזה כשהם בוחרים על מי להמליץ.",
+    approach: [
+      { icon: "layers", title: "אתר שבנוי נכון", body: "מהיר, ברור ומסודר, כך שגוגל ומנועי ה-AI מבינים בדיוק מה אתם עושים ואיפה." },
+      { icon: "search", title: "נראות בגוגל ובמפות", body: "תוכן, פרופיל עסק וסמכות שמקדמים אתכם בחיפושים שמביאים לקוחות." },
+      { icon: "ai", title: "המלצות במנועי AI", body: "מידע עקבי ואזכורים ממקורות אמינים, כדי שהצ'אט יזכיר אתכם כשהוא ממליץ." },
     ],
     servicesEyebrow: "השירותים שלנו",
     servicesTitle: "שלושה שירותים, מטרה אחת: יותר לקוחות שמוצאים אתכם",
-    connectTitle: "בסיס אחד, שלוש דרכים להימצא",
-    connectBody:
-      "השירותים בנויים זה על זה. אתר מהיר ומסודר הוא הבסיס. קידום בגוגל בונה עליו נראות וסמכות. ומנועי ה-AI נשענים בדיוק על המידע הזה כשהם בוחרים על מי להמליץ.",
-    connect: ["אתר שבנוי נכון", "נראות בגוגל ובמפות", "המלצות במנועי AI"],
+    statement: ["בונים, מקדמים", "ומודדים את מה", "שבאמת מביא לקוחות."],
+    principles: [
+      { icon: "target", title: "מודדים פניות, לא רק תנועה", body: "שיחות, טפסים והודעות הם מה שמגדיל עסק." },
+      { icon: "shield", title: "בלי הבטחות ריקות", body: "אף אחד לא יכול להבטיח מקום ראשון. אנחנו מבטיחים עבודה שקופה ומדידה." },
+      { icon: "message", title: "שפה פשוטה", body: "בלי ז'רגון. תמיד תדעו מה עשינו, למה, ומה זה נתן." },
+      { icon: "gauge", title: "האתר הזה הוא ההוכחה", body: "מהיר, נגיש, דו-לשוני ומוכן ל-AI. בדיוק מה שאנחנו בונים ללקוחות." },
+    ],
     processEyebrow: "איך אנחנו עובדים",
     processTitle: "מתחילים בבדיקה, ממשיכים במדידה",
     process: [
@@ -55,13 +69,22 @@ const copy = {
       { title: "ביצוע", body: "בונים, מתקנים וכותבים. אתם מקבלים עדכון על כל שלב." },
       { title: "מדידה חודשית", body: "דוח פשוט: מה השתנה בדירוגים, באזכורים ובפניות, ומה הצעד הבא." },
     ],
-    principlesTitle: "מה חשוב לנו",
-    principles: [
-      { title: "מודדים פניות, לא רק תנועה", body: "ביקורים זה נחמד. שיחות, טפסים והודעות זה מה שמגדיל עסק." },
-      { title: "בלי הבטחות שאי אפשר לקיים", body: "אף אחד לא יכול להבטיח מקום ראשון בגוגל או המלצה בצ'אט. אנחנו מבטיחים עבודה שקופה ומדידה." },
-      { title: "שפה פשוטה", body: "בלי ז'רגון. תמיד תדעו מה עשינו, למה, ומה זה נתן." },
-      { title: "האתר הזה הוא ההוכחה", body: "מהיר, נגיש, דו-לשוני, עם נתונים מובנים וקובץ llms.txt. בדיוק מה שאנחנו בונים ללקוחות." },
-    ],
+    audit: {
+      eyebrow: "בדיקת נראות חינם",
+      title: "איפה העסק שלכם עומד היום?",
+      body: "בדיקה אישית של הנוכחות שלכם בגוגל, בגוגל מפות ובמנועי ה-AI, מול המתחרים. בלי דוח אוטומטי ובלי התחייבות.",
+      points: ["איך אתם מופיעים בחיפושים החשובים בתחום", "מה מצב פרופיל העסק שלכם בגוגל", "האם ChatGPT ו-Gemini מכירים וממליצים עליכם"],
+      report: "דוח נראות",
+      business: "העסק שלכם",
+      rows: [
+        { label: "חיפוש בגוגל", status: "טוב", width: "w-4/5", tone: "bg-accent", chip: "bg-accent/10 text-brand" },
+        { label: "גוגל מפות", status: "לשפר", width: "w-1/2", tone: "bg-sun", chip: "bg-sun-soft text-ink" },
+        { label: "תשובות AI", status: "חסר", width: "w-1/6", tone: "bg-[#e0684b]", chip: "bg-[#fbe1d9] text-[#8a2f1a]" },
+      ],
+      next: "הצעד הראשון",
+      nextBody: "השלמת פרטי העסק ועמודי שירות ברורים",
+    },
+    faqIntro: "לא מצאתם תשובה? כתבו לנו ונחזור אליכם.",
     faqs: [
       {
         q: "מה ההבדל בין קידום בגוגל לקידום במנועי AI?",
@@ -91,32 +114,43 @@ const copy = {
     metaTitle: "Optivox | Websites, SEO and AI search optimization",
     metaDescription:
       "Optivox helps small and mid-sized businesses get found: fast websites, organic SEO for Google Search and Maps, and visibility in ChatGPT, Gemini and Google AI Overviews.",
-    eyebrow: "Websites · SEO · AI search optimization",
-    h1: "Get found by customers on Google, on Maps and in AI answers",
+    pill: "Websites · SEO · AI search optimization",
+    h1Pre: "Get found by customers on",
+    h1Mark: "Google, Maps and AI answers",
     lead: "Customers search on Google, compare on Maps and ask ChatGPT. We build your business a website that Google and AI engines understand, and make sure you show up everywhere people decide.",
     reassurance: "A personal review, not an automated report. No commitment.",
     mock: {
       query: "small business accountant tel aviv",
-      sponsored: "Map results",
+      url: "yourbusiness.com",
       you: "Your business",
-      other1: "Cohen & Co.",
-      other2: "Levi Accounting",
       ask: "Which accountant do you recommend for a small business in Tel Aviv?",
-      answer: "Here are a few firms with strong reviews and small-business experience:",
+      answer: "Here are a few well-reviewed firms:",
       source: "Source: your website",
     },
-    shiftTitle: "Your customers search in three places",
-    shift: [
+    places: [
       { icon: "search", title: "Google Search", body: "When people look for a service, they choose from the top results." },
       { icon: "pin", title: "Google Maps", body: "For local searches, the map pack shows up before everything else." },
-      { icon: "ai", title: "AI answers", body: "ChatGPT, Gemini and AI Overviews recommend just two or three businesses." },
+      { icon: "ai", title: "AI answers", body: "ChatGPT and Gemini recommend just two or three businesses." },
+    ],
+    platformsLabel: "Optimized for everywhere your customers search",
+    approachEyebrow: "Our approach",
+    approachTitle: "One foundation, three ways to be found",
+    approachBody:
+      "Our services build on each other. A fast, well-structured website is the foundation. SEO builds visibility and authority on top of it. And AI engines rely on exactly that information when they choose who to recommend.",
+    approach: [
+      { icon: "layers", title: "A website built right", body: "Fast, clear and well structured, so Google and AI engines understand exactly what you do and where." },
+      { icon: "search", title: "Visibility on Google and Maps", body: "Content, a strong business profile and authority that lift you in the searches that bring customers." },
+      { icon: "ai", title: "Recommendations in AI engines", body: "Consistent information and trusted mentions, so chatbots name you when they recommend." },
     ],
     servicesEyebrow: "Our services",
     servicesTitle: "Three services, one goal: more customers who find you",
-    connectTitle: "One foundation, three ways to be found",
-    connectBody:
-      "Our services build on each other. A fast, well-structured website is the foundation. SEO builds visibility and authority on top of it. And AI engines rely on exactly that information when they choose who to recommend.",
-    connect: ["A website built right", "Visibility on Google and Maps", "Recommendations in AI engines"],
+    statement: ["We build, promote", "and measure what", "actually brings customers."],
+    principles: [
+      { icon: "target", title: "Enquiries, not just traffic", body: "Calls, forms and messages are what grow a business." },
+      { icon: "shield", title: "No empty promises", body: "Nobody can guarantee #1. We promise transparent, measured work." },
+      { icon: "message", title: "Plain language", body: "No jargon. You'll always know what we did, why, and what it achieved." },
+      { icon: "gauge", title: "This site is our proof", body: "Fast, accessible, bilingual and AI-ready. Exactly what we build for clients." },
+    ],
     processEyebrow: "How we work",
     processTitle: "We start with an audit and keep measuring",
     process: [
@@ -125,13 +159,22 @@ const copy = {
       { title: "Execution", body: "We build, fix and write, and keep you updated at every step." },
       { title: "Monthly measurement", body: "A simple report: what changed in rankings, mentions and enquiries, and what's next." },
     ],
-    principlesTitle: "What we care about",
-    principles: [
-      { title: "Enquiries, not just traffic", body: "Visits are nice. Calls, forms and messages are what grow a business." },
-      { title: "No promises we can't keep", body: "Nobody can guarantee #1 on Google or a chatbot recommendation. We promise transparent, measured work." },
-      { title: "Plain language", body: "No jargon. You'll always know what we did, why, and what it achieved." },
-      { title: "This site is our proof", body: "Fast, accessible, bilingual, with structured data and an llms.txt file. Exactly what we build for clients." },
-    ],
+    audit: {
+      eyebrow: "Free visibility audit",
+      title: "Where does your business stand today?",
+      body: "A personal review of how you show up on Google, Google Maps and AI engines, compared to your competitors. No automated report, no commitment.",
+      points: ["How you appear in the searches that matter in your field", "The state of your Google Business Profile", "Whether ChatGPT and Gemini know and recommend you"],
+      report: "Visibility report",
+      business: "Your business",
+      rows: [
+        { label: "Google Search", status: "Good", width: "w-4/5", tone: "bg-accent", chip: "bg-accent/10 text-brand" },
+        { label: "Google Maps", status: "Improve", width: "w-1/2", tone: "bg-sun", chip: "bg-sun-soft text-ink" },
+        { label: "AI answers", status: "Missing", width: "w-1/6", tone: "bg-[#e0684b]", chip: "bg-[#fbe1d9] text-[#8a2f1a]" },
+      ],
+      next: "First step",
+      nextBody: "Complete your business details and clear service pages",
+    },
+    faqIntro: "Didn't find your answer? Write to us and we'll get back to you.",
     faqs: [
       {
         q: "What's the difference between SEO and AI search optimization?",
@@ -158,182 +201,286 @@ const copy = {
     ctaBody: "We'll check how your business shows up on Google, Maps and chatbots, and show you the first step that's most worth taking.",
   },
 }[lang];
+
+const platforms = ["Google", "Google Maps", "ChatGPT", "Gemini", "Perplexity", "Bing"];
 ---
 
 <Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/" jsonLd={[faqSchema(copy.faqs)]}>
-  <section class="relative overflow-hidden border-b border-border/60 bg-paper">
-    <div class="container-site grid items-center gap-14 py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:py-24">
-      <div>
-        <p class="eyebrow">{copy.eyebrow}</p>
-        <h1 class="mt-5 text-4xl leading-[1.1] font-extrabold sm:text-5xl lg:text-6xl">{copy.h1}</h1>
-        <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">{copy.lead}</p>
-        <div class="mt-9 flex flex-wrap gap-3">
-          <a href={href("/contact/")} class="btn-primary">
+  <section class="bg-[linear-gradient(to_bottom,var(--color-paper)_68%,var(--color-background)_68%)]">
+    <div class="container-site pt-14 text-center sm:pt-20 lg:pt-24">
+      <p class="pill">
+        <span class="size-1.5 rounded-full bg-accent"></span>
+        {copy.pill}
+      </p>
+      <h1 class="h-display mx-auto mt-7 max-w-5xl">
+        {copy.h1Pre}{" "}
+        <br class="hidden sm:block" />
+        <span class="mark-sun">{copy.h1Mark}</span>
+      </h1>
+      <p class="lead mx-auto mt-7 max-w-2xl">{copy.lead}</p>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a href={href("/contact/")} class="btn-primary">
+          {ui.cta.audit}
+          <Icon name="arrow" class="size-4 flip-rtl" />
+        </a>
+        <a href={href("/services/")} class="btn-secondary">{ui.cta.services}</a>
+      </div>
+      <p class="mt-5 text-sm text-muted-foreground">{copy.reassurance}</p>
+
+      <div class="panel-dark mt-16 p-5 text-start sm:p-8 lg:mt-20 lg:p-12">
+        <Topo class="text-paper/[0.08]" />
+        <ul class="grid gap-8 lg:grid-cols-3 lg:gap-6">
+          {
+            copy.places.map((p, i) => (
+              <li class:list={["flex flex-col", i === 1 && "lg:mt-12"]}>
+                <div class="mb-4 flex items-center gap-3">
+                  <span class="flex size-9 items-center justify-center rounded-full bg-sun text-ink">
+                    <Icon name={p.icon as IconName} class="size-4" />
+                  </span>
+                  <h2 class="font-sans text-lg font-semibold tracking-normal text-paper">{p.title}</h2>
+                </div>
+
+                <div class="rounded-2xl bg-white p-4 shadow-2xl shadow-black/30" aria-hidden="true">
+                  {i === 0 && (
+                    <>
+                      <div class="flex items-center gap-2.5 rounded-full border border-border px-3.5 py-2 text-xs text-foreground">
+                        <Icon name="search" class="size-3.5 text-muted-foreground" />
+                        <span class="truncate">{copy.mock.query}</span>
+                      </div>
+                      <div class="mt-3 rounded-xl bg-accent/10 p-3 ring-1 ring-accent/30">
+                        <div class="flex items-center gap-2">
+                          <span class="size-4 rounded-full bg-accent" />
+                          <span class="text-[11px] text-accent" dir="ltr">{copy.mock.url}</span>
+                        </div>
+                        <p class="mt-1.5 text-sm font-semibold text-brand">{copy.mock.you}</p>
+                        <div class="mt-2 h-1.5 w-11/12 rounded-full bg-accent/25" />
+                        <div class="mt-1.5 h-1.5 w-3/4 rounded-full bg-accent/25" />
+                      </div>
+                      {[0, 1].map(() => (
+                        <div class="px-3 pt-3.5">
+                          <div class="h-1.5 w-1/3 rounded-full bg-ink/10" />
+                          <div class="mt-2 h-2 w-2/3 rounded-full bg-ink/20" />
+                          <div class="mt-1.5 h-1.5 w-5/6 rounded-full bg-ink/10" />
+                        </div>
+                      ))}
+                    </>
+                  )}
+                  {i === 1 && (
+                    <>
+                      <div class="relative h-32 overflow-hidden rounded-xl bg-[#e4ece3]">
+                        <svg viewBox="0 0 300 130" preserveAspectRatio="none" class="absolute inset-0 size-full" fill="none" stroke="white">
+                          <path d="M-10 92 C60 80 120 104 180 86 S280 60 320 70" stroke-width="10" />
+                          <path d="M92 -10 C100 40 84 90 110 140" stroke-width="7" />
+                          <path d="M210 -10 C200 50 230 90 222 140" stroke-width="5" />
+                          <path d="M-10 30 C80 40 160 20 320 34" stroke-width="4" />
+                        </svg>
+                        <span class="absolute start-[46%] top-[22%] flex flex-col items-center">
+                          <span class="rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap text-brand shadow-md">{copy.mock.you}</span>
+                          <Icon name="pin" class="mt-1 size-7 fill-accent text-white" strokeWidth={1.5} />
+                        </span>
+                        <Icon name="pin" class="absolute start-[18%] top-[58%] size-5 fill-ink/30 text-white" strokeWidth={1.5} />
+                        <Icon name="pin" class="absolute start-[76%] top-[50%] size-5 fill-ink/30 text-white" strokeWidth={1.5} />
+                      </div>
+                      <div class="mt-3 flex items-center justify-between gap-3 rounded-xl bg-accent/10 px-3 py-2.5 ring-1 ring-accent/30">
+                        <span class="text-sm font-semibold text-brand">{copy.mock.you}</span>
+                        <span class="flex gap-0.5">
+                          {[0, 1, 2, 3, 4].map(() => <Icon name="star" class="size-3 fill-sun text-sun" />)}
+                        </span>
+                      </div>
+                      <div class="flex items-center justify-between gap-3 px-3 pt-3">
+                        <span class="h-2 w-1/2 rounded-full bg-ink/15" />
+                        <span class="h-2 w-12 rounded-full bg-ink/10" />
+                      </div>
+                    </>
+                  )}
+                  {i === 2 && (
+                    <>
+                      <p class="ms-auto w-fit max-w-[90%] rounded-2xl rounded-ee-md bg-ink px-3.5 py-2.5 text-xs leading-relaxed text-paper">{copy.mock.ask}</p>
+                      <div class="mt-3 flex gap-2.5">
+                        <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand text-sun">
+                          <Icon name="ai" class="size-3.5" />
+                        </span>
+                        <div class="min-w-0 flex-1 rounded-2xl rounded-ss-md bg-muted p-3 text-xs text-foreground">
+                          <p>{copy.mock.answer}</p>
+                          <p class="mt-2 flex items-center gap-2 rounded-lg bg-white px-2.5 py-1.5 font-semibold text-brand ring-1 ring-accent/30">
+                            <Icon name="star" class="size-3 fill-sun text-sun" />
+                            1. {copy.mock.you}
+                          </p>
+                          <div class="mt-2 h-1.5 w-1/2 rounded-full bg-ink/15" />
+                          <p class="mt-2.5 inline-flex rounded-full bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-brand">{copy.mock.source}</p>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <p class="mt-4 text-sm leading-relaxed text-paper/70">{p.body}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-border/70 py-12 sm:py-14" aria-label={copy.platformsLabel}>
+    <div class="container-site text-center">
+      <p class="text-sm font-medium text-muted-foreground">{copy.platformsLabel}</p>
+      <ul class="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 sm:gap-x-14" dir="ltr">
+        {platforms.map((name) => <li class="text-xl font-semibold tracking-tight text-ink/35 sm:text-2xl">{name}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="approach-title">
+    <div class="container-site">
+      <div class="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-16">
+        <div>
+          <p class="eyebrow">{copy.approachEyebrow}</p>
+          <h2 id="approach-title" class="h-section mt-4">{copy.approachTitle}</h2>
+        </div>
+        <p class="lead">{copy.approachBody}</p>
+      </div>
+      <ol class="mt-16 grid gap-10 md:grid-cols-3 md:gap-8">
+        {
+          copy.approach.map((a, i) => (
+            <li class="border-t border-ink/15 pt-8">
+              <div class="flex items-center justify-between">
+                <span class="flex size-12 items-center justify-center rounded-2xl bg-accent/10 text-accent">
+                  <Icon name={a.icon as IconName} class="size-6" strokeWidth={1.75} />
+                </span>
+                <span class="font-display text-2xl text-ink/25 tabular-nums">0{i + 1}</span>
+              </div>
+              <h3 class="mt-6 text-xl">{a.title}</h3>
+              <p class="mt-3 leading-relaxed text-muted-foreground">{a.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="pb-20 sm:pb-24 lg:pb-32" aria-labelledby="services-title">
+    <div class="container-site">
+      <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div class="max-w-2xl">
+          <p class="eyebrow">{copy.servicesEyebrow}</p>
+          <h2 id="services-title" class="h-section mt-4">{copy.servicesTitle}</h2>
+        </div>
+        <div class="flex shrink-0 flex-wrap gap-3">
+          <a href={href("/contact/")} class="btn-primary">{ui.cta.audit}</a>
+          <a href={href("/services/")} class="btn-secondary">{ui.nav.allServices}</a>
+        </div>
+      </div>
+      <div class="mt-12 grid gap-5 lg:grid-cols-3">
+        {services.map((s, i) => <ServiceCard service={s} lang={lang} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-t border-border/70" aria-labelledby="statement-title">
+    <div class="container-site">
+      <h2 id="statement-title" class="mx-auto max-w-5xl text-center text-4xl leading-[1.15] sm:text-5xl lg:text-6xl">
+        {copy.statement[0]}
+        <span class="mx-3 inline-flex translate-y-1 align-middle -space-x-3" aria-hidden="true">
+          <span class="flex size-12 items-center justify-center rounded-full bg-brand text-paper ring-4 ring-background sm:size-14">
+            <Icon name="web" class="size-5 sm:size-6" />
+          </span>
+          <span class="flex size-12 items-center justify-center rounded-full bg-sun text-ink ring-4 ring-background sm:size-14">
+            <Icon name="search" class="size-5 sm:size-6" />
+          </span>
+          <span class="flex size-12 items-center justify-center rounded-full bg-accent text-white ring-4 ring-background sm:size-14">
+            <Icon name="ai" class="size-5 sm:size-6" />
+          </span>
+        </span>
+        {copy.statement[1]}
+        <span class="block text-accent">{copy.statement[2]}</span>
+      </h2>
+      <ul class="mt-16 grid gap-10 text-center sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+        {
+          copy.principles.map((p) => (
+            <li class="flex flex-col items-center">
+              <span class="flex size-14 items-center justify-center rounded-full bg-paper text-brand">
+                <Icon name={p.icon as IconName} class="size-6" strokeWidth={1.75} />
+              </span>
+              <h3 class="mt-5 text-lg">{p.title}</h3>
+              <p class="mt-2 max-w-60 leading-relaxed text-muted-foreground">{p.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <Steps id="process-title" eyebrow={copy.processEyebrow} title={copy.processTitle} steps={copy.process} />
+
+  <section class="pt-20 sm:pt-24 lg:pt-32" aria-labelledby="audit-title">
+    <div class="container-site">
+      <div class="panel-dark grid items-center gap-14 bg-brand-deep px-6 py-14 sm:px-12 sm:py-16 lg:grid-cols-2 lg:px-16 lg:py-20">
+        <Topo class="text-paper/[0.07]" />
+        <div>
+          <p class="eyebrow text-sun">{copy.audit.eyebrow}</p>
+          <h2 id="audit-title" class="h-section mt-4 text-paper">{copy.audit.title}</h2>
+          <p class="mt-5 max-w-lg text-lg leading-relaxed text-paper/75">{copy.audit.body}</p>
+          <ul class="mt-8 flex flex-col gap-3.5">
+            {
+              copy.audit.points.map((point) => (
+                <li class="flex items-start gap-3 text-paper/90">
+                  <span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-sun text-ink">
+                    <Icon name="check" class="size-3.5" strokeWidth={3} />
+                  </span>
+                  {point}
+                </li>
+              ))
+            }
+          </ul>
+          <a href={href("/contact/")} class="btn-sun mt-10">
             {ui.cta.audit}
             <Icon name="arrow" class="size-4 flip-rtl" />
           </a>
-          <a href={href("/services/")} class="btn-secondary">{ui.cta.services}</a>
         </div>
-        <p class="mt-5 text-sm text-muted-foreground">{copy.reassurance}</p>
-      </div>
 
-      <div class="relative mx-auto w-full max-w-md lg:max-w-none" aria-hidden="true">
-        <div class="absolute -inset-6 -z-0 rounded-[2rem] bg-brand/5"></div>
-        <div class="relative flex flex-col gap-4">
-          <div class="rounded-2xl border border-border bg-white p-5 shadow-sm">
-            <div class="flex items-center gap-3 rounded-full border border-border px-4 py-2.5 text-sm text-foreground">
-              <Icon name="search" class="size-4 text-muted-foreground" />
-              <span class="truncate">{copy.mock.query}</span>
-            </div>
-            <p class="mt-4 text-xs font-medium text-muted-foreground">{copy.mock.sponsored}</p>
-            <ul class="mt-2 flex flex-col gap-2 text-sm">
-              <li class="flex items-center gap-3 rounded-xl bg-accent/10 px-3 py-2.5 font-semibold text-brand ring-1 ring-accent/30">
-                <Icon name="pin" class="size-4 text-accent" />
-                {copy.mock.you}
-              </li>
-              <li class="flex items-center gap-3 px-3 py-1.5 text-muted-foreground">
-                <Icon name="pin" class="size-4" />
-                {copy.mock.other1}
-              </li>
-              <li class="flex items-center gap-3 px-3 py-1.5 text-muted-foreground">
-                <Icon name="pin" class="size-4" />
-                {copy.mock.other2}
-              </li>
-            </ul>
-          </div>
-
-          <div class="rounded-2xl border border-border bg-white p-5 shadow-sm lg:ms-10">
-            <p class="ms-auto w-fit max-w-[85%] rounded-2xl rounded-ee-sm bg-muted px-4 py-2.5 text-sm text-foreground">{copy.mock.ask}</p>
-            <div class="mt-4 flex gap-3">
-              <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand text-paper">
-                <Icon name="ai" class="size-3.5" />
-              </span>
-              <div class="text-sm text-foreground">
-                <p>{copy.mock.answer}</p>
-                <ol class="mt-2 flex flex-col gap-1.5">
-                  <li class="font-semibold text-brand">1. {copy.mock.you}</li>
-                  <li class="text-muted-foreground">2. {copy.mock.other1}</li>
-                </ol>
-                <p class="mt-3 inline-flex rounded-full bg-accent/10 px-2.5 py-1 text-xs font-medium text-brand">{copy.mock.source}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="shift-title">
-    <div class="container-site">
-      <h2 id="shift-title" class="max-w-2xl text-3xl font-bold sm:text-4xl">{copy.shiftTitle}</h2>
-      <div class="mt-10 grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-border bg-border sm:grid-cols-3">
-        {
-          copy.shift.map((s) => (
-            <div class="bg-background p-7">
-              <span class="flex size-11 items-center justify-center rounded-xl bg-brand text-paper">
-                <Icon name={s.icon as "search" | "pin" | "ai"} class="size-5" />
-              </span>
-              <h3 class="mt-5 text-xl font-semibold">{s.title}</h3>
-              <p class="mt-2 leading-relaxed text-muted-foreground">{s.body}</p>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <section class="section bg-paper" aria-labelledby="services-title">
-    <div class="container-site">
-      <p class="eyebrow">{copy.servicesEyebrow}</p>
-      <h2 id="services-title" class="mt-3 max-w-3xl text-3xl font-bold sm:text-4xl">{copy.servicesTitle}</h2>
-      <ol class="mt-12 border-t border-ink/15">
-        {
-          services.map((s, i) => (
-            <li class="border-b border-ink/15">
-              <a
-                href={href(`/services/${s.slug}/`)}
-                class="group grid items-start gap-4 py-8 sm:grid-cols-[4rem_1fr_auto] sm:items-center sm:gap-8"
-              >
-                <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
-                <div>
-                  <h3 class="text-2xl font-bold transition-colors group-hover:text-brand sm:text-3xl">{s.content[lang].name}</h3>
-                  <p class="mt-2 max-w-2xl text-lg text-muted-foreground">{s.content[lang].short}</p>
-                </div>
-                <span class="inline-flex items-center gap-2 text-sm font-semibold text-brand">
-                  {ui.common.learnMore}
-                  <Icon name="arrow" class="size-4 flip-rtl transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+        <div class="relative mx-auto w-full max-w-md py-6" aria-hidden="true">
+          <div class="absolute inset-x-8 inset-y-0 rotate-[-5deg] rounded-3xl bg-paper/15"></div>
+          <div class="relative rounded-3xl bg-white p-6 shadow-2xl shadow-black/40 sm:p-8">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="flex size-10 items-center justify-center rounded-xl bg-brand text-paper">
+                  <Icon name="file" class="size-5" />
                 </span>
-              </a>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="connect-title">
-    <div class="container-site grid items-center gap-12 lg:grid-cols-2">
-      <div>
-        <h2 id="connect-title" class="text-3xl font-bold sm:text-4xl">{copy.connectTitle}</h2>
-        <p class="mt-5 text-lg leading-relaxed text-muted-foreground text-pretty">{copy.connectBody}</p>
-      </div>
-      <ol class="flex flex-col gap-3">
-        {
-          copy.connect.map((step, i) => (
-            <li
-              class:list={[
-                "flex items-center gap-4 rounded-2xl border p-5 text-lg font-semibold",
-                i === 0 && "border-brand bg-brand text-paper",
-                i === 1 && "border-border bg-white text-ink sm:ms-8",
-                i === 2 && "border-accent/40 bg-accent/10 text-brand sm:ms-16",
-              ]}
-            >
-              <span class:list={["flex size-9 shrink-0 items-center justify-center rounded-full text-sm", i === 0 ? "bg-paper text-brand" : "bg-brand text-paper"]}>
-                {i + 1}
-              </span>
-              {step}
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section class="section border-y border-border/60 bg-paper" aria-labelledby="process-title">
-    <div class="container-site">
-      <p class="eyebrow">{copy.processEyebrow}</p>
-      <h2 id="process-title" class="mt-3 max-w-2xl text-3xl font-bold sm:text-4xl">{copy.processTitle}</h2>
-      <ol class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          copy.process.map((step, i) => (
-            <li class="border-t-2 border-brand pt-5">
-              <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
-              <h3 class="mt-2 text-xl font-semibold">{step.title}</h3>
-              <p class="mt-2 leading-relaxed text-muted-foreground">{step.body}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="principles-title">
-    <div class="container-site">
-      <h2 id="principles-title" class="text-3xl font-bold sm:text-4xl">{copy.principlesTitle}</h2>
-      <div class="mt-10 grid gap-5 sm:grid-cols-2">
-        {
-          copy.principles.map((p) => (
-            <div class="card">
-              <h3 class="text-xl font-semibold">{p.title}</h3>
-              <p class="mt-2 leading-relaxed text-muted-foreground">{p.body}</p>
+                <div>
+                  <p class="text-xs text-muted-foreground">{copy.audit.report}</p>
+                  <p class="font-semibold text-ink">{copy.audit.business}</p>
+                </div>
+              </div>
+              <img src="/menu_logo.webp" alt="" width="1280" height="472" class="h-7 w-auto mix-blend-multiply" loading="lazy" />
             </div>
-          ))
-        }
+            <ul class="mt-7 flex flex-col gap-5">
+              {
+                copy.audit.rows.map((row) => (
+                  <li>
+                    <div class="flex items-center justify-between text-sm">
+                      <span class="font-medium text-ink">{row.label}</span>
+                      <span class:list={["rounded-full px-2.5 py-0.5 text-xs font-semibold", row.chip]}>{row.status}</span>
+                    </div>
+                    <div class="mt-2 h-2 rounded-full bg-muted">
+                      <div class:list={["h-2 rounded-full", row.width, row.tone]} />
+                    </div>
+                  </li>
+                ))
+              }
+            </ul>
+            <div class="mt-7 rounded-2xl bg-paper p-4">
+              <p class="text-xs font-semibold text-accent">{copy.audit.next}</p>
+              <p class="mt-1 text-sm text-ink">{copy.audit.nextBody}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <Faq title={ui.common.faqTitle} faqs={copy.faqs} />
+  <Faq title={ui.common.faqTitle} intro={copy.faqIntro} faqs={copy.faqs} />
 
   <CtaBand lang={lang} title={copy.ctaTitle} body={copy.ctaBody} />
 </Base>

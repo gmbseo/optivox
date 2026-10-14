@@ -18,9 +18,9 @@ const copy = {
 <Base lang={lang} title={copy.title} description={copy.body} path="/404/" noindex>
   <section class="section bg-paper">
     <div class="container-site max-w-2xl text-center">
-      <p class="text-6xl font-extrabold text-brand">404</p>
-      <h1 class="mt-4 text-3xl font-bold sm:text-4xl">{copy.title}</h1>
-      <p class="mt-4 text-lg text-muted-foreground">{copy.body}</p>
+      <p class="font-display text-8xl font-medium text-brand/20 sm:text-9xl">404</p>
+      <h1 class="mt-2 text-4xl sm:text-5xl">{copy.title}</h1>
+      <p class="lead mt-5">{copy.body}</p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <a href={localePath(lang, "/")} class="btn-primary">{copy.home}</a>
         <a href={localePath(lang, "/services/")} class="btn-secondary">{ui.cta.services}</a>

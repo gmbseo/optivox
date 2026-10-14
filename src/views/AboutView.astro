@@ -1,6 +1,8 @@
 ---
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import CtaBand from "@/components/CtaBand.astro";
+import Icon, { type IconName } from "@/components/Icon.astro";
+import Topo from "@/components/Topo.astro";
 import { localePath, type Lang } from "@/i18n";
 import { t } from "@/i18n/ui";
 import Base from "@/layouts/Base.astro";
@@ -63,35 +65,41 @@ const copy = {
     ctaBody: "Tell us about your business and we'll come back with a personal visibility audit.",
   },
 }[lang];
+const valueIcons: IconName[] = ["chart", "message", "shield", "layers"];
 ---
 
 <Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} path="/about/" jsonLd={[breadcrumbSchema(base, crumbs)]}>
-  <section class="border-b border-border/60 bg-paper">
-    <div class="container-site py-14 sm:py-20">
+  <section class="relative isolate overflow-hidden bg-paper">
+    <Topo class="text-brand/[0.07]" />
+    <div class="container-site pt-10 pb-20 sm:pt-14 sm:pb-24 lg:pb-32">
       <Breadcrumbs items={crumbs} label={lang === "he" ? "פירורי לחם" : "Breadcrumb"} />
-      <h1 class="mt-10 max-w-3xl text-4xl font-extrabold sm:text-5xl">{copy.h1}</h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground text-pretty sm:text-xl">{copy.lead}</p>
+      <div class="mx-auto mt-12 max-w-4xl text-center lg:mt-16">
+        <h1 class="h-display">{copy.h1}</h1>
+        <p class="lead mx-auto mt-7 max-w-2xl">{copy.lead}</p>
+      </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="container-site grid gap-8 lg:grid-cols-[1fr_2fr]">
-      <h2 class="text-3xl font-bold sm:text-4xl">{copy.storyTitle}</h2>
-      <div class="prose-body max-w-3xl text-lg leading-relaxed text-muted-foreground">
+    <div class="container-site grid gap-10 lg:grid-cols-2 lg:gap-20">
+      <h2 class="h-section">{copy.storyTitle}</h2>
+      <div class="prose-body text-lg leading-relaxed text-muted-foreground">
         {copy.story.map((p) => <p>{p}</p>)}
       </div>
     </div>
   </section>
 
-  <section class="section border-t border-border/60 bg-paper">
+  <section class="pb-20 sm:pb-24 lg:pb-32">
     <div class="container-site">
-      <h2 class="text-3xl font-bold sm:text-4xl">{copy.valuesTitle}</h2>
-      <div class="mt-10 grid gap-5 sm:grid-cols-2">
+      <h2 class="h-section">{copy.valuesTitle}</h2>
+      <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {
           copy.values.map((v, i) => (
-            <div class="card bg-white">
-              <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
-              <h3 class="mt-2 text-xl font-semibold">{v.title}</h3>
+            <div class="rounded-[var(--radius-card)] bg-muted p-7 sm:p-8">
+              <span class="flex size-12 items-center justify-center rounded-full bg-white text-brand shadow-sm">
+                <Icon name={valueIcons[i]} class="size-5" strokeWidth={1.75} />
+              </span>
+              <h3 class="mt-6 text-lg">{v.title}</h3>
               <p class="mt-2 leading-relaxed text-muted-foreground">{v.body}</p>
             </div>
           ))

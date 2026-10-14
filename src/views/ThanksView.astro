@@ -1,4 +1,5 @@
 ---
+import Icon from "@/components/Icon.astro";
 import { localePath, type Lang } from "@/i18n";
 import { t } from "@/i18n/ui";
 import Base from "@/layouts/Base.astro";
@@ -26,8 +27,11 @@ const copy = {
 <Base lang={lang} title={copy.title} description={copy.body} path="/contact/thanks/" noindex>
   <section class="section bg-paper">
     <div class="container-site max-w-2xl text-center">
-      <h1 class="text-4xl font-extrabold sm:text-5xl">{copy.title}</h1>
-      <p class="mt-5 text-lg leading-relaxed text-muted-foreground">{copy.body}</p>
+      <span class="mx-auto flex size-16 items-center justify-center rounded-full bg-accent text-white shadow-lg shadow-accent/30">
+        <Icon name="check" class="size-7" strokeWidth={2.5} />
+      </span>
+      <h1 class="mt-8 text-5xl sm:text-6xl">{copy.title}</h1>
+      <p class="lead mt-6">{copy.body}</p>
       <div class="mt-9 flex flex-wrap justify-center gap-3">
         <a href={localePath(lang, "/services/")} class="btn-primary">{ui.cta.services}</a>
         <a href={localePath(lang, "/")} class="btn-secondary">{copy.back}</a>
