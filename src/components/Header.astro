@@ -17,8 +17,17 @@ const links = [
   { label: copy.nav.about, path: "/about/" },
   { label: copy.nav.contact, path: "/contact/" },
 ];
+const current = stripLang(Astro.url.pathname);
+const isActive = (path: string) => (path === "/" ? current === "/" : current.startsWith(path));
+const servicesActive = isActive("/services/");
 const navLink = "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground";
-const mobileLinkBase = "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-muted";
+const navUnderline = "after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-accent";
+const desktopLink = (path: string) => [
+  "relative px-4 py-2 text-sm font-medium transition-colors hover:text-foreground",
+  isActive(path) ? ["text-foreground", navUnderline] : "text-muted-foreground",
+];
+const ariaCurrent = (path: string) => (isActive(path) ? "page" : undefined);
+const mobileLinkBase = "rounded-lg px-3 py-3 text-base font-medium transition-colors hover:bg-muted aria-[current=page]:bg-muted";
 const mobileLink = `${mobileLinkBase} text-foreground`;
 ---
 
@@ -29,11 +38,14 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
     </a>
 
     <nav class="hidden items-center gap-1 lg:flex" aria-label={copy.nav.main}>
-      <a href={href("/")} class:list={[navLink, "px-4 py-2"]}>{copy.nav.home}</a>
+      <a href={href("/")} class:list={desktopLink("/")} aria-current={ariaCurrent("/")}>{copy.nav.home}</a>
       <div class="relative" data-dropdown>
         <button
           type="button"
-          class="inline-flex h-9 items-center gap-1 rounded-lg px-4 text-sm font-medium text-foreground transition-colors hover:bg-[#ece6d6] data-[open]:bg-[#ece6d6]"
+          class:list={[
+            "relative inline-flex h-9 items-center gap-1 rounded-lg px-4 text-sm font-medium text-foreground transition-colors hover:bg-[#ece6d6] data-[open]:bg-[#ece6d6]",
+            servicesActive && navUnderline,
+          ]}
           aria-expanded="false"
           aria-controls="services-menu"
           data-dropdown-trigger
@@ -67,7 +79,7 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
         </div>
       </div>
 
-      {links.map((l) => <a href={href(l.path)} class:list={[navLink, "px-4 py-2"]}>{l.label}</a>)}
+      {links.map((l) => <a href={href(l.path)} class:list={desktopLink(l.path)} aria-current={ariaCurrent(l.path)}>{l.label}</a>)}
     </nav>
 
     <div class="hidden items-center gap-3 lg:flex">
@@ -112,14 +124,14 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
       </button>
     </div>
     <nav class="flex flex-col gap-6 px-4 py-6" aria-label={copy.nav.mobile}>
-      <a href={href("/")} class={mobileLink}>{copy.nav.home}</a>
+      <a href={href("/")} class={mobileLink} aria-current={ariaCurrent("/")}>{copy.nav.home}</a>
       <div class="flex flex-col">
         <p class="px-3 pb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">{copy.nav.services}</p>
-        {services.map((s) => <a href={href(`/services/${s.slug}/`)} class={mobileLink}>{s.content[lang].name}</a>)}
-        <a href={href("/services/")} class:list={[mobileLinkBase, "text-accent"]}>{copy.nav.allServices}</a>
+        {services.map((s) => <a href={href(`/services/${s.slug}/`)} class={mobileLink} aria-current={ariaCurrent(`/services/${s.slug}/`)}>{s.content[lang].name}</a>)}
+        <a href={href("/services/")} class:list={[mobileLinkBase, "text-accent"]} aria-current={current === "/services/" ? "page" : undefined}>{copy.nav.allServices}</a>
       </div>
       <div class="flex flex-col border-t border-border pt-4">
-        {links.map((l) => <a href={href(l.path)} class={mobileLink}>{l.label}</a>)}
+        {links.map((l) => <a href={href(l.path)} class={mobileLink} aria-current={ariaCurrent(l.path)}>{l.label}</a>)}
         <a href={switchHref} class={mobileLink} hreflang={otherLang(lang)} lang={otherLang(lang)}>{copy.nav.switchLang}</a>
       </div>
       <a href={href("/contact/")} class="inline-flex h-12 items-center justify-center rounded-lg bg-accent px-4 text-base font-medium text-accent-foreground hover:bg-accent/90">
