@@ -29,6 +29,7 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
     </a>
 
     <nav class="hidden items-center gap-1 lg:flex" aria-label={copy.nav.main}>
+      <a href={href("/")} class:list={[navLink, "px-4 py-2"]}>{copy.nav.home}</a>
       <div class="relative" data-dropdown>
         <button
           type="button"
@@ -111,6 +112,7 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
       </button>
     </div>
     <nav class="flex flex-col gap-6 px-4 py-6" aria-label={copy.nav.mobile}>
+      <a href={href("/")} class={mobileLink}>{copy.nav.home}</a>
       <div class="flex flex-col">
         <p class="px-3 pb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">{copy.nav.services}</p>
         {services.map((s) => <a href={href(`/services/${s.slug}/`)} class={mobileLink}>{s.content[lang].name}</a>)}

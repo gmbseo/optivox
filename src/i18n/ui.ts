@@ -4,6 +4,7 @@ export const ui = {
   he: {
     skipToContent: "דלגו לתוכן הראשי",
     nav: {
+      home: "עמוד הבית",
       services: "שירותים",
       allServices: "כל השירותים",
       about: "אודות",
@@ -43,6 +44,7 @@ export const ui = {
   en: {
     skipToContent: "Skip to main content",
     nav: {
+      home: "Home",
       services: "Services",
       allServices: "View all services",
       about: "About",
