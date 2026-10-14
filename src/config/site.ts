@@ -12,8 +12,8 @@ type SiteConfig = {
 export const site: SiteConfig = {
   name: "Optivox",
   email: "hello@optivox.com",
-  phone: "",
-  whatsapp: "",
+  phone: "+972-55-245-2289",
+  whatsapp: "972552452289",
   logo: "/menu_logo.webp",
   ogImage: "/icon.jpeg",
 };

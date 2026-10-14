@@ -30,6 +30,11 @@ export const ui = {
       accessibility: "הצהרת נגישות",
       rights: "כל הזכויות שמורות.",
     },
+    floating: {
+      label: "יצירת קשר מהירה",
+      call: "התקשרו אלינו",
+      whatsapp: "שלחו לנו הודעה בוואטסאפ",
+    },
     common: {
       learnMore: "למידע נוסף",
       faqTitle: "שאלות נפוצות",
@@ -69,6 +74,11 @@ export const ui = {
       contact: "Contact",
       accessibility: "Accessibility statement",
       rights: "All rights reserved.",
+    },
+    floating: {
+      label: "Quick contact",
+      call: "Call us",
+      whatsapp: "Message us on WhatsApp",
     },
     common: {
       learnMore: "Learn more",

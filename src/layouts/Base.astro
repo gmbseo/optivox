@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import FloatingContact from "@/components/FloatingContact.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import Seo from "@/components/Seo.astro";
@@ -44,5 +45,6 @@ const schemas = [organizationSchema(lang, base), websiteSchema(lang, base), ...j
       <slot />
     </main>
     <Footer lang={lang} />
+    <FloatingContact lang={lang} />
   </body>
 </html>
