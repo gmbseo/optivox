@@ -22,7 +22,7 @@ const mobileLinkBase = "rounded-lg px-3 py-3 text-base font-medium transition-co
 const mobileLink = `${mobileLinkBase} text-foreground`;
 ---
 
-<header class="sticky top-0 z-50 border-b border-border/60 bg-paper">
+<header class="sticky top-0 z-50 border-b border-[#e2ddcf]/60 bg-nav">
   <div class="container-site flex h-20 items-center justify-between gap-4 lg:h-24">
     <a href={href("/")} class="flex shrink-0 items-center">
       <img src={site.logo} alt={`${site.name} logo`} width="1280" height="472" class="h-12 w-auto lg:h-16" fetchpriority="high" />
@@ -32,7 +32,7 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
       <div class="relative" data-dropdown>
         <button
           type="button"
-          class="inline-flex h-9 items-center gap-1 rounded-lg px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted data-[open]:bg-muted"
+          class="inline-flex h-9 items-center gap-1 rounded-lg px-4 text-sm font-medium text-foreground transition-colors hover:bg-[#ece6d6] data-[open]:bg-[#ece6d6]"
           aria-expanded="false"
           aria-controls="services-menu"
           data-dropdown-trigger
@@ -99,7 +99,7 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
     aria-label={copy.nav.mobile}
     data-menu
   >
-    <div class="flex h-20 items-center justify-between border-b border-border bg-paper px-4">
+    <div class="flex h-20 items-center justify-between border-b border-border bg-nav px-4">
       <img src={site.logo} alt={`${site.name} logo`} width="1280" height="472" class="h-10 w-auto" />
       <button
         type="button"

@@ -6,16 +6,16 @@
   --font-sans: "Heebo Variable", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Frank Ruhl Libre Variable", Georgia, "Times New Roman", serif;
 
-  --color-paper: #f6f2e7;
-  --color-paper-deep: #ece5d3;
+  --color-nav: #f6f2e7;
+  --color-paper: #ffffff;
   --color-ink: #0f2427;
   --color-brand: #0d4a4d;
   --color-brand-deep: #08363a;
-  --color-background: #fdfcf9;
+  --color-background: #ffffff;
   --color-foreground: #14262a;
-  --color-muted: #f2efe7;
+  --color-muted: #f3f5f5;
   --color-muted-foreground: #56676a;
-  --color-border: #e4dfd2;
+  --color-border: #e3e8e8;
   --color-accent: oklch(0.55 0.14 165);
   --color-accent-foreground: oklch(0.98 0.005 165);
   --color-sun: #f2b544;
