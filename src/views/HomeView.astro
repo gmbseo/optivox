@@ -25,9 +25,9 @@ const copy = {
     metaDescription:
       "Optivox עוזרת לעסקים קטנים ובינוניים להימצא: אתרים מהירים, קידום אורגני בגוגל ובגוגל מפות, וקידום בתשובות של ChatGPT, Gemini ו-Google AI Overviews.",
     pill: "בניית אתרים · קידום בגוגל · קידום במנועי AI",
-    h1Pre: "שהלקוחות ימצאו אתכם",
-    h1Mark: "בגוגל, במפות ובצ'אט",
-    lead: "לקוחות מחפשים היום בגוגל, משווים במפות ושואלים את ChatGPT. אנחנו בונים לעסק שלכם אתר שגוגל ומנועי ה-AI מבינים, ודואגים שתופיעו בכל המקומות שבהם בוחרים.",
+    h1Lines: ["יותר תנועה אורגנית.", "יותר לידים."],
+    h1Mark: "יותר מכירות.",
+    lead: "אנחנו עוזרים לעסקים להגיע למקומות הראשונים בגוגל ולהפוך מחפשים אנונימיים ללקוחות משלמים.",
     reassurance: "בדיקה אישית, לא דוח אוטומטי. בלי התחייבות.",
     mock: {
       query: "רואה חשבון לעסק קטן ברמת גן",
@@ -111,9 +111,9 @@ const copy = {
     metaDescription:
       "Optivox helps small and mid-sized businesses get found: fast websites, organic SEO for Google Search and Maps, and visibility in ChatGPT, Gemini and Google AI Overviews.",
     pill: "Websites · SEO · AI search optimization",
-    h1Pre: "Get found by customers on",
-    h1Mark: "Google, Maps and AI answers",
-    lead: "Customers search on Google, compare on Maps and ask ChatGPT. We build your business a website that Google and AI engines understand, and make sure you show up everywhere people decide.",
+    h1Lines: ["More organic traffic.", "More leads."],
+    h1Mark: "More sales.",
+    lead: "We help businesses reach the top of Google and turn anonymous searchers into paying customers.",
     reassurance: "A personal review, not an automated report. No commitment.",
     mock: {
       query: "small business accountant tel aviv",
@@ -211,7 +211,7 @@ const heroCard = "rounded-2xl bg-white p-4 shadow-2xl shadow-black/40 ring-1 rin
           {copy.pill}
         </p>
         <h1 class="mt-7 text-[2.75rem] leading-[1.08] text-paper motion-safe:animate-rise motion-safe:[animation-delay:100ms] sm:text-6xl lg:text-[4.25rem] xl:text-[4.75rem]">
-          {copy.h1Pre}{" "}
+          {copy.h1Lines.map((line) => <><span class="block">{line}</span>{" "}</>)}
           <span class="relative inline-block text-sun">
             {copy.h1Mark}
             <svg class="flip-rtl absolute inset-x-0 -bottom-2 h-3 w-full text-sun/70" viewBox="0 0 300 12" preserveAspectRatio="none" fill="none" aria-hidden="true">
