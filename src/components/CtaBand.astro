@@ -8,13 +8,14 @@ interface Props {
   lang: Lang;
   title: string;
   body: string;
+  class?: string;
 }
 
-const { lang, title, body } = Astro.props;
+const { lang, title, body, class: className } = Astro.props;
 const copy = t(lang);
 ---
 
-<section class="py-16 sm:py-20 lg:py-24">
+<section class:list={["py-16 sm:py-20 lg:py-24", className]}>
   <div class="container-site">
     <div class="panel-dark px-6 py-16 text-center sm:px-12 sm:py-20 lg:py-24">
       <Topo class="text-paper/[0.08]" />

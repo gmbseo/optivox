@@ -5,12 +5,13 @@ interface Props {
   title: string;
   intro?: string;
   faqs: readonly { q: string; a: string }[];
+  class?: string;
 }
 
-const { title, intro, faqs } = Astro.props;
+const { title, intro, faqs, class: className } = Astro.props;
 ---
 
-<section class="section" aria-labelledby="faq-title">
+<section class:list={["section", className]} aria-labelledby="faq-title">
   <div class="container-site grid gap-12 lg:grid-cols-[1fr_1.8fr] lg:gap-20">
     <div>
       <h2 id="faq-title" class="h-section">{title}</h2>
