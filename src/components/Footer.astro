@@ -12,40 +12,41 @@ const { lang } = Astro.props;
 const copy = t(lang);
 const href = (path: string) => localePath(lang, path);
 const year = new Date().getFullYear();
-const heading = "mb-1 text-sm font-semibold text-ink";
-const link = "text-sm text-muted-foreground transition-colors hover:text-foreground";
+const heading = "mb-1 text-sm font-semibold text-paper";
+const link = "w-fit text-sm text-paper/55 transition-colors hover:text-paper";
+const col = "flex flex-col items-start gap-3 text-start";
 ---
 
-<footer class="border-t border-[#e2ddcf]/60 bg-nav">
-  <div class="container-site grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] lg:py-20">
-    <div class="flex flex-col items-start gap-5">
+<footer class="border-t border-white/10 bg-black text-paper">
+  <div class="container-site grid grid-cols-2 gap-x-8 gap-y-10 py-16 lg:grid-cols-[1.6fr_1fr_1fr_1fr] lg:gap-12 lg:py-20">
+    <div class="col-span-2 flex flex-col items-center gap-5 text-center lg:col-span-1 lg:items-start lg:text-start">
       <a href={href("/")} class="w-fit">
-        <img src={site.logo} alt={`${site.name} logo`} width="1280" height="472" class="h-12 w-auto" loading="lazy" />
+        <img src="/logo_on_dark.webp" alt={`${site.name} logo`} width="1280" height="472" class="h-12 w-auto" loading="lazy" />
       </a>
-      <p class="max-w-xs font-display text-xl leading-snug text-ink text-pretty">{copy.footer.tagline}</p>
+      <p class="max-w-xs font-display text-xl leading-snug text-paper/85 text-pretty">{copy.footer.tagline}</p>
       <a href={href("/contact/")} class="btn-primary px-5 py-2.5 text-sm">{copy.cta.audit}</a>
     </div>
 
-    <div class="flex flex-col gap-3">
+    <div class={col}>
       <p class={heading}>{copy.footer.services}</p>
       {services.map((s) => <a href={href(`/services/${s.slug}/`)} class={link}>{s.content[lang].name}</a>)}
     </div>
 
-    <div class="flex flex-col gap-3">
+    <div class={col}>
       <p class={heading}>{copy.footer.company}</p>
       <a href={href("/about/")} class={link}>{copy.nav.about}</a>
       <a href={href("/contact/")} class={link}>{copy.nav.contact}</a>
       <a href={href("/accessibility/")} class={link}>{copy.footer.accessibility}</a>
     </div>
 
-    <div class="flex flex-col gap-3">
+    <div class={col}>
       <p class={heading}>{copy.footer.contact}</p>
-      <a href={`mailto:${site.email}`} class={link} dir="ltr">{site.email}</a>
+      {site.email && <a href={`mailto:${site.email}`} class={link} dir="ltr">{site.email}</a>}
       {site.phone && <a href={`tel:${site.phone.replace(/[^\d+]/g, "")}`} class={link} dir="ltr">{site.phone}</a>}
       {site.whatsapp && <a href={`https://wa.me/${site.whatsapp}`} class={link} rel="noopener">WhatsApp</a>}
     </div>
   </div>
-  <div class="border-t border-[#e2ddcf]">
-    <p class="container-site py-5 text-xs text-muted-foreground">© {year} {site.name}. {copy.footer.rights}</p>
+  <div class="border-t border-white/10">
+    <p class="container-site py-5 text-xs text-paper/45">© {year} {site.name}. {copy.footer.rights}</p>
   </div>
 </footer>

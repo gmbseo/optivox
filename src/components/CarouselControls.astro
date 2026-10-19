@@ -1,0 +1,98 @@
+---
+import Icon from "@/components/Icon.astro";
+
+interface Props {
+  count: number;
+  prevLabel: string;
+  nextLabel: string;
+  goToLabel: string;
+}
+
+const { count, prevLabel, nextLabel, goToLabel } = Astro.props;
+const arrow =
+  "grid size-10 shrink-0 place-items-center rounded-full border border-border bg-background text-ink transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-30";
+---
+
+<div class="mt-6 flex w-full items-center justify-between gap-3 md:hidden" data-carousel-controls>
+  <button type="button" data-carousel-prev class={arrow} aria-label={prevLabel}>
+    <Icon name="chevron-left" class="size-5 flip-rtl" />
+  </button>
+  <div class="flex items-center justify-center gap-2" data-carousel-dots>
+    {
+      Array.from({ length: count }, (_, i) => (
+        <button
+          type="button"
+          data-carousel-dot
+          data-index={i}
+          class="size-2.5 rounded-full bg-ink/20 transition-[background-color,transform] aria-[current=true]:scale-125 aria-[current=true]:bg-ink"
+          aria-label={`${goToLabel} ${i + 1}`}
+          aria-current={i === 0 ? "true" : undefined}
+        />
+      ))
+    }
+  </div>
+  <button type="button" data-carousel-next class={arrow} aria-label={nextLabel}>
+    <Icon name="chevron-right" class="size-5 flip-rtl" />
+  </button>
+</div>
+
+<script>
+  function initCarousel(root: HTMLElement) {
+    if (root.dataset.carouselReady === "true") return;
+
+    const track = root.querySelector<HTMLElement>("[data-carousel-track]");
+    const prev = root.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-carousel-next]");
+    const dots = [...root.querySelectorAll<HTMLButtonElement>("[data-carousel-dot]")];
+    if (!track || !prev || !next) return;
+
+    const slides = [...track.children] as HTMLElement[];
+    let index = 0;
+
+    const update = () => {
+      prev.disabled = index <= 0;
+      next.disabled = index >= slides.length - 1;
+      dots.forEach((dot, i) => {
+        if (i === index) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    };
+
+    const go = (i: number) => {
+      index = Math.max(0, Math.min(slides.length - 1, i));
+      slides[index]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+      update();
+    };
+
+    prev.addEventListener("click", () => go(index - 1));
+    next.addEventListener("click", () => go(index + 1));
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => go(Number(dot.dataset.index)));
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const nextIndex = slides.indexOf(visible.target as HTMLElement);
+        if (nextIndex >= 0) {
+          index = nextIndex;
+          update();
+        }
+      },
+      { root: track, threshold: 0.55 },
+    );
+    slides.forEach((slide) => observer.observe(slide));
+    root.dataset.carouselReady = "true";
+    update();
+  }
+
+  function initAllCarousels() {
+    document.querySelectorAll<HTMLElement>("[data-carousel]").forEach(initCarousel);
+  }
+
+  initAllCarousels();
+  document.addEventListener("astro:page-load", initAllCarousels);
+</script>

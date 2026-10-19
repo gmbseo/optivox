@@ -44,6 +44,9 @@ export const ui = {
       goodFit: "מתאים לכם אם",
       notFit: "פחות מתאים אם",
       related: "שירותים משלימים",
+      prev: "הקודם",
+      next: "הבא",
+      goToSlide: "עבור לפריט",
     },
   },
   en: {
@@ -89,6 +92,9 @@ export const ui = {
       goodFit: "A good fit if",
       notFit: "Not the right fit if",
       related: "Related services",
+      prev: "Previous",
+      next: "Next",
+      goToSlide: "Go to item",
     },
   },
 } as const satisfies Record<Lang, unknown>;

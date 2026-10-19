@@ -19,7 +19,7 @@ export function organizationSchema(lang: Lang, base: URL | string): Json {
     logo: absolute(site.logo, base),
     image: absolute(site.ogImage, base),
     description: t(lang).footer.tagline,
-    email: site.email,
+    ...(site.email ? { email: site.email } : {}),
     ...(site.phone ? { telephone: site.phone } : {}),
     areaServed: { "@type": "Country", name: lang === "he" ? "ישראל" : "Israel" },
     knowsLanguage: ["he", "en"],

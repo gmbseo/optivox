@@ -1,5 +1,6 @@
 type SiteConfig = {
   name: string;
+  /** Leave empty to hide. */
   email: string;
   /** Leave empty to hide. International format, e.g. "+972-50-000-0000". */
   phone: string;
@@ -11,7 +12,7 @@ type SiteConfig = {
 
 export const site: SiteConfig = {
   name: "Optivox",
-  email: "hello@optivox.com",
+  email: "",
   phone: "+972-55-245-2289",
   whatsapp: "972552452289",
   logo: "/menu_logo.webp",

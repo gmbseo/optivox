@@ -36,7 +36,9 @@ const copy = {
       },
       {
         h: "יצירת קשר בנושא נגישות",
-        p: "לפניות בנושא נגישות אפשר לכתוב לנו לכתובת:",
+        p: site.email
+          ? "לפניות בנושא נגישות אפשר לכתוב לנו לכתובת:"
+          : "לפניות בנושא נגישות אפשר ליצור איתנו קשר בטלפון או דרך טופס יצירת הקשר באתר.",
       },
     ],
     updatedLabel: "ההצהרה עודכנה לאחרונה בתאריך",
@@ -66,7 +68,9 @@ const copy = {
       },
       {
         h: "Contact us about accessibility",
-        p: "For accessibility questions or feedback, email us at:",
+        p: site.email
+          ? "For accessibility questions or feedback, email us at:"
+          : "For accessibility questions or feedback, call us or use the contact form on this site.",
       },
     ],
     updatedLabel: "Last updated",
@@ -92,9 +96,14 @@ const copy = {
                 {s.list.map((item) => <li>{item}</li>)}
               </ul>
             )}
-            {i === copy.sections.length - 1 && (
+            {i === copy.sections.length - 1 && site.email && (
               <a href={`mailto:${site.email}`} class="mt-2 inline-block text-lg font-semibold text-brand hover:text-accent" dir="ltr">
                 {site.email}
+              </a>
+            )}
+            {i === copy.sections.length - 1 && !site.email && site.phone && (
+              <a href={`tel:${site.phone.replace(/[^\d+]/g, "")}`} class="mt-2 inline-block text-lg font-semibold text-brand hover:text-accent" dir="ltr">
+                {site.phone}
               </a>
             )}
           </div>

@@ -34,8 +34,7 @@ export const GET: APIRoute = ({ site }) => {
     "",
     summary.he,
     "",
-    `Contact: ${siteConfig.email}`,
-    "",
+    ...(siteConfig.email ? [`Contact: ${siteConfig.email}`, ""] : siteConfig.phone ? [`Contact: ${siteConfig.phone}`, ""] : []),
     ...section("en", "Pages (English)"),
     ...section("he", "עמודים (עברית)"),
   ].join("\n");
