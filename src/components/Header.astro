@@ -1,4 +1,5 @@
 ---
+import { israelOrigin } from "@/config/domains";
 import { site } from "@/config/site";
 import { services } from "@/content/services";
 import { localePath, otherLang, stripLang, type Lang } from "@/i18n";
@@ -12,12 +13,13 @@ interface Props {
 const { lang } = Astro.props;
 const copy = t(lang);
 const href = (path: string) => localePath(lang, path);
-const switchHref = localePath(otherLang(lang), stripLang(Astro.url.pathname));
+const current = stripLang(Astro.url.pathname);
+const switchHref =
+  lang === "en" ? new URL(current, `${israelOrigin()}/`).toString() : localePath(otherLang(lang), current);
 const links = [
   { label: copy.nav.about, path: "/about/" },
   { label: copy.nav.contact, path: "/contact/" },
 ];
-const current = stripLang(Astro.url.pathname);
 const isActive = (path: string) => (path === "/" ? current === "/" : current.startsWith(path));
 const servicesActive = isActive("/services/");
 const navLink = "text-sm font-medium text-muted-foreground transition-colors hover:text-foreground";

@@ -22,13 +22,16 @@ npm run build      # astro check + astro build into dist/
 npm run preview    # serve dist/ locally
 ```
 
-The `SITE_URL` environment variable (read at build time, e.g. set in Netlify) sets the origin used for canonical URLs, hreflang, the sitemap and JSON-LD. It defaults to `https://optivox.com`.
+Build-time origins (set in Netlify):
+
+- `SITE_URL` / `ISRAEL_SITE_URL` — `https://optivox.co.il` (Hebrew at `/`, English at `/en/`)
+- `INTL_SITE_URL` — `https://optivox.io` (English at `/`; later locales can be added here too)
 
 ---
 
 ## Languages and routes
 
-Hebrew is the default language and lives at the root (RTL). English lives under `/en/`. Every page exists in both languages and is linked with `hreflang` alternates (`x-default` points to Hebrew).
+Hebrew is the default language on `optivox.co.il` (RTL at `/`). English also lives on `.co.il` under `/en/`, and is the only language on `optivox.io` (served at `/`). Canonical English URLs point at `.io`. `hreflang` links Hebrew, English, `en-IL`, and `x-default` (English / `.io`).
 
 | Hebrew | English | Page |
 |--------|---------|------|
@@ -75,7 +78,7 @@ src/
 
 - The contact form uses **Netlify Forms** (`name="contact"`). Submissions appear in the Netlify dashboard once the site is deployed. Set up email notifications there.
 - `/_astro/*` assets get long-lived immutable cache headers.
-- Unknown `/en/*` URLs return the English 404 page.
+- Unknown `/en/*` URLs on `.co.il` return the English 404 page. On `.io`, unknown URLs return the English 404 and `/en/*` redirects to the unprefixed English URL.
 
 ### Post-deploy checklist
 

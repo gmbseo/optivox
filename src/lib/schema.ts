@@ -1,5 +1,6 @@
+import { israelOrigin, publicUrl } from "@/config/domains";
 import { site } from "@/config/site";
-import { langMeta, localePath, type Lang } from "@/i18n";
+import { langMeta, type Lang } from "@/i18n";
 import { t } from "@/i18n/ui";
 
 type Json = Record<string, unknown>;
@@ -8,16 +9,17 @@ export function absolute(path: string, base: URL | string): string {
   return new URL(path, base).toString();
 }
 
-export function organizationSchema(lang: Lang, base: URL | string): Json {
-  const url = absolute(localePath(lang, "/"), base);
+export function organizationSchema(lang: Lang, _base?: URL | string): Json {
+  const origin = israelOrigin();
+  const url = publicUrl(lang, "/");
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "@id": absolute("/#organization", base),
+    "@id": absolute("/#organization", origin),
     name: site.name,
     url,
-    logo: absolute(site.logo, base),
-    image: absolute(site.ogImage, base),
+    logo: absolute(site.logo, origin),
+    image: absolute(site.ogImage, origin),
     description: t(lang).footer.tagline,
     ...(site.email ? { email: site.email } : {}),
     ...(site.phone ? { telephone: site.phone } : {}),
@@ -26,15 +28,16 @@ export function organizationSchema(lang: Lang, base: URL | string): Json {
   };
 }
 
-export function websiteSchema(lang: Lang, base: URL | string): Json {
+export function websiteSchema(lang: Lang, _base?: URL | string): Json {
+  const url = publicUrl(lang, "/");
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": absolute(`${localePath(lang, "/")}#website`, base),
+    "@id": `${url}#website`,
     name: site.name,
-    url: absolute(localePath(lang, "/"), base),
+    url,
     inLanguage: langMeta[lang].hreflang,
-    publisher: { "@id": absolute("/#organization", base) },
+    publisher: { "@id": absolute("/#organization", israelOrigin()) },
   };
 }
 
@@ -48,9 +51,9 @@ export function serviceSchema(
     "@type": "Service",
     name: service.name,
     description: service.description,
-    url: absolute(localePath(lang, service.path), base),
+    url: publicUrl(lang, service.path),
     serviceType: service.name,
-    provider: { "@id": absolute("/#organization", base) },
+    provider: { "@id": absolute("/#organization", israelOrigin()) },
     areaServed: { "@type": "Country", name: lang === "he" ? "ישראל" : "Israel" },
     inLanguage: langMeta[lang].hreflang,
   };

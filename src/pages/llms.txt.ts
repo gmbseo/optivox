@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
+import { publicUrl } from "@/config/domains";
 import { site as siteConfig } from "@/config/site";
 import { services } from "@/content/services";
-import { localePath, type Lang } from "@/i18n";
+import { type Lang } from "@/i18n";
 
 const summary = {
   en: "Optivox helps small and mid-sized businesses get found on Google Search, Google Maps and in AI answers (ChatGPT, Gemini, Perplexity, Google AI Overviews). Services: website development, SEO, and AI search optimization (GEO). Works in Hebrew and English, serving businesses in Israel.",
@@ -13,8 +14,8 @@ const pages = {
   he: { home: "דף הבית", services: "כל השירותים", about: "אודות", contact: "צור קשר ובדיקת נראות חינם" },
 } satisfies Record<Lang, Record<string, string>>;
 
-export const GET: APIRoute = ({ site }) => {
-  const url = (lang: Lang, path: string) => new URL(localePath(lang, path), site).toString();
+export const GET: APIRoute = () => {
+  const url = (lang: Lang, path: string) => publicUrl(lang, path);
 
   const section = (lang: Lang, heading: string) => [
     `## ${heading}`,

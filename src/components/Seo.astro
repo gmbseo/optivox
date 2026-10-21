@@ -1,6 +1,7 @@
 ---
+import { israelEnglishUrl, publicUrl } from "@/config/domains";
 import { site } from "@/config/site";
-import { defaultLang, langMeta, localePath, locales, type Lang } from "@/i18n";
+import { langMeta, locales, type Lang } from "@/i18n";
 
 interface Props {
   lang: Lang;
@@ -13,10 +14,9 @@ interface Props {
 }
 
 const { lang, title, description, path, noindex = false, jsonLd = [] } = Astro.props;
-const base = Astro.site ?? Astro.url;
 const fullTitle = title.includes(site.name) ? title : `${title} | ${site.name}`;
-const canonical = new URL(localePath(lang, path), base).toString();
-const ogImage = new URL(site.ogImage, base).toString();
+const canonical = publicUrl(lang, path);
+const ogImage = new URL(site.ogImage, publicUrl(lang, "/")).toString();
 ---
 
 <title>{fullTitle}</title>
@@ -25,11 +25,10 @@ const ogImage = new URL(site.ogImage, base).toString();
 {noindex && <meta name="robots" content="noindex, follow" />}
 {
   !noindex &&
-    locales.map((l) => (
-      <link rel="alternate" hreflang={langMeta[l].hreflang} href={new URL(localePath(l, path), base).toString()} />
-    ))
+    locales.map((l) => <link rel="alternate" hreflang={langMeta[l].hreflang} href={publicUrl(l, path)} />)
 }
-{!noindex && <link rel="alternate" hreflang="x-default" href={new URL(localePath(defaultLang, path), base).toString()} />}
+{!noindex && <link rel="alternate" hreflang="en-IL" href={israelEnglishUrl(path)} />}
+{!noindex && <link rel="alternate" hreflang="x-default" href={publicUrl("en", path)} />}
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={site.name} />

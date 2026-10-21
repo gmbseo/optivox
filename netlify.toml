@@ -4,6 +4,100 @@ publish = "dist"
 
 [build.environment]
 NODE_VERSION = "24"
+SITE_URL = "https://optivox.co.il"
+ISRAEL_SITE_URL = "https://optivox.co.il"
+INTL_SITE_URL = "https://optivox.io"
+
+# International host: English lives in /en/ on disk but is served at the root.
+# force=true is required because Hebrew files already occupy those paths.
+
+[[redirects]]
+from = "/*"
+to = "https://optivox.io/:splat"
+status = 301
+force = true
+conditions = {Host = ["www.optivox.io"]}
+
+[[redirects]]
+from = "/en/"
+to = "/"
+status = 301
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/en/*"
+to = "/:splat"
+status = 301
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/"
+to = "/en/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/about/"
+to = "/en/about/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/accessibility/"
+to = "/en/accessibility/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/contact/"
+to = "/en/contact/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/contact/thanks/"
+to = "/en/contact/thanks/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/services/"
+to = "/en/services/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/services/website-development/"
+to = "/en/services/website-development/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/services/seo/"
+to = "/en/services/seo/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/services/ai-search-optimization/"
+to = "/en/services/ai-search-optimization/"
+status = 200
+force = true
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
+
+[[redirects]]
+from = "/*"
+to = "/en/404/"
+status = 404
+conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
 from = "/en/*"

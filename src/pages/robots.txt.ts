@@ -3,7 +3,7 @@ import type { APIRoute } from "astro";
 const aiCrawlers = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "PerplexityBot", "Google-Extended"];
 
 export const GET: APIRoute = ({ site }) => {
-  const sitemap = new URL("/sitemap-index.xml", site).toString();
+  const sitemap = new URL("/sitemap-index.xml", site ?? "https://optivox.co.il").toString();
   const body = [
     "User-agent: *",
     "Allow: /",
