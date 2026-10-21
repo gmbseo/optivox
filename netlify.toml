@@ -9,95 +9,85 @@ ISRAEL_SITE_URL = "https://optivox.co.il"
 INTL_SITE_URL = "https://optivox.io"
 
 # International host: English lives in /en/ on disk but is served at the root.
+# Use full https://optivox.io/... from-URLs — Netlify does not support Host conditions.
 # force=true is required because Hebrew files already occupy those paths.
 
 [[redirects]]
-from = "/*"
+from = "https://www.optivox.io/*"
 to = "https://optivox.io/:splat"
 status = 301
 force = true
-conditions = {Host = ["www.optivox.io"]}
 
 [[redirects]]
-from = "/en/"
+from = "https://optivox.io/en/"
 to = "/"
 status = 301
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
+force = true
 
 [[redirects]]
-from = "/en/*"
+from = "https://optivox.io/en/*"
 to = "/:splat"
 status = 301
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
+force = true
 
 [[redirects]]
-from = "/"
+from = "https://optivox.io/"
 to = "/en/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/about/"
+from = "https://optivox.io/about/"
 to = "/en/about/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/accessibility/"
+from = "https://optivox.io/accessibility/"
 to = "/en/accessibility/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/contact/"
+from = "https://optivox.io/contact/"
 to = "/en/contact/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/contact/thanks/"
+from = "https://optivox.io/contact/thanks/"
 to = "/en/contact/thanks/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/services/"
+from = "https://optivox.io/services/"
 to = "/en/services/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/services/website-development/"
+from = "https://optivox.io/services/website-development/"
 to = "/en/services/website-development/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/services/seo/"
+from = "https://optivox.io/services/seo/"
 to = "/en/services/seo/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/services/ai-search-optimization/"
+from = "https://optivox.io/services/ai-search-optimization/"
 to = "/en/services/ai-search-optimization/"
 status = 200
 force = true
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
-from = "/*"
+from = "https://optivox.io/*"
 to = "/en/404/"
 status = 404
-conditions = {Host = ["optivox.io", "www.optivox.io"]}
 
 [[redirects]]
 from = "/en/*"
