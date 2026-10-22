@@ -2,9 +2,9 @@
 
 Bilingual (Hebrew / English) marketing website for **Optivox**: website development, SEO, and AI search optimization (GEO) for small and mid-sized businesses.
 
-**Stack:** Astro 7 (static output) · TypeScript · Tailwind CSS v4 · Netlify (hosting + Forms)
+**Stack:** Astro 7 (static output) · TypeScript · Tailwind CSS v4 · Netlify · EmailJS
 
-The site ships no framework JavaScript. The only client script is the small inline one in `Header.astro` for the services dropdown and mobile menu.
+Client JavaScript is limited to the header menu and the EmailJS contact form.
 
 ---
 
@@ -76,7 +76,9 @@ src/
 
 `netlify.toml` builds with `npm run build` and publishes `dist/`.
 
-- The contact form uses **Netlify Forms** (`name="contact"`). Submissions appear in the Netlify dashboard once the site is deployed. Set up email notifications there.
+- The contact form sends through **EmailJS**. Set `PUBLIC_EMAILJS_PUBLIC_KEY`, `PUBLIC_EMAILJS_SERVICE_ID`, `PUBLIC_EMAILJS_TEMPLATE_ID`, and `PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID` in `.env` locally and in the Netlify env UI. Allow `localhost`, `optivox.co.il`, and `optivox.io` in the EmailJS dashboard.
+  - Lead template variables: `name`, `business`, `email`, `phone`, `website`, `service`, `language`, `origin`, `message`.
+  - Auto-reply template: **To Email** = `{{to_email}}`, **Subject** = `{{reply_subject}}`, body = `{{{reply_html}}}` (three braces so Hebrew HTML stays RTL). Do not also enable the dashboard Auto-Reply link on the lead template, or visitors get two confirmation emails.
 - `/_astro/*` assets get long-lived immutable cache headers.
 - Unknown `/en/*` URLs on `.co.il` return the English 404 page. On `.io`, unknown URLs return the English 404 and `/en/*` redirects to the unprefixed English URL.
 
@@ -84,7 +86,7 @@ src/
 
 - [ ] Confirm `SITE_URL` matches the production domain
 - [ ] Submit `/sitemap-index.xml` in Google Search Console and Bing Webmaster Tools
-- [ ] Enable form notifications in Netlify
+- [ ] Confirm EmailJS env vars and a test submission from `/contact/`
 - [ ] Add analytics (with a cookie consent banner)
 
 ---

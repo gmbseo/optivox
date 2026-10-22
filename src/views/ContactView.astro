@@ -21,6 +21,16 @@ const crumbs = [
   { name: ui.nav.contact, href: href("/contact/") },
 ];
 
+const waLink = `https://wa.me/${site.whatsapp}`;
+const brandHtml = `<span dir="ltr" style="unicode-bidi:isolate">Optivox</span>`;
+const replyWrap = (dir: "rtl" | "ltr", paragraphs: string[]) => {
+  const lang = dir === "rtl" ? "he" : "en";
+  const align = dir === "rtl" ? "right" : "left";
+  return `<div dir="${dir}" lang="${lang}" style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.7;color:#14262a;text-align:${align}">${paragraphs
+    .map((p) => `<p style="margin:0 0 16px">${p}</p>`)
+    .join("")}</div>`;
+};
+
 const copy = {
   he: {
     metaTitle: "צור קשר ובדיקת נראות חינם",
@@ -38,8 +48,19 @@ const copy = {
       notSure: "עוד לא בטוח/ה",
       message: "משהו נוסף שכדאי שנדע?",
       submit: "שליחה",
+      sending: "שולח…",
+      error: "השליחה נכשלה. נסו שוב, או כתבו לנו בוואטסאפ.",
       required: "שדה חובה",
       privacy: "הפרטים משמשים רק כדי לחזור אליכם בנוגע לפנייה.",
+    },
+    reply: {
+      subject: "קיבלנו את הפנייה שלך | Optivox",
+      html: replyWrap("rtl", [
+        "שלום {name},",
+        `תודה שפנית ל־${brandHtml}. קיבלנו את הפרטים לבדיקת הנראות, ונחזור אליך עם ממצאים והמלצה.`,
+        `אם משהו דחוף, אפשר גם בוואטסאפ:<br><a href="${waLink}" dir="ltr" style="unicode-bidi:isolate">${waLink}</a>`,
+        brandHtml,
+      ]),
     },
     nextTitle: "מה קורה אחרי השליחה",
     next: ["אנחנו עוברים על הפרטים ובודקים את הנראות של העסק", "חוזרים אליכם עם ממצאים והמלצה ברורה", "אם זה מתאים לשני הצדדים, נבנה יחד תוכנית עבודה"],
@@ -61,8 +82,19 @@ const copy = {
       notSure: "Not sure yet",
       message: "Anything else we should know?",
       submit: "Send",
+      sending: "Sending…",
+      error: "Sending failed. Try again, or message us on WhatsApp.",
       required: "Required",
       privacy: "We only use your details to get back to you about this request.",
+    },
+    reply: {
+      subject: "We received your request | Optivox",
+      html: replyWrap("ltr", [
+        "Hi {name},",
+        "Thanks for contacting Optivox. We've received your details for the visibility audit, and we'll get back to you with findings and a recommendation.",
+        `If something is urgent, you can also message us on WhatsApp:<br><a href="${waLink}" dir="ltr">${waLink}</a>`,
+        "Optivox",
+      ]),
     },
     nextTitle: "What happens next",
     next: ["We review your details and check your business's visibility", "We come back with findings and a clear recommendation", "If it's a good fit for both sides, we build a plan together"],
@@ -85,15 +117,17 @@ const input =
           <p class="lead mt-6 max-w-2xl">{copy.lead}</p>
 
           <form
-            name="contact"
+            id="contact-form"
             method="POST"
             action={href("/contact/thanks/")}
-            data-netlify="true"
-            netlify-honeypot="bot-field"
+            data-sending={copy.form.sending}
             class="card mt-10 grid gap-6 border-t-4 border-t-sun shadow-xl shadow-ink/5 sm:grid-cols-2"
           >
-            <input type="hidden" name="form-name" value="contact" />
             <input type="hidden" name="language" value={lang} />
+            <input type="hidden" name="origin" value="" />
+            <input type="hidden" name="to_email" value="" />
+            <input type="hidden" name="reply_subject" value="" />
+            <input type="hidden" name="reply_html" value="" />
             <p class="hidden">
               <label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
             </p>
@@ -129,10 +163,13 @@ const input =
               <label for="message" class={label}>{copy.form.message}</label>
               <textarea id="message" name="message" rows="4" dir="auto" class={input}></textarea>
             </div>
+            <p data-form-error class="hidden text-sm text-red-700 sm:col-span-2" role="alert">
+              {copy.form.error}
+            </p>
             <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
               <p class="text-sm text-muted-foreground">{copy.form.privacy}</p>
-              <button type="submit" class="btn-primary shrink-0">
-                {copy.form.submit}
+              <button type="submit" class="btn-primary shrink-0 disabled:pointer-events-none disabled:opacity-60">
+                <span data-submit-label>{copy.form.submit}</span>
                 <Icon name="arrow" class="size-4 flip-rtl" />
               </button>
             </div>
@@ -195,10 +232,89 @@ const input =
   </section>
 </Base>
 
+<pre id="contact-reply-copy" hidden>{JSON.stringify(copy.reply)}</pre>
+
 <script>
+  import emailjs from "@emailjs/browser";
+
   const requested = new URLSearchParams(window.location.search).get("service");
   const select = document.querySelector<HTMLSelectElement>("#service");
   if (requested && select && [...select.options].some((o) => o.value === requested)) {
     select.value = requested;
+  }
+
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  if (form) {
+    const errorEl = form.querySelector<HTMLElement>("[data-form-error]");
+    const submit = form.querySelector<HTMLButtonElement>('[type="submit"]');
+    const label = submit?.querySelector("[data-submit-label]");
+    const idleLabel = label?.textContent ?? "";
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const honeypot = form.querySelector<HTMLInputElement>('[name="bot-field"]');
+      if (honeypot?.value) {
+        window.location.assign(form.action);
+        return;
+      }
+
+      const serviceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID ?? "";
+      const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
+      const autoReplyId = import.meta.env.PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID ?? "";
+      const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
+
+      const email = form.querySelector<HTMLInputElement>('[name="email"]')?.value.trim() ?? "";
+      const name = form.querySelector<HTMLInputElement>('[name="name"]')?.value.trim() ?? "";
+      const replyCopy = JSON.parse(document.getElementById("contact-reply-copy")?.textContent ?? "{}") as {
+        subject?: string;
+        html?: string;
+      };
+      const origin = form.querySelector<HTMLInputElement>('[name="origin"]');
+      const toEmail = form.querySelector<HTMLInputElement>('[name="to_email"]');
+      const replySubject = form.querySelector<HTMLInputElement>('[name="reply_subject"]');
+      const replyHtml = form.querySelector<HTMLInputElement>('[name="reply_html"]');
+      const replyHtmlValue = (replyCopy.html ?? "").replaceAll("{name}", name);
+      if (origin) origin.value = location.origin;
+      if (toEmail) toEmail.value = email;
+      if (replySubject) replySubject.value = replyCopy.subject ?? "";
+      if (replyHtml) replyHtml.value = replyHtmlValue;
+
+      errorEl?.classList.add("hidden");
+      if (submit) submit.disabled = true;
+      if (label) label.textContent = form.dataset.sending ?? idleLabel;
+
+      try {
+        if (!serviceId || !templateId || !publicKey) {
+          throw new Error("EmailJS is not configured");
+        }
+        await emailjs.sendForm(serviceId, templateId, form, { publicKey });
+        if (autoReplyId && email) {
+          await new Promise((resolve) => setTimeout(resolve, 1100));
+          try {
+            await emailjs.send(
+              serviceId,
+              autoReplyId,
+              {
+                name,
+                email,
+                to_email: email,
+                reply_subject: replySubject?.value ?? "",
+                reply_html: replyHtmlValue,
+                language: form.querySelector<HTMLInputElement>('[name="language"]')?.value ?? "",
+              },
+              { publicKey },
+            );
+          } catch {
+            // Lead already arrived; don't block the thanks page if the auto-reply fails.
+          }
+        }
+        window.location.assign(form.action);
+      } catch {
+        if (submit) submit.disabled = false;
+        if (label) label.textContent = idleLabel;
+        errorEl?.classList.remove("hidden");
+      }
+    });
   }
 </script>
