@@ -54,10 +54,10 @@ const copy = {
       privacy: "הפרטים משמשים רק כדי לחזור אליכם בנוגע לפנייה.",
     },
     reply: {
-      subject: "קיבלנו את הפנייה שלך | Optivox",
+      subject: "קיבלנו את הפנייה | Optivox",
       html: replyWrap("rtl", [
         "שלום {name},",
-        `תודה שפנית ל־${brandHtml}. קיבלנו את הפרטים לבדיקת הנראות, ונחזור אליך עם ממצאים והמלצה.`,
+        `תודה שפנית ל־${brandHtml}. קיבלנו את הפרטים ונחזור אליך במהרה.`,
         `אם משהו דחוף, אפשר גם בוואטסאפ:<br><a href="${waLink}" dir="ltr" style="unicode-bidi:isolate">${waLink}</a>`,
         brandHtml,
       ]),
@@ -88,10 +88,10 @@ const copy = {
       privacy: "We only use your details to get back to you about this request.",
     },
     reply: {
-      subject: "We received your request | Optivox",
+      subject: "We got your message | Optivox",
       html: replyWrap("ltr", [
         "Hi {name},",
-        "Thanks for contacting Optivox. We've received your details for the visibility audit, and we'll get back to you with findings and a recommendation.",
+        "Thanks for contacting Optivox. We've received your details and will get back to you shortly.",
         `If something is urgent, you can also message us on WhatsApp:<br><a href="${waLink}" dir="ltr">${waLink}</a>`,
         "Optivox",
       ]),
@@ -123,11 +123,8 @@ const input =
             data-sending={copy.form.sending}
             class="card mt-10 grid gap-6 border-t-4 border-t-sun shadow-xl shadow-ink/5 sm:grid-cols-2"
           >
+            <input type="hidden" name="flow" value="contact" />
             <input type="hidden" name="language" value={lang} />
-            <input type="hidden" name="origin" value="" />
-            <input type="hidden" name="to_email" value="" />
-            <input type="hidden" name="reply_subject" value="" />
-            <input type="hidden" name="reply_html" value="" />
             <p class="hidden">
               <label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
             </p>
@@ -235,13 +232,14 @@ const input =
 <pre id="contact-reply-copy" hidden>{JSON.stringify(copy.reply)}</pre>
 
 <script>
-  import emailjs from "@emailjs/browser";
-
   const requested = new URLSearchParams(window.location.search).get("service");
   const select = document.querySelector<HTMLSelectElement>("#service");
   if (requested && select && [...select.options].some((o) => o.value === requested)) {
     select.value = requested;
   }
+
+  const field = (form: HTMLFormElement, name: string) =>
+    (form.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(`[name="${name}"]`)?.value ?? "").trim();
 
   const form = document.querySelector<HTMLFormElement>("#contact-form");
   if (form) {
@@ -259,56 +257,39 @@ const input =
         return;
       }
 
-      const serviceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID ?? "";
-      const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
-      const autoReplyId = import.meta.env.PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID ?? "";
-      const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
-
-      const email = form.querySelector<HTMLInputElement>('[name="email"]')?.value.trim() ?? "";
-      const name = form.querySelector<HTMLInputElement>('[name="name"]')?.value.trim() ?? "";
+      const webhook = import.meta.env.PUBLIC_MAKE_WEBHOOK_URL ?? "";
+      const name = field(form, "name");
+      const email = field(form, "email");
       const replyCopy = JSON.parse(document.getElementById("contact-reply-copy")?.textContent ?? "{}") as {
         subject?: string;
         html?: string;
       };
-      const origin = form.querySelector<HTMLInputElement>('[name="origin"]');
-      const toEmail = form.querySelector<HTMLInputElement>('[name="to_email"]');
-      const replySubject = form.querySelector<HTMLInputElement>('[name="reply_subject"]');
-      const replyHtml = form.querySelector<HTMLInputElement>('[name="reply_html"]');
-      const replyHtmlValue = (replyCopy.html ?? "").replaceAll("{name}", name);
-      if (origin) origin.value = location.origin;
-      if (toEmail) toEmail.value = email;
-      if (replySubject) replySubject.value = replyCopy.subject ?? "";
-      if (replyHtml) replyHtml.value = replyHtmlValue;
 
       errorEl?.classList.add("hidden");
       if (submit) submit.disabled = true;
       if (label) label.textContent = form.dataset.sending ?? idleLabel;
 
       try {
-        if (!serviceId || !templateId || !publicKey) {
-          throw new Error("EmailJS is not configured");
-        }
-        await emailjs.sendForm(serviceId, templateId, form, { publicKey });
-        if (autoReplyId && email) {
-          await new Promise((resolve) => setTimeout(resolve, 1100));
-          try {
-            await emailjs.send(
-              serviceId,
-              autoReplyId,
-              {
-                name,
-                email,
-                to_email: email,
-                reply_subject: replySubject?.value ?? "",
-                reply_html: replyHtmlValue,
-                language: form.querySelector<HTMLInputElement>('[name="language"]')?.value ?? "",
-              },
-              { publicKey },
-            );
-          } catch {
-            // Lead already arrived; don't block the thanks page if the auto-reply fails.
-          }
-        }
+        if (!webhook) throw new Error("Make webhook is not configured");
+        const response = await fetch(webhook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            flow: field(form, "flow") || "contact",
+            name,
+            business: field(form, "business"),
+            email,
+            phone: field(form, "phone"),
+            website: field(form, "website"),
+            service: field(form, "service"),
+            language: field(form, "language"),
+            origin: location.origin,
+            message: field(form, "message"),
+            reply_subject: replyCopy.subject ?? "",
+            reply_html: (replyCopy.html ?? "").replaceAll("{name}", name),
+          }),
+        });
+        if (!response.ok) throw new Error(`Make webhook ${response.status}`);
         window.location.assign(form.action);
       } catch {
         if (submit) submit.disabled = false;
