@@ -12,26 +12,38 @@ const { lang } = Astro.props;
 const ui = t(lang);
 const copy = {
   he: {
-    title: "תודה, קיבלנו את הפרטים",
-    body: "נעבור על הפנייה ונחזור אליכם עם ממצאים והמלצה. בינתיים, אפשר להכיר את השירותים שלנו.",
+    contact: {
+      title: "תודה, קיבלנו את הפרטים",
+      body: "נחזור אליכם במהרה. בינתיים, אפשר להכיר את השירותים שלנו.",
+    },
+    audit: {
+      title: "הבדיקה בדרך",
+      body: "קיבלנו את הפרטים והתחלנו בבדיקת הנראות. דוח ראשוני יישלח אליכם למייל בקרוב.",
+    },
     back: "חזרה לדף הבית",
   },
   en: {
-    title: "Thanks, we've got your details",
-    body: "We'll review your request and get back to you with findings and a recommendation. In the meantime, have a look at our services.",
+    contact: {
+      title: "Thanks, we've got your details",
+      body: "We'll get back to you shortly. In the meantime, have a look at our services.",
+    },
+    audit: {
+      title: "Your audit is on its way",
+      body: "We've got your details and started the visibility check. A short first-pass report will land in your inbox soon.",
+    },
     back: "Back to the home page",
   },
 }[lang];
 ---
 
-<Base lang={lang} title={copy.title} description={copy.body} path="/contact/thanks/" noindex>
+<Base lang={lang} title={copy.contact.title} description={copy.contact.body} path="/contact/thanks/" noindex>
   <section class="section bg-paper">
     <div class="container-site max-w-2xl text-center">
       <span class="mx-auto flex size-16 items-center justify-center rounded-full bg-accent text-white shadow-lg shadow-accent/30">
         <Icon name="check" class="size-7" strokeWidth={2.5} />
       </span>
-      <h1 class="mt-8 text-5xl sm:text-6xl">{copy.title}</h1>
-      <p class="lead mt-6">{copy.body}</p>
+      <h1 class="mt-8 text-5xl sm:text-6xl" data-thanks-title>{copy.contact.title}</h1>
+      <p class="lead mt-6" data-thanks-body>{copy.contact.body}</p>
       <div class="mt-9 flex flex-wrap justify-center gap-3">
         <a href={localePath(lang, "/services/")} class="btn-primary">{ui.cta.services}</a>
         <a href={localePath(lang, "/")} class="btn-secondary">{copy.back}</a>
@@ -39,3 +51,19 @@ const copy = {
     </div>
   </section>
 </Base>
+
+<pre id="thanks-copy" hidden>{JSON.stringify({ contact: copy.contact, audit: copy.audit })}</pre>
+
+<script>
+  const copy = JSON.parse(document.getElementById("thanks-copy")?.textContent ?? "{}") as {
+    contact?: { title: string; body: string };
+    audit?: { title: string; body: string };
+  };
+  const flow = new URLSearchParams(location.search).get("flow") === "audit" ? "audit" : "contact";
+  const selected = copy[flow] ?? copy.contact;
+  const title = document.querySelector("[data-thanks-title]");
+  const body = document.querySelector("[data-thanks-body]");
+  if (selected && title) title.textContent = selected.title;
+  if (selected && body) body.textContent = selected.body;
+  if (selected) document.title = `${selected.title} | Optivox`;
+</script>

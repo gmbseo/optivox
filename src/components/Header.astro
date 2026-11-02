@@ -14,8 +14,10 @@ const { lang } = Astro.props;
 const copy = t(lang);
 const href = (path: string) => localePath(lang, path);
 const current = stripLang(Astro.url.pathname);
-const switchHref =
-  lang === "en" ? new URL(current, `${israelOrigin()}/`).toString() : localePath(otherLang(lang), current);
+// Relative by default so localhost and .co.il stay on the same host.
+// On .io, a small script upgrades English→Hebrew to the absolute .co.il URL.
+const switchHref = localePath(otherLang(lang), current);
+const switchToIsrael = lang === "en";
 const links = [
   { label: copy.nav.about, path: "/about/" },
   { label: copy.nav.contact, path: "/contact/" },
@@ -85,7 +87,15 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
     </nav>
 
     <div class="hidden items-center gap-3 lg:flex">
-      <a href={switchHref} class:list={[navLink, "px-2 py-2"]} hreflang={otherLang(lang)} lang={otherLang(lang)} aria-label={copy.nav.switchLangLabel}>
+      <a
+        href={switchHref}
+        class:list={[navLink, "px-2 py-2"]}
+        hreflang={otherLang(lang)}
+        lang={otherLang(lang)}
+        aria-label={copy.nav.switchLangLabel}
+        data-lang-switch={switchToIsrael ? "to-he" : undefined}
+        data-israel-origin={switchToIsrael ? israelOrigin() : undefined}
+      >
         {copy.nav.switchLang}
       </a>
       <a href={href("/contact/")} class="inline-flex h-8 items-center rounded-lg bg-accent px-3 text-[0.8rem] font-medium text-accent-foreground transition-colors hover:bg-accent/90">
@@ -134,7 +144,16 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
       </div>
       <div class="flex flex-col border-t border-border pt-4">
         {links.map((l) => <a href={href(l.path)} class={mobileLink} aria-current={ariaCurrent(l.path)}>{l.label}</a>)}
-        <a href={switchHref} class={mobileLink} hreflang={otherLang(lang)} lang={otherLang(lang)}>{copy.nav.switchLang}</a>
+        <a
+          href={switchHref}
+          class={mobileLink}
+          hreflang={otherLang(lang)}
+          lang={otherLang(lang)}
+          data-lang-switch={switchToIsrael ? "to-he" : undefined}
+          data-israel-origin={switchToIsrael ? israelOrigin() : undefined}
+        >
+          {copy.nav.switchLang}
+        </a>
       </div>
       <a href={href("/contact/")} class="inline-flex h-12 items-center justify-center rounded-lg bg-accent px-4 text-base font-medium text-accent-foreground hover:bg-accent/90">
         {copy.cta.audit}
@@ -144,6 +163,14 @@ const mobileLink = `${mobileLinkBase} text-foreground`;
 </header>
 
 <script>
+  if (/^(?:www\.)?optivox\.io$/i.test(location.hostname)) {
+    document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch="to-he"]').forEach((link) => {
+      const origin = link.dataset.israelOrigin;
+      if (!origin) return;
+      link.href = new URL(link.getAttribute("href") || "/", `${origin}/`).toString();
+    });
+  }
+
   const dropdown = document.querySelector<HTMLElement>("[data-dropdown]");
   const trigger = dropdown?.querySelector<HTMLButtonElement>("[data-dropdown-trigger]");
   const panel = dropdown?.querySelector<HTMLElement>("[data-dropdown-panel]");

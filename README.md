@@ -41,7 +41,7 @@ Hebrew is the default language on `optivox.co.il` (RTL at `/`). English also liv
 | `/services/seo/` | `/en/services/seo/` | SEO |
 | `/services/ai-search-optimization/` | `/en/services/ai-search-optimization/` | AI search optimization |
 | `/about/` | `/en/about/` | About |
-| `/contact/` | `/en/contact/` | Contact + audit form |
+| `/contact/` | `/en/contact/` | Contact form with two submit actions (`flow=contact` or `flow=audit`) |
 | `/accessibility/` | `/en/accessibility/` | Accessibility statement |
 
 Also generated: `/sitemap-index.xml`, `/robots.txt` (explicitly allows AI crawlers) and `/llms.txt`.
@@ -76,7 +76,7 @@ src/
 
 `netlify.toml` builds with `npm run build` and publishes `dist/`.
 
-- The contact form POSTs JSON to a **Make.com** custom webhook (`PUBLIC_MAKE_WEBHOOK_URL` in `.env` locally and in the Netlify env UI). Payload: `flow`, `name`, `business`, `email`, `phone`, `website`, `service`, `language`, `origin`, `message`, `reply_subject`, `reply_html`. Make sends the lead email, writes Google Sheets, and sends the thank-you mail.
+- The contact form has two submit buttons and POSTs JSON to a **Make.com** webhook (`PUBLIC_MAKE_WEBHOOK_URL`). Payload: `flow` (`contact` | `audit`), `name`, `business`, `email`, `phone`, `website`, `gbp` (Google Maps / business profile link), `service`, `language`, `origin`, `message`, `reply_subject`, `reply_html`. Make routes by `flow`: contact = lead mail + Sheet + thank-you; audit = same plus AI first-pass report. Audit requires at least one of `website` or `gbp`.
 - `/_astro/*` assets get long-lived immutable cache headers.
 - Unknown `/en/*` URLs on `.co.il` return the English 404 page. On `.io`, unknown URLs return the English 404 and `/en/*` redirects to the unprefixed English URL.
 

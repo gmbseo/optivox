@@ -23,6 +23,17 @@ export function organizationSchema(lang: Lang, _base?: URL | string): Json {
     description: t(lang).footer.tagline,
     ...(site.email ? { email: site.email } : {}),
     ...(site.phone ? { telephone: site.phone } : {}),
+    ...(site.address.mapsUrl
+      ? {
+          address: {
+            "@type": "PostalAddress",
+            name: "WeWork Midtown",
+            addressLocality: lang === "he" ? "תל אביב" : "Tel Aviv",
+            addressCountry: "IL",
+          },
+          hasMap: site.address.mapsUrl,
+        }
+      : {}),
     areaServed: { "@type": "Country", name: lang === "he" ? "ישראל" : "Israel" },
     knowsLanguage: ["he", "en"],
   };

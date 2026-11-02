@@ -155,3 +155,16 @@
     scale: -1 1;
   }
 }
+
+/* Domain-only blocks: .co.il (any language) vs .io. Set on <html data-site> in Base.astro. */
+@utility il-only {
+  html:not([data-site="il"]) & {
+    display: none !important;
+  }
+}
+
+@utility intl-only {
+  html:not([data-site="intl"]) & {
+    display: none !important;
+  }
+}

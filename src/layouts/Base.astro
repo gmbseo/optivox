@@ -26,6 +26,10 @@ const schemas = [organizationSchema(lang, base), websiteSchema(lang, base), ...j
 <html lang={lang} dir={langMeta[lang].dir}>
   <head>
     <meta charset="utf-8" />
+    <script is:inline>
+      document.documentElement.dataset.site =
+        /^(?:www\.)?optivox\.io$/i.test(location.hostname) ? "intl" : "il";
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f6f2e7" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -46,5 +50,12 @@ const schemas = [organizationSchema(lang, base), websiteSchema(lang, base), ...j
     </main>
     <Footer lang={lang} />
     <FloatingContact lang={lang} />
+    <script is:inline>
+      if (document.documentElement.dataset.site === "intl") {
+        document.querySelectorAll(".il-only").forEach((el) => el.remove());
+      } else {
+        document.querySelectorAll(".intl-only").forEach((el) => el.remove());
+      }
+    </script>
   </body>
 </html>

@@ -44,6 +44,13 @@ const col = "flex flex-col items-start gap-3 text-start";
       {site.email && <a href={`mailto:${site.email}`} class={link} dir="ltr">{site.email}</a>}
       {site.phone && <a href={`tel:${site.phone.replace(/[^\d+]/g, "")}`} class={link} dir="ltr">{site.phone}</a>}
       {site.whatsapp && <a href={`https://wa.me/${site.whatsapp}`} class={link} rel="noopener">WhatsApp</a>}
+      {
+        site.address.mapsUrl && (
+          <a href={site.address.mapsUrl} class={`il-only ${link}`} target="_blank" rel="noopener">
+            {site.address[lang]}
+          </a>
+        )
+      }
     </div>
   </div>
   <div class="border-t border-white/10">

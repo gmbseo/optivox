@@ -24,9 +24,9 @@ const crumbs = [
 const waLink = `https://wa.me/${site.whatsapp}`;
 const brandHtml = `<span dir="ltr" style="unicode-bidi:isolate">Optivox</span>`;
 const replyWrap = (dir: "rtl" | "ltr", paragraphs: string[]) => {
-  const lang = dir === "rtl" ? "he" : "en";
+  const replyLang = dir === "rtl" ? "he" : "en";
   const align = dir === "rtl" ? "right" : "left";
-  return `<div dir="${dir}" lang="${lang}" style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.7;color:#14262a;text-align:${align}">${paragraphs
+  return `<div dir="${dir}" lang="${replyLang}" style="font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.7;color:#14262a;text-align:${align}">${paragraphs
     .map((p) => `<p style="margin:0 0 16px">${p}</p>`)
     .join("")}</div>`;
 };
@@ -35,69 +35,105 @@ const copy = {
   he: {
     metaTitle: "צור קשר ובדיקת נראות חינם",
     metaDescription:
-      "השאירו פרטים לבדיקת נראות חינם: נבדוק איך העסק שלכם מופיע בגוגל, בגוגל מפות ובמנועי AI, ונמליץ על הצעד הראשון.",
-    h1: "בדיקת נראות חינם",
-    lead: "ספרו לנו בקצרה על העסק. נבדוק איך אתם מופיעים בגוגל, במפות ובצ'אטים, ונחזור אליכם עם ממצאים והמלצה.",
+      "צרו קשר עם Optivox או בקשו בדיקת נראות חינם: נבדוק איך העסק מופיע בגוגל, במפות ובמנועי AI.",
+    h1: "צור קשר",
+    lead: "ספרו לנו בקצרה על העסק. אפשר לשלוח הודעה כללית, או לבקש בדיקת נראות חינם.",
     form: {
       name: "שם מלא",
       business: "שם העסק",
       email: "אימייל",
       phone: "טלפון",
-      website: "כתובת האתר (אם יש)",
+      website: "כתובת האתר",
+      websiteHint: "לבדיקת נראות",
+      gbp: "קישור מגוגל מפות",
+      gbpHint: "לבדיקת נראות",
+      gbpPlaceholder: "הדביקו כאן קישור מגוגל מפות",
       service: "במה תרצו שנעזור?",
       notSure: "עוד לא בטוח/ה",
       message: "משהו נוסף שכדאי שנדע?",
-      submit: "שליחה",
+      submitContact: "שליחה",
+      submitAudit: "בדיקת נראות חינם",
       sending: "שולח…",
       error: "השליחה נכשלה. נסו שוב, או כתבו לנו בוואטסאפ.",
-      required: "שדה חובה",
-      privacy: "הפרטים משמשים רק כדי לחזור אליכם בנוגע לפנייה.",
+      auditFieldsRequired: "לבדיקת נראות צריך כתובת אתר או קישור מגוגל מפות.",
+      privacy: "הפרטים משמשים רק כדי לחזור אליכם בנוגע לפנייה או לבדיקה.",
     },
-    reply: {
-      subject: "קיבלנו את הפנייה | Optivox",
-      html: replyWrap("rtl", [
-        "שלום {name},",
-        `תודה שפנית ל־${brandHtml}. קיבלנו את הפרטים ונחזור אליך במהרה.`,
-        `אם משהו דחוף, אפשר גם בוואטסאפ:<br><a href="${waLink}" dir="ltr" style="unicode-bidi:isolate">${waLink}</a>`,
-        brandHtml,
-      ]),
+    replies: {
+      contact: {
+        subject: "קיבלנו את הפנייה | Optivox",
+        html: replyWrap("rtl", [
+          "שלום {name},",
+          `תודה שפנית ל־${brandHtml}. קיבלנו את הפרטים ונחזור אליך במהרה.`,
+          `אם משהו דחוף, אפשר גם בוואטסאפ:<br><a href="${waLink}" dir="ltr" style="unicode-bidi:isolate">${waLink}</a>`,
+          brandHtml,
+        ]),
+      },
+      audit: {
+        subject: "התחלנו את בדיקת הנראות | Optivox",
+        html: replyWrap("rtl", [
+          "שלום {name},",
+          `תודה! קיבלנו את הבקשה לבדיקת נראות ב־${brandHtml}. אנחנו מתחילים לבדוק את האתר, ותקבלו דוח ראשוני למייל בקרוב.`,
+          `אם משהו דחוף, אפשר גם בוואטסאפ:<br><a href="${waLink}" dir="ltr" style="unicode-bidi:isolate">${waLink}</a>`,
+          brandHtml,
+        ]),
+      },
     },
     nextTitle: "מה קורה אחרי השליחה",
-    next: ["אנחנו עוברים על הפרטים ובודקים את הנראות של העסק", "חוזרים אליכם עם ממצאים והמלצה ברורה", "אם זה מתאים לשני הצדדים, נבנה יחד תוכנית עבודה"],
+    next: ["אנחנו עוברים על הפרטים", "חוזרים אליכם במהרה, או שולחים דוח ראשוני אם ביקשתם בדיקה", "אם מתאים, ממשיכים יחד לשלב הבא"],
     directTitle: "אפשר גם ישירות",
   },
   en: {
-    metaTitle: "Contact us and get a free visibility audit",
+    metaTitle: "Contact us and free visibility audit",
     metaDescription:
-      "Request a free visibility audit: we'll check how your business appears on Google, Google Maps and AI engines, and recommend the first step.",
-    h1: "Free visibility audit",
-    lead: "Tell us a little about your business. We'll check how you appear on Google, Maps and chatbots, and come back with findings and a recommendation.",
+      "Contact Optivox or request a free visibility audit: we'll check how your business appears on Google, Maps and AI engines.",
+    h1: "Contact us",
+    lead: "Tell us a little about your business. Send a general message, or request a free visibility audit.",
     form: {
       name: "Full name",
       business: "Business name",
       email: "Email",
       phone: "Phone",
-      website: "Website (if you have one)",
+      website: "Website",
+      websiteHint: "for visibility audit",
+      gbp: "Google Maps link",
+      gbpHint: "for visibility audit",
+      gbpPlaceholder: "Paste a Google Maps link",
       service: "What can we help with?",
       notSure: "Not sure yet",
       message: "Anything else we should know?",
-      submit: "Send",
+      submitContact: "Send message",
+      submitAudit: "Free visibility audit",
       sending: "Sending…",
       error: "Sending failed. Try again, or message us on WhatsApp.",
-      required: "Required",
-      privacy: "We only use your details to get back to you about this request.",
+      auditFieldsRequired: "For a visibility audit, add a website or a Google Maps link.",
+      privacy: "We only use your details to get back to you about this request or audit.",
     },
-    reply: {
-      subject: "We got your message | Optivox",
-      html: replyWrap("ltr", [
-        "Hi {name},",
-        "Thanks for contacting Optivox. We've received your details and will get back to you shortly.",
-        `If something is urgent, you can also message us on WhatsApp:<br><a href="${waLink}" dir="ltr">${waLink}</a>`,
-        "Optivox",
-      ]),
+    replies: {
+      contact: {
+        subject: "We got your message | Optivox",
+        html: replyWrap("ltr", [
+          "Hi {name},",
+          "Thanks for contacting Optivox. We've received your details and will get back to you shortly.",
+          `If something is urgent, you can also message us on WhatsApp:<br><a href="${waLink}" dir="ltr">${waLink}</a>`,
+          "Optivox",
+        ]),
+      },
+      audit: {
+        subject: "We've started your visibility audit | Optivox",
+        html: replyWrap("ltr", [
+          "Hi {name},",
+          "Thanks! We've received your free visibility audit request. We're checking the site now, and you'll get a short first-pass report by email soon.",
+          `If something is urgent, you can also message us on WhatsApp:<br><a href="${waLink}" dir="ltr">${waLink}</a>`,
+          "Optivox",
+        ]),
+      },
     },
     nextTitle: "What happens next",
-    next: ["We review your details and check your business's visibility", "We come back with findings and a clear recommendation", "If it's a good fit for both sides, we build a plan together"],
+    next: [
+      "We review your details",
+      "We get back to you shortly, or email a short report if you asked for an audit",
+      "If it's a fit, we move to the next step together",
+    ],
     directTitle: "Or reach us directly",
   },
 }[lang];
@@ -146,8 +182,27 @@ const input =
               <input id="phone" name="phone" type="tel" autocomplete="tel" dir="ltr" class={input} />
             </div>
             <div class="sm:col-span-2">
-              <label for="website" class={label}>{copy.form.website}</label>
+              <label for="website" class={label}>
+                {copy.form.website}
+                <span class="ms-2 text-sm font-normal text-muted-foreground">({copy.form.websiteHint})</span>
+              </label>
               <input id="website" name="website" type="text" inputmode="url" autocomplete="url" dir="ltr" placeholder="example.co.il" class={input} />
+            </div>
+            <div class="sm:col-span-2">
+              <label for="gbp" class={label}>
+                {copy.form.gbp}
+                <span class="ms-2 text-sm font-normal text-muted-foreground">({copy.form.gbpHint})</span>
+              </label>
+              <input
+                id="gbp"
+                name="gbp"
+                type="text"
+                inputmode="url"
+                autocomplete="url"
+                dir="ltr"
+                placeholder={copy.form.gbpPlaceholder}
+                class={input}
+              />
             </div>
             <div class="sm:col-span-2">
               <label for="service" class={label}>{copy.form.service}</label>
@@ -160,13 +215,22 @@ const input =
               <label for="message" class={label}>{copy.form.message}</label>
               <textarea id="message" name="message" rows="4" dir="auto" class={input}></textarea>
             </div>
-            <p data-form-error class="hidden text-sm text-red-700 sm:col-span-2" role="alert">
+            <p
+              data-form-error
+              data-default-error={copy.form.error}
+              data-audit-fields-error={copy.form.auditFieldsRequired}
+              class="hidden text-sm text-red-700 sm:col-span-2"
+              role="alert"
+            >
               {copy.form.error}
             </p>
-            <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
-              <p class="text-sm text-muted-foreground">{copy.form.privacy}</p>
-              <button type="submit" class="btn-primary shrink-0 disabled:pointer-events-none disabled:opacity-60">
-                <span data-submit-label>{copy.form.submit}</span>
+            <p class="text-sm text-muted-foreground sm:col-span-2">{copy.form.privacy}</p>
+            <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:flex-wrap">
+              <button type="submit" data-flow="contact" class="btn-secondary shrink-0 disabled:pointer-events-none disabled:opacity-60">
+                <span data-submit-label>{copy.form.submitContact}</span>
+              </button>
+              <button type="submit" data-flow="audit" class="btn-primary shrink-0 disabled:pointer-events-none disabled:opacity-60">
+                <span data-submit-label>{copy.form.submitAudit}</span>
                 <Icon name="arrow" class="size-4 flip-rtl" />
               </button>
             </div>
@@ -221,7 +285,36 @@ const input =
                   </li>
                 )
               }
+              {
+                site.address.mapsUrl && (
+                  <li class="il-only">
+                    <a
+                      href={site.address.mapsUrl}
+                      target="_blank"
+                      rel="noopener"
+                      class="inline-flex items-start gap-3 text-foreground hover:text-brand"
+                    >
+                      <Icon name="pin" class="mt-0.5 size-4 shrink-0 text-accent" />
+                      <span>{site.address[lang]}</span>
+                    </a>
+                  </li>
+                )
+              }
             </ul>
+            {
+              site.address.embedUrl && (
+                <div class="il-only mt-6 overflow-hidden rounded-xl border border-border">
+                  <iframe
+                    title={site.address[lang]}
+                    src={site.address.embedUrl}
+                    class="aspect-[4/3] w-full border-0"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen
+                  />
+                </div>
+              )
+            }
           </div>
         </aside>
       </div>
@@ -229,9 +322,11 @@ const input =
   </section>
 </Base>
 
-<pre id="contact-reply-copy" hidden>{JSON.stringify(copy.reply)}</pre>
+<pre id="contact-replies" hidden>{JSON.stringify(copy.replies)}</pre>
 
 <script>
+  type Flow = "contact" | "audit";
+
   const requested = new URLSearchParams(window.location.search).get("service");
   const select = document.querySelector<HTMLSelectElement>("#service");
   if (requested && select && [...select.options].some((o) => o.value === requested)) {
@@ -244,9 +339,21 @@ const input =
   const form = document.querySelector<HTMLFormElement>("#contact-form");
   if (form) {
     const errorEl = form.querySelector<HTMLElement>("[data-form-error]");
-    const submit = form.querySelector<HTMLButtonElement>('[type="submit"]');
-    const label = submit?.querySelector("[data-submit-label]");
-    const idleLabel = label?.textContent ?? "";
+    const flowInput = form.querySelector<HTMLInputElement>('[name="flow"]');
+    const website = form.querySelector<HTMLInputElement>("#website");
+    const buttons = [...form.querySelectorAll<HTMLButtonElement>('button[type="submit"]')];
+    const replies = JSON.parse(document.getElementById("contact-replies")?.textContent ?? "{}") as Record<
+      Flow,
+      { subject?: string; html?: string }
+    >;
+    let activeFlow: Flow = "contact";
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFlow = button.dataset.flow === "audit" ? "audit" : "contact";
+        if (flowInput) flowInput.value = activeFlow;
+      });
+    });
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -257,17 +364,29 @@ const input =
         return;
       }
 
+      const flow = activeFlow;
+      if (flowInput) flowInput.value = flow;
+
+      if (flow === "audit" && !field(form, "website") && !field(form, "gbp")) {
+        if (errorEl) {
+          errorEl.textContent = errorEl.dataset.auditFieldsError ?? errorEl.dataset.defaultError ?? "";
+          errorEl.classList.remove("hidden");
+        }
+        website?.focus();
+        return;
+      }
+
       const webhook = import.meta.env.PUBLIC_MAKE_WEBHOOK_URL ?? "";
       const name = field(form, "name");
-      const email = field(form, "email");
-      const replyCopy = JSON.parse(document.getElementById("contact-reply-copy")?.textContent ?? "{}") as {
-        subject?: string;
-        html?: string;
-      };
+      const reply = replies[flow];
+      const idleLabels = new Map(buttons.map((button) => [button, button.querySelector("[data-submit-label]")?.textContent ?? ""]));
 
       errorEl?.classList.add("hidden");
-      if (submit) submit.disabled = true;
-      if (label) label.textContent = form.dataset.sending ?? idleLabel;
+      buttons.forEach((button) => {
+        button.disabled = true;
+        const label = button.querySelector("[data-submit-label]");
+        if (label && button.dataset.flow === flow) label.textContent = form.dataset.sending ?? idleLabels.get(button) ?? "";
+      });
 
       try {
         if (!webhook) throw new Error("Make webhook is not configured");
@@ -275,26 +394,35 @@ const input =
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            flow: field(form, "flow") || "contact",
+            flow,
             name,
             business: field(form, "business"),
-            email,
+            email: field(form, "email"),
             phone: field(form, "phone"),
             website: field(form, "website"),
+            gbp: field(form, "gbp"),
             service: field(form, "service"),
             language: field(form, "language"),
             origin: location.origin,
             message: field(form, "message"),
-            reply_subject: replyCopy.subject ?? "",
-            reply_html: (replyCopy.html ?? "").replaceAll("{name}", name),
+            reply_subject: reply?.subject ?? "",
+            reply_html: (reply?.html ?? "").replaceAll("{name}", name),
           }),
         });
         if (!response.ok) throw new Error(`Make webhook ${response.status}`);
-        window.location.assign(form.action);
+        const thanks = new URL(form.action, location.origin);
+        thanks.searchParams.set("flow", flow);
+        window.location.assign(thanks.toString());
       } catch {
-        if (submit) submit.disabled = false;
-        if (label) label.textContent = idleLabel;
-        errorEl?.classList.remove("hidden");
+        buttons.forEach((button) => {
+          button.disabled = false;
+          const label = button.querySelector("[data-submit-label]");
+          if (label) label.textContent = idleLabels.get(button) ?? "";
+        });
+        if (errorEl) {
+          errorEl.textContent = errorEl.dataset.defaultError ?? "";
+          errorEl.classList.remove("hidden");
+        }
       }
     });
   }

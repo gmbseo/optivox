@@ -61,6 +61,42 @@ status = 200
 force = true
 
 [[redirects]]
+from = "https://optivox.io/audit/"
+to = "/contact/"
+status = 301
+force = true
+
+[[redirects]]
+from = "https://optivox.io/audit/thanks/"
+to = "/contact/thanks/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/audit/"
+to = "/contact/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/en/audit/"
+to = "/en/contact/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/audit/thanks/"
+to = "/contact/thanks/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/en/audit/thanks/"
+to = "/en/contact/thanks/"
+status = 301
+force = true
+
+[[redirects]]
 from = "https://optivox.io/services/"
 to = "/en/services/"
 status = 200

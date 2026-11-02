@@ -1,0 +1,12 @@
+---
+interface Props {
+  /** `il` = optivox.co.il (Hebrew and English). `intl` = optivox.io. */
+  on: "il" | "intl";
+}
+
+const { on } = Astro.props;
+---
+
+<div class={on === "il" ? "il-only" : "intl-only"}>
+  <slot />
+</div>
